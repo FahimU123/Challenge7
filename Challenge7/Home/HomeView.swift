@@ -24,18 +24,7 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
 
-                Button(action: {
-
-                }) {
-                    Text("Reset Counter")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.yellow)
-                        .cornerRadius(12)
-                }
-                .shadow(radius: 3)
-                .padding()
+        
 
                 StatCardView()
                     .padding()
