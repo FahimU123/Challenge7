@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Challenge7App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabBarView()
         }
+        .modelContainer(for: Note.self)
     }
 }
