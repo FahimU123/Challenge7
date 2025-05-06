@@ -43,6 +43,13 @@ struct NotesWallView: View {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(notes) { note in
                             NoteCardView(note: note)
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        deleteNote(note)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
                     .padding()
@@ -53,6 +60,11 @@ struct NotesWallView: View {
             }
             
         }
+    }
+    
+    private func deleteNote(_ note: Note) {
+        modelContext.delete(note)
+        try? modelContext.save()
     }
 }
 
