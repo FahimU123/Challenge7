@@ -57,6 +57,18 @@ struct NotesWallView: View {
 }
 
 #Preview {
-    NotesWallView()
-        .modelContainer(for: Note.self)
+//    NotesWallView()
+//        .modelContainer(for: Note.self)
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: Note.self, configurations: config)
+        let context = container.mainContext
+        
+        Note.samples.forEach { context.insert($0) }
+        
+        return NotesWallView()
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to load preview: \(error.localizedDescription)")
+    }
 }
