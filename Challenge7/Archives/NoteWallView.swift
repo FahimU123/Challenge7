@@ -11,14 +11,17 @@ import SwiftData
 struct NotesWallView: View {
     @Query var notes: [Note]
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) var dismiss
     @State private var showingNewNoteSheet = false
     
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
+    var randomNote: Note? {
+            notes.randomElement()
+        }
+    
     var body: some View {
-        ZStack {
-            
-            
+        ZStack(alignment: .topLeading) {
             VStack {
                 HStack {
                     Text("Why I'm doing this")
@@ -33,7 +36,7 @@ struct NotesWallView: View {
                         showingNewNoteSheet = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.white)
                             .font(.system(size: 35))
                             .fontWeight(.ultraLight)
                             .padding()
@@ -51,7 +54,13 @@ struct NotesWallView: View {
             .sheet(isPresented: $showingNewNoteSheet) {
                 AddNoteView()
             }
-            
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 28))
+                    .foregroundStyle(.white)
+            }
         }
     }
 }

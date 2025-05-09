@@ -8,159 +8,133 @@
 import SwiftUI
 import UIKit
 
+@Observable
+class CounterViewModel {
+    private var startDate: Date = Date()
+    private var timer: Timer?
+    
+    init() {
+        startTimer()
+    }
+    
+    func reset() {
+        startDate = Date()
+    }
+    
+    private func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.startDate = self.startDate
+        }
+    }
+    
+    func seconds() -> Int {
+        Int(Date().timeIntervalSince(startDate)) % 60
+    }
+    
+    func minutes() -> Int {
+        (Int(Date().timeIntervalSince(startDate)) / 60) % 60
+    }
+    
+    func hours() -> Int {
+        (Int(Date().timeIntervalSince(startDate)) / 3600) % 24
+    }
+    
+    func days() -> Int {
+        Int(Date().timeIntervalSince(startDate)) / 86400
+    }
+}
 
 struct CounterView: View {
-    
-    
-    @State private var launchDate = Date()
-    @State private var elapsed = 0
-    @State private var showShareSheet = false
-    @State private var shareContent: String? = nil
-    
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    let dateFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        return df
-    }()
+    var viewModel: CounterViewModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Current Streak")
-                        .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                    Text("Started on \(dateFormatter.string(from: launchDate))")
-                        .font(.system(size: 8, weight: .light, design: .monospaced))
-                }
+        ZStack {
+            Circle().fill(LinearGradient(colors: [.red, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .frame(width: 300, height: 300)
+           
+            
+            VStack {
+                timeDisplay
+                Text("DID YOU GAMBLE TODAY?")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
                 
-                Spacer()
-                
-                Button(action: {
-                    shareStreak()
-                }) {
-                    Image(systemName: "square.and.arrow.up")
+                HStack {
+                    Button {
+                        
+                    } label: {
+                        Text("YES")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(Color.red)
+                            .cornerRadius(20)
+                    }
+                    Button {
+                        viewModel.reset()
+                    } label: {
+                        Text("NO")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(Color.green)
+                            .cornerRadius(20)
+                    }
                 }
             }
-            
-            HStack(spacing: 18) {
-                VStack {
-                    timeBlock(value: days(from: elapsed))
-                    Text("Days")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                VStack {
-                    timeBlock(value: hours(from: elapsed))
-                    Text("Hours")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                VStack {
-                    timeBlock(value: minutes(from: elapsed))
-                    Text("Minutes")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                VStack {
-                    timeBlock(value: seconds(from: elapsed))
-                    Text("Seconds")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-            }
-
-            
         }
-        
-        
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color(.separator), lineWidth: 1)
-        )
-        .shadow(radius: 3)
-        
-        Button(action: {
-            launchDate = Date()
-            elapsed = 0
-        }) {
-            Text("Reset Counter")
-                .font(.system(size: 20, weight: .semibold))
+    }
+    
+    var timeDisplay: some View {
+        HStack(spacing: 25) {
+            timeBlock(value: viewModel.days(), label: "DAYS")
+            timeBlock(value: viewModel.hours(), label: "HOUR")
+            timeBlock(value: viewModel.minutes(), label: "MINUTES")
+            timeBlock(value: viewModel.seconds(), label: "SECONDS")
+        }
+        .padding(.bottom, 10)
+    }
+    
+    func timeBlock(value: Int, label: String) -> some View {
+        VStack {
+            Text(String(format: "%02d", value))
+                .font(.system(size: 24, weight: .bold, design: .default))
                 .foregroundColor(.black)
-                .frame(maxWidth: .infinity, minHeight: 50)
-                .background(Color.yellow)
-                .cornerRadius(12)
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.black)
+        }
+    }
+}
+
+struct PlainCounterView: View {
+    var viewModel: CounterViewModel
+    
+    var body: some View {
+        HStack {
+            timeBlock(value: viewModel.days(), label: "DAYS")
+            timeBlock(value: viewModel.hours(), label: "HOUR")
+            timeBlock(value: viewModel.minutes(), label: "MINUTES")
+            timeBlock(value: viewModel.seconds(), label: "SECONDS")
             
         }
-        .shadow(radius: 3)
-        .padding(.bottom, 20)
+    }
     
-    
-        .padding()
-        .onReceive(timer) { _ in
-            elapsed = Int(Date().timeIntervalSince(launchDate))
+    func timeBlock(value: Int, label: String) -> some View {
+        VStack {
+            Text(String(format: "%02d", value))
+                .font(.system(size: 24, weight: .bold, design: .default))
+                .foregroundColor(.white)
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.white)
         }
-        .sheet(isPresented: $showShareSheet, content: {
-            if let shareContent = shareContent {
-                ShareSheet(activityItems: [shareContent])
-            }
-        })
-    }
-
-    
-    func days(from seconds: Int) -> Int {
-        seconds / 86400
-    }
-    
-    func hours(from seconds: Int) -> Int {
-        (seconds % 86400) / 3600
-    }
-    
-    func minutes(from seconds: Int) -> Int {
-        (seconds % 3600) / 60
-    }
-    
-    func seconds(from seconds: Int) -> Int {
-        seconds % 60
-    }
-    
-    func timeBlock(value: Int) -> some View {
-        Text(String(format: "%02d", value))
-            .font(.system(size: 30, weight: .bold, design: .monospaced))
-            .frame(minWidth: 60)
-    }
-    
-    func shareStreak() {
-        let streakInfo = """
-    Current Streak:
-    Started on \(dateFormatter.string(from: launchDate))
-    Days: \(days(from: elapsed))
-    Hours: \(hours(from: elapsed))
-    Minutes: \(minutes(from: elapsed))
-    Seconds: \(seconds(from: elapsed))
-    """
-        shareContent = streakInfo
-        showShareSheet.toggle()
     }
 }
-
-struct ShareSheet: UIViewControllerRepresentable {
-let activityItems: [Any]
-
-func makeUIViewController(context: Context) -> UIActivityViewController {
-    return UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-}
-
-func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
-}
-
-
-
-
 
 #Preview {
-    CounterView()
+    CounterView(viewModel: CounterViewModel())
 }

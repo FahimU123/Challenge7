@@ -12,7 +12,7 @@ import SwiftData
 struct Challenge7App: App {
     var body: some Scene {
         WindowGroup {
-            TabBarView()
+            HomeView()
         }
         .modelContainer(for: Note.self)
     }

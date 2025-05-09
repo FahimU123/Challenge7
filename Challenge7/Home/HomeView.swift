@@ -8,53 +8,60 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var sheetOffset: CGFloat = 300
+    @State private var dragOffset: CGFloat = 100
+    private let expandedOffset: CGFloat = 50
+    private let collapsedOffset: CGFloat = 400
+    
+    @State private var sharedViewModel = CounterViewModel()
+    
+    private var isExpanded: Bool {
+        sheetOffset <= expandedOffset + 50
+    }
+    
     var body: some View {
         ZStack {
-            Color(.systemGray5)
+            Color(.systemGray6)
                 .edgesIgnoringSafeArea(.all)
-
-            VStack(alignment: .leading) {
-               
-                Text("No Gamble")
-                    .font(.system(size: 38, weight: .semibold, design: .monospaced))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 24)
-
-                CounterView()
-                    .frame(maxWidth: .infinity)
-                    .padding()
-
-        
-
-                StatCardView()
-                    .padding()
-
-                VStack(alignment: .center) {
-                    Text("How are you feeling right now?")
-                        .font(.system(size: 32, weight: .medium))
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .padding(.horizontal, 26)
-
-                    HStack {
-                        Button(action: {
-                           
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.system(size: 36))
-                                .foregroundColor(.black)
-                        }
-
-                        Text("Check In")
-                            .font(.system(size: 32, weight: .medium))
-                    }
+            
+            if !isExpanded {
+                StarShowerView()
+            } 
+           
+            
+            VStack {
+                if !isExpanded {
+                    CounterView(viewModel: sharedViewModel)
+                        .padding(.top, 60)
+                } else {
+                    PlainCounterView(viewModel: sharedViewModel)
                 }
+                Spacer()
             }
             .padding(.horizontal)
-            .padding(.bottom, 32)
+            
+            BottomSheetView(
+                isExpanded: isExpanded,
+                viewModel: sharedViewModel
+            )
+            .offset(y: sheetOffset + dragOffset)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in dragOffset = value.translation.height }
+                    .onEnded { value in
+                        if value.translation.height < -100 {
+                            sheetOffset = expandedOffset
+                        } else if value.translation.height > 100 {
+                            sheetOffset = collapsedOffset
+                        }
+                        dragOffset = 0
+                    }
+            )
+            .animation(.easeInOut, value: sheetOffset)
         }
     }
 }
+
 
 
 #Preview {
