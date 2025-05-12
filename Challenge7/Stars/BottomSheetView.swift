@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct BottomSheetView: View {
-
+    
     var isExpanded: Bool
     var viewModel: CounterViewModel
     var note: Note?
     @State private var showFullNoteView = false
+    @State private var showFullRecoveryRatioView = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -26,23 +27,31 @@ struct BottomSheetView: View {
                 VStack(spacing: 20) {
                     StatCardView()
                         .padding(.vertical)
-                    
-                    Button {
-                        showFullNoteView.toggle()
-                    } label: {
-                       RandomNoteView(note: note)
-                    }
-                    .fullScreenCover(isPresented: $showFullNoteView, content: NotesWallView.init)
-                            
+                    HStack {
+                        Button {
+                            showFullNoteView.toggle()
+                        } label: {
+                            RandomNoteView(note: note)
                         }
-                        .padding(.top)
+                        .fullScreenCover(isPresented: $showFullNoteView, content: NotesWallView.init)
+                        
+                        Button {
+                            showFullRecoveryRatioView.toggle()
+                        } label: {
+                            RecoveryRatioCardView()
+                        }
+                        .fullScreenCover(isPresented: $showFullRecoveryRatioView, content: RecoveryRatioView.init)
                     }
+                    
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.ultraThinMaterial)
-                .cornerRadius(isExpanded ? 0 : 16)
+                .padding(.top)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.ultraThinMaterial)
+        .cornerRadius(isExpanded ? 0 : 16)
+    }
+}
 #Preview {
     BottomSheetView(isExpanded: true, viewModel: CounterViewModel())
 }

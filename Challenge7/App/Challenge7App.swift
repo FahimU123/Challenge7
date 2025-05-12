@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 import SwiftData
 
 @main
