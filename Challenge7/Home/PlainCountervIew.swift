@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct PlainCounterView: View {
-    var viewModel: CounterViewModel
+    @ObservedObject var viewModel: CounterViewModel
     
     var body: some View {
         HStack {
-            timeBlock(value: viewModel.days, label: "DAYS")
-            timeBlock(value: viewModel.hours, label: "HOUR")
-            timeBlock(value: viewModel.minutes, label: "MINUTES")
-            timeBlock(value: viewModel.seconds, label: "SECONDS")
+            timeBlock(value: viewModel.days(), label: "DAYS")
+            timeBlock(value: viewModel.hours(), label: "HOUR")
+            timeBlock(value: viewModel.minutes(), label: "MINUTES")
+            timeBlock(value: viewModel.seconds(), label: "SECONDS")
             
         }
     }

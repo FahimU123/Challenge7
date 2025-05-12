@@ -26,11 +26,11 @@ struct StatCard: View {
         VStack(alignment: .leading) {
             HStack {
                 Button {
+                    // action placeholder
                 } label: {
                     Image(systemName: stat.image)
-                        .padding(8)
-                        .background(Color.green)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 5)
                 }
                 .padding(.bottom, 30)
 
@@ -38,7 +38,7 @@ struct StatCard: View {
 
                 Text(stat.stat)
                     .font(.system(size: 15, weight: .bold))
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 30)
                     .foregroundColor(.primary)
             }
 
@@ -55,9 +55,9 @@ struct StatCard: View {
         .padding()
         .padding(.horizontal, -10)
         .frame(width: 140, height: 110)
-        .background(Color(.secondarySystemBackground))
+        .background(Color(.systemGray6))
         .cornerRadius(16)
-        .shadow(radius: 4)
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
 }
 

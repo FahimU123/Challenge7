@@ -7,44 +7,69 @@
 
 import Foundation
 
-@Observable
-class CounterViewModel {
-    private var startDate = Date()
-    private var timer: Timer?
-
-    var seconds = 0
-    var minutes = 0
-    var hours = 0
-    var days = 0
-
-    var lastActionDate: Date? = nil
-
-    var hasPerformedToday: Bool {
-        guard let last = lastActionDate else { return false }
-        return Calendar.current.isDateInToday(last)
+final class CounterViewModel: ObservableObject {
+    
+    @Published private var startDate: Date {
+        didSet {
+            UserDefaults.standard.set(startDate, forKey: "startDate")
+        }
     }
 
+    @Published var checkin: Bool {
+        didSet {
+            UserDefaults.standard.set(checkin, forKey: "checkin")
+        }
+    }
+
+    @Published var now: Date = Date()
+
+    private var timer: Timer?
+
     init() {
+        let savedDate = UserDefaults.standard.object(forKey: "startDate") as? Date
+        let initialStartDate = savedDate ?? Date()
+        let savedCheckin = UserDefaults.standard.bool(forKey: "checkin")
+
+        self.startDate = initialStartDate
+        self.checkin = savedCheckin
+
+        if savedDate == nil {
+            UserDefaults.standard.set(initialStartDate, forKey: "startDate")
+        }
+
         startTimer()
     }
 
     func reset() {
         startDate = Date()
-        lastActionDate = Date()
-        updateTime()
-    }
-
-    private func updateTime() {
-        let diff = Int(Date().timeIntervalSince(startDate))
-        seconds = diff % 60
-        minutes = (diff / 60) % 60
-        hours = (diff / 3600) % 24
-        days = diff / 86400
+        checkin = true
     }
 
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            self.updateTime()
+            self.now = Date()
+
+            // Optional: reset daily
+            if !Calendar.current.isDateInToday(self.startDate) {
+                self.checkin = false
+                self.startDate = Date()
+            }
         }
+    }
+
+    func seconds() -> Int {
+        Int(now.timeIntervalSince(startDate)) % 60
+    }
+
+    func minutes() -> Int {
+        (Int(now.timeIntervalSince(startDate)) / 60) % 60
+    }
+
+    func hours() -> Int {
+        (Int(now.timeIntervalSince(startDate)) / 3600) % 24
+    }
+
+    func days() -> Int {
+        Int(now.timeIntervalSince(startDate)) / 86400
     }
 }

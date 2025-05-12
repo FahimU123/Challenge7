@@ -15,26 +15,26 @@ struct HomeView: View {
     @State private var dragOffset: CGFloat = 100
     private let expandedOffset: CGFloat = 50
     private let collapsedOffset: CGFloat = 400
-
+    
     @State private var sharedViewModel = CounterViewModel()
     @State private var showLottieScreen = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var hapticEngine: CHHapticEngine?
-
+    
     private var isExpanded: Bool {
         sheetOffset <= expandedOffset + 50
     }
-
+    
     var body: some View {
         ZStack {
             Color(.systemBackground).edgesIgnoringSafeArea(.all)
-
+            
             if showLottieScreen {
                 ZStack {
                     LinearGradient(colors: [.pink, .orange, .yellow, .green, .blue, .purple],
                                    startPoint: .topLeading, endPoint: .bottomTrailing)
-                        .ignoresSafeArea()
-
+                    .ignoresSafeArea()
+                    
                     LottieView(animation: LottieAnimation.named("test"))
                         .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                         .frame(width: 300, height: 300)
@@ -51,22 +51,18 @@ struct HomeView: View {
                 if !isExpanded {
                     StarShowerView()
                 }
-
+                
                 VStack {
                     if !isExpanded {
-                        CounterView(viewModel: sharedViewModel) 
-//                            withAnimation {
-//                                showLottieScreen = true
-//                            }
-//                        }
-                        .padding(.top, 60)
+                        CounterView(viewModel: sharedViewModel, showLottieScreen: $showLottieScreen)
+                            .padding(.top, 60)
                     } else {
                         PlainCounterView(viewModel: sharedViewModel)
                     }
                     Spacer()
                 }
                 .padding(.horizontal)
-
+                
                 BottomSheetView(
                     isExpanded: isExpanded,
                     viewModel: sharedViewModel
@@ -91,10 +87,10 @@ struct HomeView: View {
             prepareHaptics()
         }
     }
-
+    
     func triggerEffects() {
         playSpreadingHaptics()
-
+        
         if let soundURL = Bundle.main.url(forResource: "chime", withExtension: "mp3") {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
@@ -104,7 +100,7 @@ struct HomeView: View {
             }
         }
     }
-
+    
     func prepareHaptics() {
         do {
             hapticEngine = try CHHapticEngine()
@@ -113,22 +109,22 @@ struct HomeView: View {
             print("Haptic engine Creation Error: \(error.localizedDescription)")
         }
     }
-
+    
     func playSpreadingHaptics() {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-
+        
         var events = [CHHapticEvent]()
         let baseTime = 0.1
         for i in 0..<5 {
             let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(i))
             let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: Float(i))
-
+            
             let event = CHHapticEvent(eventType: .hapticTransient,
                                       parameters: [intensity, sharpness],
                                       relativeTime: baseTime * Double(i))
             events.append(event)
         }
-
+        
         do {
             let pattern = try CHHapticPattern(events: events, parameters: [])
             let player = try hapticEngine?.makePlayer(with: pattern)

@@ -11,6 +11,7 @@ struct RandomNoteView: View {
     var note: Note?
 
     var body: some View {
+       
         VStack(alignment: .leading) {
 
             Spacer()
