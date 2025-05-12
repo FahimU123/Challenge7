@@ -27,11 +27,11 @@ struct BottomSheetView: View {
                 VStack(spacing: 20) {
                     StatCardView()
                         .padding(.vertical)
-                    HStack {
+                    HStack(spacing: 60) {
                         Button {
                             showFullNoteView.toggle()
                         } label: {
-                            RandomNoteView(note: note)
+                            RandomNoteView()
                         }
                         .fullScreenCover(isPresented: $showFullNoteView, content: NotesWallView.init)
                         

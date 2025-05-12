@@ -12,6 +12,7 @@ struct NotesWallView: View {
     @Query var notes: [Note]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
     @State private var showingNewNoteSheet = false
     
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -24,6 +25,14 @@ struct NotesWallView: View {
         ZStack(alignment: .topLeading) {
             VStack {
                 HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(Color.primary)
+                            .font(.title)
+                    }
+                    
                     Text("Why I'm doing this")
                         .font(.system(size: 24, design: .monospaced))
                         .fontWeight(.semibold)
@@ -36,16 +45,23 @@ struct NotesWallView: View {
                         showingNewNoteSheet = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.primary)
                             .font(.system(size: 35))
                             .fontWeight(.ultraLight)
                             .padding()
                     }
                 }
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 20) {
+                    LazyVGrid(columns: columns, /*spacing: 20*/ spacing: 10) {
                         ForEach(notes) { note in
                             NoteCardView(note: note)
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        deleteNote(note)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
                     .padding()
@@ -54,18 +70,29 @@ struct NotesWallView: View {
             .sheet(isPresented: $showingNewNoteSheet) {
                 AddNoteView()
             }
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 28))
-                    .foregroundStyle(.white)
-            }
         }
+    }
+    
+    private func deleteNote(_ note: Note) {
+        modelContext.delete(note)
+        try? modelContext.save()
     }
 }
 
 #Preview {
-    NotesWallView()
-        .modelContainer(for: Note.self)
+//    NotesWallView()
+//        .modelContainer(for: Note.self)
+    
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: Note.self, configurations: config)
+        let context = container.mainContext
+        
+        Note.samples.forEach { context.insert($0) }
+        
+        return NotesWallView()
+            .modelContainer(container)
+    } catch {
+        return Text("Failed to load preview: \(error.localizedDescription)")
+    }
 }

@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct NoteCardView: View {
     let note: Note
     
     var body: some View {
-        VStack(alignment: .leading, spacing: -20) {
+        VStack(alignment: .leading, spacing: 0) {
             
             // Image or video
             
@@ -22,18 +23,10 @@ struct NoteCardView: View {
                     .frame(width: 175, height: 224)
                     .clipped()
                     .cornerRadius(16, corners: [.topLeft, .topRight])
-            } else if note.videoURL != nil {
-                ZStack {
-                    Rectangle()
-                        .fill(Color.black)
+            } else if let url = note.videoURL {
+                VideoPlayer(player: AVPlayer(url: url))
                         .frame(width: 175, height: 224)
                         .cornerRadius(25, corners: [.topLeft, .topRight])
-                    
-                    Image(systemName: "play.circle.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(.white)
-                }
             }
             
             if let text = note.text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -80,14 +73,35 @@ struct RoundedCorner: Shape {
 }
 
 #Preview {
-    VStack {
-//        NoteCardView(note: Note(text: "I want to make my family proud dkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkdkddkdkdkdkkddkdkdkkdkdkdkdkdkdkd", imageData: nil, videoURL: nil))
-        
-        let sampleImage = UIImage(named: "samplePhoto")!
-        let imageData = sampleImage.jpegData(compressionQuality: 1.0)
-        return NoteCardView(note: Note(text: "Note with image", imageData: imageData, videoURL: nil))
-        
-//        NoteCardView(note: Note(text: "With video", imageData: nil, videoURL: URL(string: "sampleVideo")))
-
+        ScrollView{
+            // Long Sample Note
+//            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil, videoURL: nil))
+            
+            // Shorter Sample Note
+//            NoteCardView(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil, videoURL: nil))
+            
+            // Sample Image Note
+//            if let url = Bundle.main.url(forResource: "samplePhoto", withExtension: "jpeg"),
+//               let data = try? Data(contentsOf: url) {
+//                NoteCardView(note: Note(text: nil, imageData: data, videoURL: nil))
+//            } else {
+//                Text("Image not found")
+//            }
+            
+            // Sample Image Note w/ Note
+//            if let url = Bundle.main.url(forResource: "samplePhoto", withExtension: "jpeg"),
+//               let data = try? Data(contentsOf: url) {
+//                NoteCardView(note: Note(text: "Sample photo with text", imageData: data, videoURL: nil))
+//            } else {
+//                Text("Image not found")
+//            }
+            
+            
+            // Sample Video Note
+//            NoteCardView(note: Note(text: nil, imageData: nil, videoURL: Bundle.main.url(forResource: "sampleVideo", withExtension: "mp4")))
+            
+            // Sample Video w/ Note
+            NoteCardView(note: Note(text: "Sample video with text", imageData: nil, videoURL: Bundle.main.url(forResource: "sampleVideo", withExtension: "mp4")))
+            //    }
     }
 }
