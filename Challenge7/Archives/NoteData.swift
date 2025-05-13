@@ -2,7 +2,7 @@
 //  NoteData.swift
 //  Challenge7
 //
-//  Created by Fahim Uddin on 5/5/25.
+//  Created by Davaughn Williams on 5/5/25.
 //
 
 import Foundation
@@ -10,17 +10,15 @@ import SwiftData
 
 @Model
 class Note: Identifiable {
-//    @Attribute(.unique) var id: UUID
     var id: UUID
     var text: String?
     var imageData: Data?
-    var videoURL: URL?
+    var videoPath: String?
     
-//    init(text: String? = nil, imageData: Data? = nil, videoURL: URL? = nil) {
-    init(text: String?, imageData: Data?, videoURL: URL?) {
+    init(text: String?, imageData: Data?, videoPath: String?) {
         self.id = UUID()
         self.text = text
         self.imageData = imageData
-        self.videoURL = videoURL
+        self.videoPath = videoPath
     }
 }

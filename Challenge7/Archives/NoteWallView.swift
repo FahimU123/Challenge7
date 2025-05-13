@@ -2,11 +2,11 @@
 //  NoteWallView.swift
 //  Challenge7
 //
-//  Created by Fahim Uddin on 5/5/25.
+//  Created by Davaughn Williams on 5/5/25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct NotesWallView: View {
     @Query var notes: [Note]
@@ -14,13 +14,13 @@ struct NotesWallView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @State private var showingNewNoteSheet = false
-    
+
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
-    
+
     var randomNote: Note? {
-            notes.randomElement()
-        }
-    
+        notes.randomElement()
+    }
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             VStack {
@@ -32,15 +32,19 @@ struct NotesWallView: View {
                             .foregroundStyle(Color.primary)
                             .font(.title)
                     }
-                    
-                    Text("Why I'm doing this")
-                        .font(.system(size: 24, design: .monospaced))
-                        .fontWeight(.semibold)
+                    .padding(.leading)
+
+                    Text("Why I'm Doing This")
+                        .font(
+                            .system(size: 24, weight: .medium, design: .default)
+                        )
+                        .fontWidth(.condensed)
+                        .fontWeight(.medium)
                         .bold()
                         .padding(.leading)
-                    
+
                     Spacer()
-                    
+
                     Button {
                         showingNewNoteSheet = true
                     } label: {
@@ -52,16 +56,39 @@ struct NotesWallView: View {
                     }
                 }
                 ScrollView {
-                    LazyVGrid(columns: columns, /*spacing: 20*/ spacing: 10) {
-                        ForEach(notes) { note in
-                            NoteCardView(note: note)
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        deleteNote(note)
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
+                    HStack(alignment: .top, spacing: 10) {
+                        // First Column
+                        LazyVStack(spacing: 10) {
+                            ForEach(
+                                notes.enumerated().filter { $0.offset % 2 == 0 }
+                                    .map { $0.element }
+                            ) { note in
+                                NoteCardView(note: note)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            deleteNote(note)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
                                     }
-                                }
+                            }
+                        }
+
+                        // Second Column
+                        LazyVStack(spacing: 10) {
+                            ForEach(
+                                notes.enumerated().filter { $0.offset % 2 == 1 }
+                                    .map { $0.element }
+                            ) { note in
+                                NoteCardView(note: note)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            deleteNote(note)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                            }
                         }
                     }
                     .padding()
@@ -72,7 +99,7 @@ struct NotesWallView: View {
             }
         }
     }
-    
+
     private func deleteNote(_ note: Note) {
         modelContext.delete(note)
         try? modelContext.save()
@@ -80,16 +107,19 @@ struct NotesWallView: View {
 }
 
 #Preview {
-//    NotesWallView()
-//        .modelContainer(for: Note.self)
-    
+    //    NotesWallView()
+    //        .modelContainer(for: Note.self)
+
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Note.self, configurations: config)
+        let container = try ModelContainer(
+            for: Note.self,
+            configurations: config
+        )
         let context = container.mainContext
-        
+
         Note.samples.forEach { context.insert($0) }
-        
+
         return NotesWallView()
             .modelContainer(container)
     } catch {

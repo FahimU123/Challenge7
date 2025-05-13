@@ -2,74 +2,74 @@
 //  RandomNoteView.swift
 //  Challenge7
 //
-//  Created by Fahim Uddin on 5/9/25.
+//  Created by Davaughn Williams on 5/9/25.
 //
 
 import SwiftUI
 import SwiftData
 import AVKit
-import SwiftGlass
 
 struct RandomNoteView: View {
+//    var note: Note?
     @Query var notes: [Note]
     @State private var currentNote: Note?
-    @State private var timer: Timer?
+    @State private var timer: Timer? = nil
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-
-            VStack(alignment: .leading, spacing: 8) {
-                Group {
+        ZStack(alignment: .topLeading) {
+            
+            
+            
+            VStack(alignment: .leading) {
+                ZStack(alignment: .topTrailing) {
                     if let note = currentNote {
                         if let imageData = note.imageData, let uiImage = UIImage(data: imageData) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFill()
-                                .frame(height: 70)
+                                .frame(width: 140, height: 110)
                                 .clipped()
-                                .cornerRadius(8)
-                        } else if let videoURL = note.videoURL {
+                            //                        } else if let videoURL = note.videoURL {
+                        } else if let videoPath = note.videoPath {
+                                let videoURL = URL(fileURLWithPath: videoPath)
                             VideoPlayer(player: AVPlayer(url: videoURL))
-                                .frame(height: 70)
-                                .cornerRadius(8)
+                                .scaledToFill()
+                                .frame(width: 140, height: 110)
                         } else if let text = note.text {
                             Text(text)
-                                .font(.footnote)
+                                .font(.system(size: 12, design: .monospaced))
                                 .lineLimit(3)
-                                .foregroundColor(.primary)
+                                .frame(width: 140, height: 110)
                         } else {
                             Text("No content")
-                                .font(.footnote.italic())
-                                .foregroundColor(.secondary)
+                                .font(.headline)
+                                .frame(width: 140, height: 110)
                         }
                     } else {
                         Text("Loading...")
-                            .font(.footnote)
-                            .foregroundColor(.text)
-                            .padding(.bottom, 30)
+                            .font(.subheadline)
+                            .frame(width: 140, height: 110)
                     }
+
                     Image(systemName: "arrow.up.left.and.arrow.down.right")
-                        .font(.caption2)
+                        .font(.caption)
                         .padding(6)
-                        .background(Color.text.opacity(0.7))
+                        .background(Color.white.opacity(0.6))
                         .clipShape(Circle())
-                        .padding(.leading, 90)
+                        .offset(x: -8, y: 8)
                 }
-
+                
                 Spacer()
+                
+            
             }
-
-
+            
         }
-
-        .padding(12)
+        .padding()
         .frame(width: 140, height: 110)
-        .background(Color.col)
-        .glass(
-            shadowOpacity: 0.1,
-            shadowRadius: 20
-        )
-        
+        .background(Color(.systemGray5))
+        .cornerRadius(16)
+        .shadow(radius: 4)
         .onAppear {
             refreshRandomNote()
             startRandomTimer()
@@ -78,13 +78,13 @@ struct RandomNoteView: View {
             timer?.invalidate()
         }
     }
-
+    
     func refreshRandomNote() {
         if !notes.isEmpty {
             currentNote = notes.randomElement()
         }
     }
-
+    
     func startRandomTimer() {
         timer?.invalidate()
         let interval = Double.random(in: 5...15)
@@ -99,5 +99,3 @@ struct RandomNoteView: View {
 #Preview {
     RandomNoteView()
 }
-
-

@@ -2,7 +2,7 @@
 //  PhotoPicker.swift
 //  Challenge7
 //
-//  Created by Fahim Uddin on 5/5/25.
+//  Created by Davaughn Williams on 5/5/25.
 //
 
 import SwiftUI

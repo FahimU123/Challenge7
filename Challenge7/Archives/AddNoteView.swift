@@ -2,7 +2,7 @@
 //  AddNoteView.swift
 //  Challenge7
 //
-//  Created by Fahim Uddin on 5/5/25.
+//  Created by Davaughn Williams on 5/5/25.
 //
 
 import SwiftUI
@@ -15,6 +15,7 @@ struct AddNoteView: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var noteText: String = ""
+    @FocusState private var isFocused: Bool
     @State private var selectedImage: UIImage?
     @State private var selectedVideoURL: URL?
     
@@ -25,14 +26,20 @@ struct AddNoteView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 20) {
                 Text("New Note")
-                    .font(.largeTitle)
-                    .bold()
+                    .font(.system(size: 36, weight: .medium, design: .default))
+                    .fontWidth(.condensed)
+                    .fontWeight(.medium)
+                // When New Note is tapped the keyboard then dismisses
+                    .onTapGesture {
+                        isFocused = false
+                    }
                 
                 TextEditor(text: $noteText)
                     .frame(height: 150)
+                    .focused($isFocused)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray)
+                            .stroke(Color.black)
                             .opacity(0.5)
                     )
                 
@@ -58,14 +65,33 @@ struct AddNoteView: View {
                 }
                 
                 HStack {
-                    Button("Add Image") {
+                    Button {
                         showImagePicker = true
+                    } label: {
+                        Text("Add Image")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .foregroundStyle(.white)
+                            .cornerRadius(10)
+//                        )
                     }
+                    
                     
                     Spacer()
                     
-                    Button("Add Video") {
+                    
+                    Button {
                         showVideoPicker = true
+                    } label: {
+                        Text("Add Video")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .foregroundStyle(.white)
+                            .cornerRadius(10)
                     }
                 }
                 
@@ -76,7 +102,7 @@ struct AddNoteView: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(Color.black)
                         .foregroundStyle(.white)
                         .cornerRadius(10)
                 }
@@ -87,7 +113,11 @@ struct AddNoteView: View {
                 PhotoPicker(image: $selectedImage)
             }
             .sheet(isPresented: $showVideoPicker) {
-                VideoPicker(videoURL: $selectedVideoURL)
+//                VideoPicker(videoURL: $selectedVideoURL)
+                VideoPicker(videoPath: Binding(
+                    get: { selectedVideoURL?.path },
+                    set: { newPath in selectedVideoURL = newPath.map { URL(fileURLWithPath: $0) } }
+                ))
             }
         }
     }
@@ -99,7 +129,8 @@ struct AddNoteView: View {
         
         let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
         
-        let newNote = Note(text: noteText, imageData: imageData, videoURL: selectedVideoURL)
+//        let newNote = Note(text: noteText, imageData: imageData, videoURL: selectedVideoURL)
+        let newNote = Note(text: noteText, imageData: imageData, videoPath: selectedVideoURL?.path)
         modelContext.insert(newNote)
         
         
