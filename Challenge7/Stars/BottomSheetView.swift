@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftGlass
 
 struct BottomSheetView: View {
     
@@ -35,12 +36,12 @@ struct BottomSheetView: View {
                         }
                         .fullScreenCover(isPresented: $showFullNoteView, content: NotesWallView.init)
                         
-                        Button {
-                            showFullRecoveryRatioView.toggle()
-                        } label: {
-                            RecoveryRatioCardView()
-                        }
-                        .fullScreenCover(isPresented: $showFullRecoveryRatioView, content: RecoveryRatioView.init)
+//                        Button {
+//                            showFullRecoveryRatioView.toggle()
+//                        } label: {
+//                            RecoveryRatioCardView()
+//                        }
+//                        .fullScreenCover(isPresented: $showFullRecoveryRatioView, content: RecoveryRatioView.init)
                     }
                     
                 }
@@ -48,8 +49,10 @@ struct BottomSheetView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.ultraThinMaterial)
-        .cornerRadius(isExpanded ? 0 : 16)
+//        .background(Color.color)
+        .glass()
+        .opacity(0.8)
+        .cornerRadius(isExpanded ? 5 : 16)
     }
 }
 #Preview {

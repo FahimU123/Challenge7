@@ -22,7 +22,7 @@ struct StarShowerView: View {
         Canvas { context, size in
             for star in stars {
                 let rect = CGRect(x: star.position.x, y: star.position.y, width: 2, height: 2)
-                context.fill(Path(ellipseIn: rect), with: .color(.white))
+                context.fill(Path(ellipseIn: rect), with: .color(.snow))
             }
         }
         .onAppear {

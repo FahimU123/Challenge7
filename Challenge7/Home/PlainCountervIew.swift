@@ -11,11 +11,11 @@ struct PlainCounterView: View {
     @ObservedObject var viewModel: CounterViewModel
     
     var body: some View {
-        HStack {
-            timeBlock(value: viewModel.days(), label: "DAYS")
-            timeBlock(value: viewModel.hours(), label: "HOUR")
-            timeBlock(value: viewModel.minutes(), label: "MINUTES")
-            timeBlock(value: viewModel.seconds(), label: "SECONDS")
+        HStack(spacing: 16) {
+            timeBlock(value: viewModel.days(), label: "D")
+            timeBlock(value: viewModel.hours(), label: "H")
+            timeBlock(value: viewModel.minutes(), label: "M")
+            timeBlock(value: viewModel.seconds(), label: "S")
             
         }
     }
@@ -24,15 +24,19 @@ struct PlainCounterView: View {
         VStack {
             Text(String(format: "%02d", value))
                 .font(.system(size: 24, weight: .bold, design: .default))
-                .foregroundColor(.white)
+                .foregroundColor(.text)
+                .contentTransition(.numericText())
+                .animation(.default, value: value) 
             Text(label)
                 .font(.caption2)
-                .foregroundColor(.white)
+                .foregroundColor(.text)
         }
     }
+
 }
 
 
 #Preview {
     PlainCounterView(viewModel: CounterViewModel())
 }
+

@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct StatCardModel {
     var image: String
     var title: String
     var stat: String
+    let viewProvider: () -> AnyView
 }

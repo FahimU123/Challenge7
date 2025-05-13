@@ -8,60 +8,68 @@
 import SwiftUI
 import SwiftData
 import AVKit
+import SwiftGlass
 
 struct RandomNoteView: View {
-//    var note: Note?
     @Query var notes: [Note]
     @State private var currentNote: Note?
-    @State private var timer: Timer? = nil
+    @State private var timer: Timer?
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            
-            
-            
-            VStack(alignment: .leading) {
-                if let note = currentNote {
-                    if let imageData = note.imageData, let uiImage = UIImage(data: imageData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 140)
-                            .clipped()
-                    } else if let videoURL = note.videoURL {
-                        VideoPlayer(player: AVPlayer(url: videoURL))
-                            .frame(height: 88)
-                    } else if let text = note.text {
-                        Text(text)
-                            .font(.body)
-                            .lineLimit(3)
+        ZStack(alignment: .topTrailing) {
+
+            VStack(alignment: .leading, spacing: 8) {
+                Group {
+                    if let note = currentNote {
+                        if let imageData = note.imageData, let uiImage = UIImage(data: imageData) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 70)
+                                .clipped()
+                                .cornerRadius(8)
+                        } else if let videoURL = note.videoURL {
+                            VideoPlayer(player: AVPlayer(url: videoURL))
+                                .frame(height: 70)
+                                .cornerRadius(8)
+                        } else if let text = note.text {
+                            Text(text)
+                                .font(.footnote)
+                                .lineLimit(3)
+                                .foregroundColor(.primary)
+                        } else {
+                            Text("No content")
+                                .font(.footnote.italic())
+                                .foregroundColor(.secondary)
+                        }
                     } else {
-                        Text("No content")
-                            .font(.headline)
+                        Text("Loading...")
+                            .font(.footnote)
+                            .foregroundColor(.text)
+                            .padding(.bottom, 30)
                     }
-                } else {
-                    Text("Loading...")
-                        .font(.subheadline)
+                    Image(systemName: "arrow.up.left.and.arrow.down.right")
+                        .font(.caption2)
+                        .padding(6)
+                        .background(Color.text.opacity(0.7))
+                        .clipShape(Circle())
+                        .padding(.leading, 90)
                 }
-                
+
                 Spacer()
-                
-            
             }
-            Image(systemName: "arrow.up.left.and.arrow.down.right")
-                .font(.caption)
-//                .padding(6)
-                .background(Color.white.opacity(0.6))
-//                .foregroundColor(.white)
-                .clipShape(Circle())
-                .offset(x: 70)
-//                .padding(6)
+
+
         }
-        .padding()
+
+        .padding(12)
         .frame(width: 140, height: 110)
-        .background(Color(.systemGray5))
-        .cornerRadius(16)
-        .shadow(radius: 4)
+        .background(Color.col)
+        .glass(
+            shadowOpacity: 0.1,
+            shadowRadius: 20
+        )
+        
         .onAppear {
             refreshRandomNote()
             startRandomTimer()
@@ -70,13 +78,13 @@ struct RandomNoteView: View {
             timer?.invalidate()
         }
     }
-    
+
     func refreshRandomNote() {
         if !notes.isEmpty {
             currentNote = notes.randomElement()
         }
     }
-    
+
     func startRandomTimer() {
         timer?.invalidate()
         let interval = Double.random(in: 5...15)
@@ -91,3 +99,5 @@ struct RandomNoteView: View {
 #Preview {
     RandomNoteView()
 }
+
+

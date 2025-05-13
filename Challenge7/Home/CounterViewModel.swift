@@ -49,7 +49,6 @@ final class CounterViewModel: ObservableObject {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.now = Date()
 
-            // Optional: reset daily
             if !Calendar.current.isDateInToday(self.startDate) {
                 self.checkin = false
                 self.startDate = Date()

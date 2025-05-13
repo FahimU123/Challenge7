@@ -8,6 +8,134 @@
 import SwiftUI
 import Lottie
 import AVFoundation
+import SwiftGlass
+
+struct CounterView: View {
+    @ObservedObject var viewModel: CounterViewModel
+    @Binding var showLottieScreen: Bool
+    
+    
+    @State private var showSurvey = false
+    @State private var surveyCompleted = false
+    let encouragementMessages = [
+        "YOU SHOWED UP TODAY. THAT MATTERS. SHOW UP AGAIN TOMORROW.",
+        "EACH CHECK-IN IS A WIN. LET’S GET ANOTHER ONE TOMORROW.",
+        "COME BACK TOMORROW — YOUR FUTURE SELF WILL THANK YOU.",
+        "SMALL STEPS BECOME STRONG HABITS. SEE YOU TOMORROW.",
+        "ANOTHER DAY CLEAN. THAT’S NOT SMALL — THAT’S EVERYTHING.",
+        "YOU’RE GROWING. KEEP GOING.",
+        "CHECKING IN DAILY BUILDS YOUR STRENGTH.",
+        "TOMORROW’S ANOTHER BRICK IN YOUR FOUNDATION.",
+        "SEE YOU TOMORROW, LEGEND. 🌟"
+    ]
+
+    var dailyMessage: String {
+        let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: Date()) ?? 0
+        return encouragementMessages[dayOfYear % encouragementMessages.count]
+    }
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.col,
+                            Color.col.opacity(0.6)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: 300, height: 300)
+                .glass(
+                    radius: 150,
+                    color: .clear,
+                    material: .ultraThinMaterial,
+                    gradientOpacity: 0.3,
+                    shadowColor: .col,
+                    shadowRadius: 10
+                )
+            
+            VStack(spacing: 12) {
+                timeDisplay
+                
+                if !viewModel.checkin {
+                    VStack(spacing: 18) {
+                        Text("DID YOU GAMBLE TODAY?")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.text)
+                            .multilineTextAlignment(.center)
+                        
+                        HStack(spacing: 30) {
+                            LongPressToActionButton(
+                                viewModel: viewModel,
+                                onAction: {
+                                    viewModel.checkin = true
+                                    withAnimation {
+                                        showLottieScreen = true
+                                    }
+                                },
+                                ringColor: .green,
+                                icon: "checkmark"
+                            )
+                            LongPressToActionButton(
+                                viewModel: viewModel,
+                                onAction: {
+                                    viewModel.reset()
+                                    showSurvey = true
+                                },
+                                ringColor: .red,
+                                icon: "xmark"
+                            )
+                        }
+                    }
+                } else {
+                    VStack {
+                        Text(dailyMessage)
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.text)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 12)
+                            .transition(.opacity)
+                    }
+                    .padding(.top, 8)
+
+                }
+            }
+            .padding(16)
+        }
+        .fullScreenCover(isPresented: $showSurvey, onDismiss: {
+            viewModel.reset()
+            surveyCompleted = true
+        }) {
+            SurveyView()
+        }
+    }
+    
+    var timeDisplay: some View {
+        HStack(spacing: 16) {
+            timeBlock(value: viewModel.days(), label: "D")
+            timeBlock(value: viewModel.hours(), label: "H")
+            timeBlock(value: viewModel.minutes(), label: "M")
+            timeBlock(value: viewModel.seconds(), label: "S")
+        }
+    }
+    
+    func timeBlock(value: Int, label: String) -> some View {
+        VStack {
+            Text(String(format: "%02d", value))
+                .font(.system(size: 24, weight: .bold, design: .default))
+                .foregroundColor(.text)
+                .contentTransition(.numericText())
+                .animation(.default, value: value)
+            Text(label)
+                .font(.system(size: 15, weight: .light, design: .default))
+                .foregroundColor(.text)
+        }
+        
+    }
+}
 
 struct IndicatorView: View {
     var progress: CGFloat
@@ -19,7 +147,7 @@ struct IndicatorView: View {
         ZStack {
             Circle()
                 .stroke(
-                    ringColor.opacity(0.3),
+                    ringColor.opacity(0.5),
                     style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
                 )
                 .frame(width: ringSize, height: ringSize)
@@ -33,48 +161,6 @@ struct IndicatorView: View {
                 .frame(width: ringSize, height: ringSize)
         }
         .rotationEffect(.degrees(-90))
-    }
-}
-
-
-struct SurveyView: View {
-    @Environment(\.dismiss) private var dismiss
-    
-    var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [.mint, .teal, .blue],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
-            
-            VStack(spacing: 24) {
-                Text("🎯 Quick Survey")
-                    .font(.largeTitle.bold())
-                    .foregroundColor(.white)
-                
-                Text("Thank you for being honest. Reflecting is the first step toward control. We'll check in again tomorrow.")
-                    .multilineTextAlignment(.center)
-                    .font(.headline)
-                    .foregroundColor(.white.opacity(0.9))
-                    .padding(.horizontal)
-                
-                Button(action: {
-                    dismiss()
-                }) {
-                    Text("Done")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.ultraThinMaterial)
-                        .cornerRadius(12)
-                }
-                .padding(.horizontal, 40)
-            }
-            .padding()
-        }
     }
 }
 
@@ -106,7 +192,7 @@ struct LongPressToActionButton: View {
             
             Image(systemName: icon)
                 .font(.system(size: 30))
-                .foregroundStyle(.white.opacity(timerStart ? 0.5 : 1.0))
+                .foregroundStyle(.text.opacity(timerStart ? 0.5 : 1.0))
         }
         .frame(width: ringSize, height: ringSize)
         .gesture(
@@ -140,103 +226,3 @@ struct LongPressToActionButton: View {
 }
 
 
-struct CheckedInView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 40))
-                .foregroundColor(.green)
-            Text("You’ve checked in today!")
-                .foregroundColor(.black)
-                .font(.subheadline)
-        }
-    }
-}
-
-struct CounterView: View {
-    @ObservedObject var viewModel: CounterViewModel
-    @Binding var showLottieScreen: Bool
-
-    @State private var showSurvey = false
-    @State private var surveyCompleted = false
-
-    var body: some View {
-        ZStack {
-           
-            Circle()
-                .fill(LinearGradient(colors: [.red, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
-                .frame(width: 300, height: 300)
-                .shadow(radius: 10)
-
-            VStack(spacing: 12) {
-              
-                timeDisplay
-
-                if !viewModel.checkin {
-                    VStack(spacing: 18) {
-                        Text("DID YOU GAMBLE TODAY?")
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-
-                        HStack(spacing: 30) {
-                            
-                            LongPressToActionButton(
-                                viewModel: viewModel,
-                                onAction: {
-                                    viewModel.checkin = true
-                                    withAnimation {
-                                        showLottieScreen = true
-                                    }
-                                },
-                                ringColor: .red,
-                                icon: "xmark"
-                            )
-                            LongPressToActionButton(
-                                viewModel: viewModel,
-                                onAction: {
-                                    viewModel.reset()
-                                    showSurvey = true
-                                },
-                                ringColor: .green,
-                                icon: "checkmark"
-                            )
-                        }
-                    }
-                } else {
-                    Text("See you tomorrow 👋")
-                        .font(.footnote)
-                        .foregroundColor(.white)
-                        .padding(.top, 4)
-                }
-            }
-            .padding(16)
-        }
-        .fullScreenCover(isPresented: $showSurvey, onDismiss: {
-            viewModel.reset()
-            surveyCompleted = true
-        }) {
-            SurveyView()
-        }
-    }
-
-    var timeDisplay: some View {
-        HStack(spacing: 16) {
-            timeBlock(value: viewModel.days(), label: "D")
-            timeBlock(value: viewModel.hours(), label: "H")
-            timeBlock(value: viewModel.minutes(), label: "M")
-            timeBlock(value: viewModel.seconds(), label: "S")
-        }
-    }
-
-    func timeBlock(value: Int, label: String) -> some View {
-        VStack(spacing: 2) {
-            Text(String(format: "%02d", value))
-                .font(.system(size: 32, weight: .bold))
-                .foregroundColor(.white)
-            Text(label)
-                .font(.caption2)
-                .foregroundColor(.white.opacity(0.85))
-        }
-    }
-}
