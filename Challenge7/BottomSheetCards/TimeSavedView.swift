@@ -9,15 +9,15 @@ import SwiftUI
 
 struct TimeSavedView: View {
     let presetTimes: [Double] = [1, 3, 5, 8, 10]
-
+    
     @AppStorage("lastSavedTime") private var lastSavedTime: Double = 0
     @AppStorage("lastSavedTimeDate") private var lastSavedTimeDate: Double = 0
     @Environment(\.dismiss) var dismiss
-
+    
     @State private var selectedTime: Double?
     @State private var customTime: String = ""
     @State private var showStats = false
-
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -37,7 +37,7 @@ struct TimeSavedView: View {
                         }
                     }
                 }
-
+                
                 Section(header: Text("Or enter a custom time (in hours)")) {
                     TextField("Custom hours", text: $customTime)
                         .keyboardType(.decimalPad)
@@ -45,7 +45,7 @@ struct TimeSavedView: View {
                             selectedTime = nil
                         }
                 }
-
+                
                 Section {
                     Button("Confirm") {
                         let finalTime = calculateInputTime()
@@ -57,10 +57,10 @@ struct TimeSavedView: View {
                 }
             }
             .navigationTitle("Time Saved")
-        
+            
         }
     }
-
+    
     private func calculateInputTime() -> Double {
         if let selected = selectedTime {
             return selected
@@ -69,7 +69,7 @@ struct TimeSavedView: View {
         }
         return 0
     }
-
+    
     private func saveWeeklyTime(_ time: Double) {
         lastSavedTime = time
         lastSavedTimeDate = Date().timeIntervalSince1970

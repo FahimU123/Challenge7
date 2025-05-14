@@ -8,13 +8,24 @@
 import SwiftUI
 import Lottie
 import SwiftData
+import TipKit
 
 @main
 struct Challenge7App: App {
+    @AppStorage("hasSeenOnboarding") var hasSeenOnboarding: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            if hasSeenOnboarding {
+                HomeView()
+            } else {
+                OnboardingView()
+            }
         }
         .modelContainer(for: Note.self)
+    }
+
+    init() {
+        try? Tips.configure()
     }
 }

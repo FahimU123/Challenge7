@@ -51,7 +51,7 @@ struct CelebrationBackground: View {
 
     @MainActor
     private func tryRequestReview() async {
-        try? await Task.sleep(for: .seconds(3.5))
+        try? await Task.sleep(for: .seconds(3.2))
         if ReviewManager.shared.shouldRequestReview() {
             requestReview()
             ReviewManager.shared.resetCounts()

@@ -9,12 +9,14 @@ import SwiftUI
 import SwiftData
 import AVKit
 import SwiftGlass
+import TipKit
 
 struct RandomNoteView: View {
 //    var note: Note?
     @Query var notes: [Note]
     @State private var currentNote: Note?
     @State private var timer: Timer? = nil
+    let archiveTip = AddToArchiveTip()
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -47,8 +49,10 @@ struct RandomNoteView: View {
                                 .frame(width: 140, height: 110)
                         }
                     } else {
-                        Text("TAP TO ADD A NOTE")
-                            .font(.system(size: 10, design: .default))
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 35))
+                            .fontWeight(.ultraLight)
+                            .padding()
                             .foregroundColor(.text)
                             .frame(width: 140, height: 110)
                             .background(Color.col)
@@ -61,9 +65,9 @@ struct RandomNoteView: View {
 
                     Image(systemName: "arrow.up.left.and.arrow.down.right")
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color.snow)
+                        .foregroundColor(Color.text)
                         .padding(6)
-                        .background(Color.text)
+                        .background(Color.snow)
                         .clipShape(Circle())
                         .offset(x: -12, y: 14)
                 }
@@ -71,7 +75,8 @@ struct RandomNoteView: View {
                 Spacer()
             
             }
-            
+            .popoverTip(archiveTip)
+                .padding()
         }
         .padding()
         .frame(width: 140, height: 110)

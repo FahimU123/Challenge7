@@ -75,7 +75,7 @@ struct AddNoteView: View {
                             .background(Color.black)
                             .foregroundStyle(.white)
                             .cornerRadius(10)
-//                        )
+                        //                        )
                     }
                     
                     
@@ -108,12 +108,12 @@ struct AddNoteView: View {
                 }
             }
             .padding()
-//            .navigationTitle("Add Note")
+            //            .navigationTitle("Add Note")
             .sheet(isPresented: $showImagePicker) {
                 PhotoPicker(image: $selectedImage)
             }
             .sheet(isPresented: $showVideoPicker) {
-//                VideoPicker(videoURL: $selectedVideoURL)
+                //                VideoPicker(videoURL: $selectedVideoURL)
                 VideoPicker(videoPath: Binding(
                     get: { selectedVideoURL?.path },
                     set: { newPath in selectedVideoURL = newPath.map { URL(fileURLWithPath: $0) } }
@@ -129,7 +129,7 @@ struct AddNoteView: View {
         
         let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
         
-//        let newNote = Note(text: noteText, imageData: imageData, videoURL: selectedVideoURL)
+        //        let newNote = Note(text: noteText, imageData: imageData, videoURL: selectedVideoURL)
         let newNote = Note(text: noteText, imageData: imageData, videoPath: selectedVideoURL?.path)
         modelContext.insert(newNote)
         

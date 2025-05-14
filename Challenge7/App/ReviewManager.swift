@@ -27,7 +27,7 @@ final class ReviewManager {
     }
     
     func resetCounts() {
-           UserDefaults.standard.set(0, forKey: visitKey)
-       }
+        UserDefaults.standard.set(0, forKey: visitKey)
+    }
     
 }
