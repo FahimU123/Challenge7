@@ -11,10 +11,10 @@ import Lottie
 struct OnboardingView: View {
     @ObservedObject var viewModel = OnboardingViewModel()
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding: Bool = false
-
-
     @State private var titleText: String = ""
     @State private var subtitleText: String = ""
+    @State private var titleTypingWorkItem: DispatchWorkItem?
+    @State private var subtitleTypingWorkItem: DispatchWorkItem?
 
     var body: some View {
         ZStack {
@@ -22,9 +22,8 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
             
             LottieView(animation: .named("leaves"))
-                            .looping()
-                            .ignoresSafeArea()
-//                            .opacity(0.4)
+                    .looping()
+                    .ignoresSafeArea()
 
             VStack(spacing: 100) {
                 Spacer()
@@ -73,23 +72,34 @@ struct OnboardingView: View {
     }
 
     func typeTitle(_ fullText: String, at position: Int = 0) {
+        titleTypingWorkItem?.cancel()
+
         if position == 0 { titleText = "" }
-        if position < fullText.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+
+        let workItem = DispatchWorkItem {
+            if position < fullText.count {
                 titleText.append(fullText[position])
                 typeTitle(fullText, at: position + 1)
             }
         }
+        titleTypingWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: workItem)
     }
 
     func typeSubtitle(_ fullText: String, at position: Int = 0) {
+        subtitleTypingWorkItem?.cancel()
+
         if position == 0 { subtitleText = "" }
-        if position < fullText.count {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
+
+        let workItem = DispatchWorkItem {
+            if position < fullText.count {
                 subtitleText.append(fullText[position])
                 typeSubtitle(fullText, at: position + 1)
             }
         }
+        subtitleTypingWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: workItem)
+    
     }
 }
 

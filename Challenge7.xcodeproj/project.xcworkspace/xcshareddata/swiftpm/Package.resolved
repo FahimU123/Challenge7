@@ -1,15 +1,6 @@
 {
-  "originHash" : "072902e9169b26197dafad7e4e9e5a582a3a72d9b74823f8c21fa67be3f5336e",
+  "originHash" : "f4696c1630e4f0ca33022a50fac6efb49b81df27c9bf8e01e301927afdd57dff",
   "pins" : [
-    {
-      "identity" : "animatetext",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jasudev/AnimateText.git",
-      "state" : {
-        "revision" : "c55847e03bb3f36cf83cc217fe60ec5feda9ddd6",
-        "version" : "0.5.0"
-      }
-    },
     {
       "identity" : "confettiswiftui",
       "kind" : "remoteSourceControl",

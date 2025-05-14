@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DD317B952DD5157500379FFE /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = DD317B942DD5157500379FFE /* AnimateText */; };
 		DDA469E42DCE9E2C0083E6A5 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DDA469E32DCE9E2C0083E6A5 /* Lottie */; };
 		DDA46A7A2DD35F6C0083E6A5 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = DDA46A792DD35F6C0083E6A5 /* ConfettiSwiftUI */; };
 		DDA46A7D2DD35F820083E6A5 /* SwiftGlass in Frameworks */ = {isa = PBXBuildFile; productRef = DDA46A7C2DD35F820083E6A5 /* SwiftGlass */; };
@@ -46,7 +45,6 @@
 				DDA46A7D2DD35F820083E6A5 /* SwiftGlass in Frameworks */,
 				DDA46A7A2DD35F6C0083E6A5 /* ConfettiSwiftUI in Frameworks */,
 				DDA469E42DCE9E2C0083E6A5 /* Lottie in Frameworks */,
-				DD317B952DD5157500379FFE /* AnimateText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +91,6 @@
 				DDA469E32DCE9E2C0083E6A5 /* Lottie */,
 				DDA46A792DD35F6C0083E6A5 /* ConfettiSwiftUI */,
 				DDA46A7C2DD35F820083E6A5 /* SwiftGlass */,
-				DD317B942DD5157500379FFE /* AnimateText */,
 			);
 			productName = Challenge7;
 			productReference = DD55075B2DC93A9500C419DA /* Challenge7.app */;
@@ -127,7 +124,6 @@
 				DDA469E22DCE9E2C0083E6A5 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				DDA46A782DD35F6C0083E6A5 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				DDA46A7B2DD35F820083E6A5 /* XCRemoteSwiftPackageReference "SwiftGlass" */,
-				DD317B932DD5157500379FFE /* XCRemoteSwiftPackageReference "AnimateText" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD55075C2DC93A9500C419DA /* Products */;
@@ -369,14 +365,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		DD317B932DD5157500379FFE /* XCRemoteSwiftPackageReference "AnimateText" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jasudev/AnimateText.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.5.0;
-			};
-		};
 		DDA469E22DCE9E2C0083E6A5 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -404,11 +392,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		DD317B942DD5157500379FFE /* AnimateText */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DD317B932DD5157500379FFE /* XCRemoteSwiftPackageReference "AnimateText" */;
-			productName = AnimateText;
-		};
 		DDA469E32DCE9E2C0083E6A5 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DDA469E22DCE9E2C0083E6A5 /* XCRemoteSwiftPackageReference "lottie-ios" */;
