@@ -35,7 +35,7 @@ struct MoneySavedView: View {
                         }
                     }
                 }
-
+                
                 Section(header: Text("Or enter a custom amount")) {
                     TextField("Custom amount", text: $customAmount)
                         .keyboardType(.decimalPad)

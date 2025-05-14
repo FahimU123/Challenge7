@@ -25,7 +25,6 @@ struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var animate = false
     
-    
     private var isExpanded: Bool {
         sheetOffset <= expandedOffset + 50
     }
@@ -48,7 +47,6 @@ struct HomeView: View {
                 .blur(radius: 20)
             
             if showLottieScreen {
-       
                     CelebrationBackground()
                     .confettiCannon(
                         trigger: $trigger,
@@ -56,12 +54,8 @@ struct HomeView: View {
                         openingAngle: .degrees(0),
                         closingAngle: .degrees(360),
                         radius: 200,
-                        repetitions: 3,
-                        repetitionInterval: 0.5,
-                        hapticFeedback: false
+                        hapticFeedback: true
                     )
-
-                    
                     LottieView(animation: LottieAnimation.named("test"))
                         .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                         .frame(width: 300, height: 300)

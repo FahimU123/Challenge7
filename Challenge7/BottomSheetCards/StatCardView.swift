@@ -96,7 +96,6 @@ struct StatCard: View {
                 shadowRadius: 20
             )
         }
-        .buttonStyle(PlainButtonStyle())
         .fullScreenCover(isPresented: $isPresented) {
             stat.viewProvider()
         }

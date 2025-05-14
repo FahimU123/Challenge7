@@ -7,10 +7,12 @@
 
 import SwiftUI
 import ConfettiSwiftUI
+import StoreKit
 
 struct CelebrationBackground: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var animate = false
+    @Environment(\.requestReview) var requestReview
 
     var body: some View {
         ZStack {
@@ -37,14 +39,23 @@ struct CelebrationBackground: View {
                         value: animate
                     )
             }
-
-
         }
         .onAppear {
             animate = true
+            ReviewManager.shared.incrementVisit()
+            Task {
+                await tryRequestReview()
+            }
         }
+    }
 
-
+    @MainActor
+    private func tryRequestReview() async {
+        try? await Task.sleep(for: .seconds(3.5))
+        if ReviewManager.shared.shouldRequestReview() {
+            requestReview()
+            ReviewManager.shared.resetCounts()
+        }
     }
 }
 
@@ -55,10 +66,6 @@ extension Color {
                      brightness: 1.0)
     }
 }
-
-
-
-
 
 
 #Preview {
