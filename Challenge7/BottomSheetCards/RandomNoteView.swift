@@ -89,10 +89,24 @@ struct RandomNoteView: View {
     }
     
     func refreshRandomNote() {
-        if !notes.isEmpty {
-            currentNote = notes.randomElement()
+        let validNotes = notes.filter { note in
+            note.text != nil ||
+            (note.imageData != nil && UIImage(data: note.imageData!) != nil) ||
+            (note.videoPath != nil && FileManager.default.fileExists(atPath: note.videoPath!))
+        }
+        
+        guard !validNotes.isEmpty else {
+            currentNote = nil
+            return
+        }
+
+        if let newNote = validNotes.randomElement(), newNote != currentNote {
+            withAnimation {
+                currentNote = newNote
+            }
         }
     }
+
     
     func startRandomTimer() {
         timer?.invalidate()

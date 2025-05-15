@@ -52,16 +52,14 @@ struct AddNoteView: View {
                 }
                 
                 if let videoURL = selectedVideoURL {
-                    HStack {
-                        Image(systemName: "video.fill")
-                        Text(videoURL.lastPathComponent)
-                            .lineLimit(1)
-                        
-                        Spacer()
+                    if let thumbnail = generateThumbnail(for: videoURL) {
+                        Image(uiImage: thumbnail)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 150)
+                            .cornerRadius(10)
                     }
-                    .padding()
-                    .background(Color.gray).opacity(0.2)
-                    .cornerRadius(10)
+
                 }
                 
                 HStack {
@@ -136,6 +134,26 @@ struct AddNoteView: View {
         
         dismiss()
     }
+    
+    func generateThumbnail(for url: URL) -> UIImage? {
+        let asset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        let time = CMTime(seconds: 1.0, preferredTimescale: 600)
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+            
+            return UIImage(cgImage: cgImage)
+        } catch {
+            print("Thumbnail generation failed: \(error)")
+            
+            return nil
+        }
+    }
+
 }
 
 #Preview {
