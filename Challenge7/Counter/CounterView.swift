@@ -175,24 +175,25 @@ struct IndicatorView: View {
         .rotationEffect(.degrees(-90))
     }
 }
-
-
 struct LongPressToActionButton: View {
     var viewModel: CounterViewModel
     var onAction: () -> Void
     var ringColor: Color
     var icon: String
-    
+
     @State private var timerStart = false
     @State private var timeRemaining: CGFloat = 2.0
     @State private var actionPerformed = false
-    
+
     private let activeTime: CGFloat = 2.0
     private let ringSize: CGFloat = 80
     private let lineWidth: CGFloat = 8
-    
+
     let timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
+
     
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+
     var body: some View {
         ZStack {
             IndicatorView(
@@ -201,17 +202,17 @@ struct LongPressToActionButton: View {
                 lineWidth: lineWidth,
                 ringColor: ringColor
             )
-            
+
             Text(icon)
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundColor(.text.opacity(timerStart ? 0.5 : 1.0))
-
         }
         .frame(width: ringSize, height: ringSize)
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in
                     if !timerStart {
+                        feedbackGenerator.prepare()
                         timerStart = true
                         actionPerformed = false
                     }
@@ -227,6 +228,8 @@ struct LongPressToActionButton: View {
                     withAnimation(.linear(duration: 0.05)) {
                         timeRemaining -= 0.05
                     }
+                    feedbackGenerator.impactOccurred()
+                    feedbackGenerator.prepare()
                 } else if !actionPerformed {
                     actionPerformed = true
                     onAction()
@@ -237,5 +240,3 @@ struct LongPressToActionButton: View {
         }
     }
 }
-
-
