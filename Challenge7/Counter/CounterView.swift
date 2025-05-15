@@ -116,7 +116,7 @@ struct CounterView: View {
             }
             .padding(16)
         }
-        .fullScreenCover(isPresented: $showSurvey, onDismiss: {
+        .sheet(isPresented: $showSurvey, onDismiss: {
             viewModel.reset()
             surveyCompleted = true
         }) {

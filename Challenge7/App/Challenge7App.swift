@@ -20,6 +20,7 @@ struct Challenge7App: App {
             if hasSeenOnboarding {
                 HomeView()
                     .environmentObject(checkInManager)
+                    .modelContainer(for: [Note.self, CheckInEntry.self])
             } else {
                 OnboardingView()
                     .environmentObject(checkInManager)
