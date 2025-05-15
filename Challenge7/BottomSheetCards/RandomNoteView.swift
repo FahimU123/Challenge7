@@ -9,20 +9,14 @@ import SwiftUI
 import SwiftData
 import AVKit
 import SwiftGlass
-import TipKit
 
 struct RandomNoteView: View {
-//    var note: Note?
     @Query var notes: [Note]
     @State private var currentNote: Note?
     @State private var timer: Timer? = nil
-    let archiveTip = AddToArchiveTip()
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            
-            
-            
             VStack(alignment: .leading) {
                 ZStack(alignment: .topTrailing) {
                     if let note = currentNote {
@@ -32,7 +26,6 @@ struct RandomNoteView: View {
                                 .scaledToFill()
                                 .frame(width: 140, height: 118)
                                 .clipped()
-                            //                        } else if let videoURL = note.videoURL {
                         } else if let videoPath = note.videoPath {
                             let videoURL = URL(fileURLWithPath: videoPath)
                             VideoPlayer(player: AVPlayer(url: videoURL))
@@ -41,8 +34,14 @@ struct RandomNoteView: View {
                         } else if let text = note.text {
                             Text(text)
                                 .font(.system(size: 12, design: .default))
+                                .foregroundColor(.text)
                                 .lineLimit(3)
                                 .frame(width: 140, height: 110)
+                                .background(Color.col)
+                                .glass(
+                                    shadowOpacity: 0.1,
+                                    shadowRadius: 20
+                                )
                         } else {
                             Text("No content")
                                 .font(.headline)
@@ -75,8 +74,7 @@ struct RandomNoteView: View {
                 Spacer()
             
             }
-            .popoverTip(archiveTip)
-                .padding()
+    
         }
         .padding()
         .frame(width: 140, height: 110)
@@ -105,7 +103,6 @@ struct RandomNoteView: View {
         }
     }
 }
-
 
 #Preview {
     RandomNoteView()

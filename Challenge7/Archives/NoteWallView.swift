@@ -7,15 +7,17 @@
 
 import SwiftData
 import SwiftUI
+import TipKit
 
 struct NotesWallView: View {
     @Query var notes: [Note]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
-    @Environment(\.colorScheme) var colorScheme
     @State private var showingNewNoteSheet = false
 
+
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    let tip = AddToArchiveTip()
 
     var randomNote: Note? {
         notes.randomElement()
@@ -54,10 +56,11 @@ struct NotesWallView: View {
                             .fontWeight(.ultraLight)
                             .padding()
                     }
+                    .popoverTip(tip)
                 }
                 ScrollView {
                     HStack(alignment: .top, spacing: 10) {
-                        // First Column
+        
                         LazyVStack(spacing: 10) {
                             ForEach(
                                 notes.enumerated().filter { $0.offset % 2 == 0 }

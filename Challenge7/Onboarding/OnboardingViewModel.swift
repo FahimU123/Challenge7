@@ -7,25 +7,29 @@
 
 import Foundation
 
-class OnboardingViewModel: ObservableObject {
+final class OnboardingViewModel: ObservableObject {
     @Published var currentIndex: Int = 0
 
     let screens: [OnboardingScreen] = [
         OnboardingScreen(
-            title: "QUITTING GAMBLING ISN’T \n LINEAR.",
+            title: "QUITTING GAMBLING ISN’T LINEAR.",
             subtitle: "SOME DAYS ARE STRONG. SOME ARE NOT."
         ),
         OnboardingScreen(
             title: "YOUR STREAK MIGHT BREAK...",
-            subtitle: "BUT THAT DOESN'T MEAN \n YOU'RE STARTING FROM ZERO."
+            subtitle: "BUT THAT DOESN'T MEAN YOU'RE STARTING FROM ZERO."
+        ),
+        OnboardingScreen(
+            title: "YOU DON'T HAVE TO ANNOUNCE THIS TO ANYONE.",
+            subtitle: "IF YOU FEEL SHAME, YOU CAN HIDE THE APP IN SETTINGS. RECOVERY IS YOURS—PRIVATE IF YOU WANT IT TO BE."
         ),
         OnboardingScreen(
             title: "TRACK YOUR RECOVERY RATIO.",
-            subtitle: "SEE HOW MUCH OF YOUR TIME \n IS ACTUALLY GAMBLE-FREE—DAILY,\n WEEKLY, MONTHLY."
+            subtitle: "SEE HOW MUCH OF YOUR TIME IS ACTUALLY GAMBLE-FREE—WEEKLY, MONTHLY, YEARLY."
         ),
         OnboardingScreen(
-            title: "EVEN IF YOU SLIP,\n YOU CAN STILL SEE GROWTH.",
-            subtitle: "STILL SEE HEALING. STILL BE PROUD."
+            title: "SLIPS REVEAL YOUR TRIGGERS.",
+            subtitle: "WHEN YOU BREAK A STREAK, WE HELP YOU SPOT THE ‘WHY’—AND BUILD STRATEGIES AROUND IT."
         ),
         OnboardingScreen(
             title: "PROGRESS ISN’T ABOUT BEING FLAWLESS.",
@@ -33,7 +37,7 @@ class OnboardingViewModel: ObservableObject {
         ),
         OnboardingScreen(
             title: "WELCOME TO HAVEN.",
-            subtitle: "LET’S WALK YOUR RECOVERY\n  PATH—WHATEVER IT LOOKS LIKE."
+            subtitle: "LET’S WALK YOUR RECOVERY PATH—WHATEVER IT LOOKS LIKE."
         )
     ]
 

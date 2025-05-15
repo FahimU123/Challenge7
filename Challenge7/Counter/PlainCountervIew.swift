@@ -32,9 +32,7 @@ struct PlainCounterView: View {
                 .foregroundColor(.text)
         }
     }
-
 }
-
 
 #Preview {
     PlainCounterView(viewModel: CounterViewModel())

@@ -61,6 +61,7 @@ struct StatCard: View {
             VStack(alignment: .leading) {
                 HStack {
                     Image(systemName: stat.image)
+                        .fontWeight(.bold)
                         .foregroundColor(Color.text)
                         .padding(.horizontal, 5)
                     
@@ -75,12 +76,12 @@ struct StatCard: View {
                 
                 HStack {
                     Text(stat.title)
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.system(size: 12, weight: .bold))
                         .foregroundColor(Color.text)
                         .padding(.leading, 5)
                     
                     Spacer()
-                    
+        
                     Image(systemName: "pencil.circle.fill")
                         .font(.system(size: 17, weight: .medium))
                         .foregroundColor(Color.text)
@@ -102,6 +103,3 @@ struct StatCard: View {
     }
 }
 
-#Preview {
-    StatCardView()
-}

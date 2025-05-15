@@ -38,7 +38,7 @@ struct NoteCardView: View {
                         .frame(minHeight: 100, maxHeight: 224)
 
                     Text(text)
-                        .font(.system(size: 12, design: .monospaced))
+                        .font(.system(size: 12, design: .default))
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.leading)
                         .lineLimit(nil)

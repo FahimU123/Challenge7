@@ -13,13 +13,16 @@ import TipKit
 @main
 struct Challenge7App: App {
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding: Bool = false
+    @StateObject var checkInManager = CheckInDataManager()
 
     var body: some Scene {
         WindowGroup {
             if hasSeenOnboarding {
                 HomeView()
+                    .environmentObject(checkInManager)
             } else {
                 OnboardingView()
+                    .environmentObject(checkInManager)
             }
         }
         .modelContainer(for: Note.self)

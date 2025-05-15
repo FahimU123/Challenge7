@@ -99,7 +99,6 @@ struct OnboardingView: View {
         }
         subtitleTypingWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: workItem)
-    
     }
 }
 
@@ -108,7 +107,6 @@ extension String {
         self[index(startIndex, offsetBy: offset)]
     }
 }
-
 
 #Preview {
     OnboardingView(viewModel: OnboardingViewModel())
