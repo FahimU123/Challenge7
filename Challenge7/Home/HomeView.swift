@@ -164,10 +164,10 @@ struct HomeView: View {
             print("Failed to play enhanced haptics: \(error.localizedDescription)")
         }
     }
-    
 }
 
 #Preview {
     HomeView()
+        .environmentObject(CheckInDataManager())
 }
 
