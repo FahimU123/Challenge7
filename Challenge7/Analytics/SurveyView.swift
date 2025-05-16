@@ -28,8 +28,6 @@ struct SurveyView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Color(.col)
-                .ignoresSafeArea(edges: .all)
 
             LinearGradient(colors: [.mint.opacity(0.3), .blue.opacity(0.3)],
                            startPoint: .topLeading,
@@ -45,11 +43,12 @@ struct SurveyView: View {
                 Button(action: saveCheckIn) {
                     Text("Complete Check-In")
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(.text)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(red: 60/255, green: 60/255, blue: 70/255))
-                        .cornerRadius(10)
+                        .background(Color.col)
+                        .cornerRadius(32)
+                        .shadow(radius: 8)
                         .padding(.top, 20)
                 }
             }
@@ -68,18 +67,17 @@ struct SurveyView: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 24))
-                    .foregroundStyle(.white)
+                    .foregroundColor(.snow)
                     .padding()
-                    .background(Circle().fill(Color.white.opacity(0.1)))
             }
             .padding()
 
             Text(Date.now.formatted(date: .abbreviated, time: .shortened))
                 .font(.caption)
-                .foregroundColor(.white)
+                .foregroundColor(.snow)
                 .padding(.vertical, 6)
                 .padding(.horizontal, 12)
-                .background(Color.white.opacity(0.1))
+                .background(Color.snow.opacity(0.1))
                 .clipShape(Capsule())
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .topTrailing)
@@ -88,30 +86,32 @@ struct SurveyView: View {
 
     var quoteSection: some View {
         Text("Thank you for being honest. Reflecting is the first step toward control. We'll check in again tomorrow.")
-            .foregroundColor(.white)
+            .foregroundColor(.snow)
             .font(.headline)
             .padding(.top, 12)
     }
 
     @ViewBuilder
     func surveySection(title: String, tags: [String]) -> some View {
+        
         VStack(alignment: .leading, spacing: 12) {
-            Divider().background(Color.white)
+            
+            Divider()
 
             Text(title)
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(.snow)
 
             LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(tags, id: \.self) { tag in
                     Text(tag)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                        .background(selectedTags.contains(tag) ? Color.white : Color.clear)
-                        .foregroundColor(selectedTags.contains(tag) ? .black : .white)
+                        .background(selectedTags.contains(tag) ? Color.snow : Color.text)
+                        .foregroundColor(selectedTags.contains(tag) ? Color.text : .snow)
                         .overlay(
                             Capsule()
-                                .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                                .stroke(Color.snow.opacity(0.6), lineWidth: 1)
                         )
                         .font(.system(size: 14))
                         .fontWeight(.medium)
@@ -130,11 +130,11 @@ struct SurveyView: View {
                         Text(tag)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 10)
-                            .background(selectedTags.contains(tag) ? Color.white : Color.clear)
-                            .foregroundColor(selectedTags.contains(tag) ? .black : .white)
+                            .background(selectedTags.contains(tag) ? Color.text : Color.clear)
+                            .foregroundColor(selectedTags.contains(tag) ? .black : .snow)
                             .overlay(
                                 Capsule()
-                                    .stroke(Color.white.opacity(0.6), lineWidth: 1)
+                                    .stroke(Color.snow.opacity(0.6), lineWidth: 1)
                             )
                             .font(.system(size: 14))
                             .fontWeight(.medium)
@@ -170,12 +170,12 @@ struct SurveyView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(Color.white.opacity(0.2))
-                .foregroundColor(.white)
+                .background(Color.snow.opacity(0.2))
+                .foregroundColor(.snow)
                 .clipShape(Capsule())
                 .overlay(
                     Capsule()
-                        .stroke(Color.white.opacity(0.4), lineWidth: 1)
+                        .stroke(Color.snow.opacity(0.4), lineWidth: 1)
                 )
                 .submitLabel(.done)
                 .onAppear {
@@ -187,10 +187,10 @@ struct SurveyView: View {
                 }) {
                     Label("Add your own...", systemImage: "plus")
                         .font(.subheadline)
-                        .foregroundColor(.white)
+                        .foregroundColor(.snow)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                        .background(Color.white.opacity(0.15))
+                        .background(Color.snow.opacity(0.15))
                         .clipShape(Capsule())
                 }
             }
@@ -223,6 +223,8 @@ struct SurveyView: View {
         dismiss()
     }
 }
+
 #Preview {
     SurveyView()
 }
+

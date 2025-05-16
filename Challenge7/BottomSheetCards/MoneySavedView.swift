@@ -41,7 +41,7 @@ struct MoneySavedView: View {
                         .keyboardType(.decimalPad)
                         .onChange(of: customAmount) { _ in
                             selectedAmount = nil
-                        }
+                   }
                 }
 
                 Section {
