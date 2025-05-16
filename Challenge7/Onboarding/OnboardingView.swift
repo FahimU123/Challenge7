@@ -43,27 +43,30 @@ struct OnboardingView: View {
                 }
 
                 Spacer()
-                Button(action: {
-                    if viewModel.isLastScreen {
-                        hasSeenOnboarding = true
-                    } else {
-                        viewModel.next()
-                        let screen = viewModel.screens[viewModel.currentIndex]
-                        typeTitle(screen.title)
-                        typeSubtitle(screen.subtitle ?? "")
-                    }
-                }) {
-                    Text(viewModel.isLastScreen ? "START" : "TAP TO CONTINUE")
+
+                Text(viewModel.isLastScreen ? "START" : "TAP TO CONTINUE")
                         .font(.caption)
                         .padding(.vertical, 12)
                         .padding(.horizontal, 24)
                         .foregroundColor(.text)
                         .background(Color.snow)
-                        .cornerRadius(20)
-                }
-
+                        .cornerRadius(20)                    
             }
+            
+            .contentShape(Rectangle())
+                    .onTapGesture {
+                        if viewModel.isLastScreen {
+                            hasSeenOnboarding = true
+                        } else {
+                            viewModel.next()
+                            let screen = viewModel.screens[viewModel.currentIndex]
+                            typeTitle(screen.title)
+                            typeSubtitle(screen.subtitle ?? "")
+                        }
+                    }
         }
+        
+
         .onAppear {
             let screen = viewModel.screens[viewModel.currentIndex]
             typeTitle(screen.title)
