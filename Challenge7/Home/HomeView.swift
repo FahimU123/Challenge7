@@ -10,7 +10,7 @@ import Lottie
 import AVFoundation
 import CoreHaptics
 import ConfettiSwiftUI
-
+import Vortex
 
 struct HomeView: View {
     @State private var sheetOffset: CGFloat = 300
@@ -31,21 +31,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            Color(.color)
-                .opacity(0.3)
-                .edgesIgnoringSafeArea(.all)
-            
-            RadialGradient(
-                    gradient: Gradient(colors: [
-                        Color.col.opacity(0.0),
-                        Color.accentColor.opacity(0.2)
-                    ]),
-                    center: .center,
-                    startRadius: 50,
-                    endRadius: 300
-                )
-                .blur(radius: 20)
-            
+        
             if showLottieScreen {
                     CelebrationBackground()
                     .confettiCannon(
@@ -71,7 +57,13 @@ struct HomeView: View {
                 }
             } else {
                 if !isExpanded {
-                    StarShowerView()
+
+                    VortexView(createSnow()) {
+                                Circle()
+                                    .fill(.snow)
+                                    .frame(width: 5)
+                                    .tag("circle")
+                            }
                 }
                 
                 VStack {
@@ -109,6 +101,20 @@ struct HomeView: View {
             prepareHaptics()
         }
     }
+    
+    func createSnow() -> VortexSystem {
+            let system = VortexSystem(tags: ["circle"])
+            system.position = [0.5, 0]
+            system.speed = 0.05
+            system.speedVariation = 0.25
+            system.lifespan = 5
+            system.shape = .box(width: 1, height: 0)
+            system.angle = .degrees(180)
+            system.angleRange = .degrees(20)
+            system.size = 0.25
+            system.sizeVariation = 0.5
+            return system
+        }
     
     func triggerEffects() {
         playSpreadingHaptics()

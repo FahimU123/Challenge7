@@ -61,7 +61,6 @@ struct RiskTriggersView: View {
                 .multilineTextAlignment(.center)
         }
         .frame(width: 70, height: 80)
-//        .background(Color.col)
         .glass(
             shadowOpacity: 0.1,
             shadowRadius: 20

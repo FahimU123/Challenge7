@@ -10,6 +10,7 @@ import Lottie
 import AVFoundation
 import SwiftGlass
 import TipKit
+import Liquid
 
 struct CounterView: View {
     @ObservedObject var viewModel: CounterViewModel
@@ -37,7 +38,7 @@ struct CounterView: View {
     
     let checkInTip = CheckInTip()
     
-
+    
     var dailyMessage: String {
         let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: Date()) ?? 0
         return encouragementMessages[dayOfYear % encouragementMessages.count]
@@ -45,27 +46,22 @@ struct CounterView: View {
     
     var body: some View {
         ZStack {
-            Circle()
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.col,
-                            Color.col.opacity(0.6)
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 300, height: 300)
-                .glass(
-                    radius: 150,
-                    color: .clear,
-                    material: .ultraThinMaterial,
-                    gradientOpacity: 0.3,
-                    shadowColor: .col,
-                    shadowRadius: 10
-                )
             
+            Liquid()
+                .frame(width: 370, height: 330)
+                .foregroundColor(.col)
+        
+                .opacity(0.3)
+            
+            Liquid()
+                .frame(width: 350, height: 310)
+                .foregroundColor(.col)
+                .opacity(0.6)
+            
+            Liquid(samples: 5)
+                .frame(width: 320, height: 290)
+                .foregroundColor(.col)
+         
             VStack(spacing: 12) {
                 timeDisplay
                     .popoverTip(checkInTip)
@@ -180,20 +176,20 @@ struct LongPressToActionButton: View {
     var onAction: () -> Void
     var ringColor: Color
     var icon: String
-
+    
     @State private var timerStart = false
     @State private var timeRemaining: CGFloat = 2.0
     @State private var actionPerformed = false
-
+    
     private let activeTime: CGFloat = 2.0
     private let ringSize: CGFloat = 80
     private let lineWidth: CGFloat = 8
-
+    
     let timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
-
+    
     
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-
+    
     var body: some View {
         ZStack {
             IndicatorView(
@@ -202,7 +198,7 @@ struct LongPressToActionButton: View {
                 lineWidth: lineWidth,
                 ringColor: ringColor
             )
-
+            
             Text(icon)
                 .font(.system(size: 20, weight: .semibold))
                 .foregroundColor(.text.opacity(timerStart ? 0.5 : 1.0))
@@ -239,4 +235,10 @@ struct LongPressToActionButton: View {
             }
         }
     }
+}
+
+
+#Preview {
+    CounterView(viewModel: CounterViewModel(), showLottieScreen: .constant(false))
+        .environmentObject(CheckInDataManager())
 }

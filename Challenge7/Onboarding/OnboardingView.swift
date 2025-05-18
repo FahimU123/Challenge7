@@ -6,108 +6,79 @@
 //
 
 import SwiftUI
-import Lottie
+import ConcentricOnboarding
 
 struct OnboardingView: View {
-    @ObservedObject var viewModel = OnboardingViewModel()
     @AppStorage("hasSeenOnboarding") var hasSeenOnboarding: Bool = false
-    @State private var titleText: String = ""
-    @State private var subtitleText: String = ""
-    @State private var titleTypingWorkItem: DispatchWorkItem?
-    @State private var subtitleTypingWorkItem: DispatchWorkItem?
+    let onFinished: () -> Void
 
     var body: some View {
-        ZStack {
-            Color.col
-                .ignoresSafeArea()
-            
-            LottieView(animation: .named("leaves"))
-                    .looping()
-                    .ignoresSafeArea()
+        ConcentricOnboardingView(pageContents: [
+            (AnyView(OnboardingPageView(
+                title: "QUITTING GAMBLING ISN’T LINEAR.",
+                subtitle: "SOME DAYS ARE STRONG. SOME ARE NOT."
+            )), .blue),
 
-            VStack(spacing: 100) {
-                Spacer()
+            (AnyView(OnboardingPageView(
+                title: "YOUR STREAK MIGHT BREAK...",
+                subtitle: "BUT THAT DOESN'T MEAN YOU'RE STARTING FROM ZERO."
+            )), .purple),
 
-                Text(titleText)
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.text)
+            (AnyView(OnboardingPageView(
+                title: "YOU DON'T HAVE TO ANNOUNCE THIS TO ANYONE.",
+                subtitle: "IF YOU FEEL SHAME, YOU CAN HIDE THE APP IN SETTINGS. RECOVERY IS YOURS—PRIVATE IF YOU WANT IT TO BE."
+            )), .indigo),
+
+            (AnyView(OnboardingPageView(
+                title: "TRACK YOUR RECOVERY RATIO.",
+                subtitle: "SEE HOW MUCH OF YOUR TIME IS ACTUALLY GAMBLE-FREE—WEEKLY, MONTHLY, YEARLY."
+            )), .orange),
+
+            (AnyView(OnboardingPageView(
+                title: "SLIPS REVEAL YOUR TRIGGERS.",
+                subtitle: "WHEN YOU BREAK A STREAK, WE HELP YOU SPOT THE ‘WHY’—AND BUILD STRATEGIES AROUND IT."
+            )), .green),
+
+            (AnyView(OnboardingPageView(
+                title: "PROGRESS ISN’T ABOUT BEING FLAWLESS.",
+                subtitle: "IT’S ABOUT SHOWING UP—AGAIN AND AGAIN."
+            )), .red),
+
+            (AnyView(OnboardingPageView(
+                title: "WELCOME TO HAVEN.",
+                subtitle: "LET’S WALK YOUR RECOVERY PATH—WHATEVER IT LOOKS LIKE."
+            )), .black)
+        ])
+        .nextIcon("chevron.right")
+        .didGoToLastPage {
+            onFinished()
+            hasSeenOnboarding = true
+        }
+    }
+}
+
+
+struct OnboardingPageView: View {
+    let title: String
+    let subtitle: String?
+
+    var body: some View {
+        VStack(spacing: 40) {
+            Spacer()
+            Text(title)
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+
+            if let subtitle = subtitle {
+                Text(subtitle)
+                    .font(.title3)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 30)
-
-                if !subtitleText.isEmpty {
-                    Text(subtitleText)
-                        .font(.title3)
-                        .foregroundColor(.text)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 30)
-                }
-
-                Spacer()
-                Button(action: {
-                    if viewModel.isLastScreen {
-                        hasSeenOnboarding = true
-                    } else {
-                        viewModel.next()
-                        let screen = viewModel.screens[viewModel.currentIndex]
-                        typeTitle(screen.title)
-                        typeSubtitle(screen.subtitle ?? "")
-                    }
-                }) {
-                    Text(viewModel.isLastScreen ? "START" : "TAP TO CONTINUE")
-                        .font(.caption)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 24)
-                        .foregroundColor(.text)
-                        .background(Color.snow)
-                        .cornerRadius(20)
-                }
-
+                    .padding(.horizontal)
             }
-        }
-        .onAppear {
-            let screen = viewModel.screens[viewModel.currentIndex]
-            typeTitle(screen.title)
-            typeSubtitle(screen.subtitle ?? "")
+            Spacer()
         }
     }
-
-    func typeTitle(_ fullText: String, at position: Int = 0) {
-        titleTypingWorkItem?.cancel()
-
-        if position == 0 { titleText = "" }
-
-        let workItem = DispatchWorkItem {
-            if position < fullText.count {
-                titleText.append(fullText[position])
-                typeTitle(fullText, at: position + 1)
-            }
-        }
-        titleTypingWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: workItem)
-    }
-
-    func typeSubtitle(_ fullText: String, at position: Int = 0) {
-        subtitleTypingWorkItem?.cancel()
-
-        if position == 0 { subtitleText = "" }
-
-        let workItem = DispatchWorkItem {
-            if position < fullText.count {
-                subtitleText.append(fullText[position])
-                typeSubtitle(fullText, at: position + 1)
-            }
-        }
-        subtitleTypingWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: workItem)
-    }
-}
-
-extension String {
-    subscript(offset: Int) -> Character {
-        self[index(startIndex, offsetBy: offset)]
-    }
-}
-
-#Preview {
-    OnboardingView(viewModel: OnboardingViewModel())
 }

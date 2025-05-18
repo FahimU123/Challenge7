@@ -1,6 +1,15 @@
 {
-  "originHash" : "f4696c1630e4f0ca33022a50fac6efb49b81df27c9bf8e01e301927afdd57dff",
+  "originHash" : "e62cd3c4b3215b5e4ac8ba00662748a6446ec76c1e904ee1ef98f1eb0b324799",
   "pins" : [
+    {
+      "identity" : "concentriconboarding",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ConcentricOnboarding.git",
+      "state" : {
+        "revision" : "a8e51cd46e3a32839c3a7fac4142e8af38d61875",
+        "version" : "1.1.1"
+      }
+    },
     {
       "identity" : "confettiswiftui",
       "kind" : "remoteSourceControl",
@@ -8,6 +17,15 @@
       "state" : {
         "revision" : "79666d42b882bf7921b1941fa7c636d681d77980",
         "version" : "2.0.3"
+      }
+    },
+    {
+      "identity" : "liquid",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maustinstar/liquid.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "067aecd19425b3d37d1bca176aca9a0dc5ff6ed0"
       }
     },
     {
@@ -26,6 +44,15 @@
       "state" : {
         "revision" : "85ebac895eec35925c0821c93a83f22d796eeb8a",
         "version" : "1.8.0"
+      }
+    },
+    {
+      "identity" : "vortex",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/twostraws/Vortex.git",
+      "state" : {
+        "revision" : "26e036c4f04efcc019c95d43bfeffeaefbef3c99",
+        "version" : "1.0.3"
       }
     }
   ],
