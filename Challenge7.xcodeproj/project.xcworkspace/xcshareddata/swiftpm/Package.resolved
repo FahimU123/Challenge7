@@ -1,6 +1,15 @@
 {
-  "originHash" : "e62cd3c4b3215b5e4ac8ba00662748a6446ec76c1e904ee1ef98f1eb0b324799",
+  "originHash" : "9dd7c90f80912972e8c88316642594d4440dafbc4630bc80d5d05a9c71509b78",
   "pins" : [
+    {
+      "identity" : "anchoredpopup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/AnchoredPopup.git",
+      "state" : {
+        "revision" : "787f27027d3ef38c01469d228ce062ab4d5645f5",
+        "version" : "1.0.6"
+      }
+    },
     {
       "identity" : "concentriconboarding",
       "kind" : "remoteSourceControl",
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "047aa81b77adcbf583a966dfef620d17650cc656",
         "version" : "4.5.1"
+      }
+    },
+    {
+      "identity" : "mediapicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/MediaPicker",
+      "state" : {
+        "revision" : "c287ee410e5d9e9d642ed9c715042830f174a1d6",
+        "version" : "3.1.4"
       }
     },
     {

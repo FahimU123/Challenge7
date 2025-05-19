@@ -9,6 +9,7 @@ import SwiftUI
 import PhotosUI
 import SwiftData
 import AVKit
+import ExyteMediaPicker
 
 struct AddNoteView: View {
     @Environment(\.dismiss) var dismiss
@@ -21,6 +22,8 @@ struct AddNoteView: View {
     
     @State private var showImagePicker = false
     @State private var showVideoPicker = false
+    @State private var showDefaultMediaPicker = false
+    @State private var medias: [Media] = []
     
     var body: some View {
         NavigationView {
@@ -73,7 +76,6 @@ struct AddNoteView: View {
                             .background(Color.black)
                             .foregroundStyle(.white)
                             .cornerRadius(10)
-                        //                        )
                     }
                     
                     
@@ -84,6 +86,18 @@ struct AddNoteView: View {
                         showVideoPicker = true
                     } label: {
                         Text("Add Video")
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.black)
+                            .foregroundStyle(.white)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button {
+                        showDefaultMediaPicker = true
+                    } label: {
+                        Text("Add Media")
                             .bold()
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -106,12 +120,18 @@ struct AddNoteView: View {
                 }
             }
             .padding()
-            //            .navigationTitle("Add Note")
-            .sheet(isPresented: $showImagePicker) {
-                PhotoPicker(image: $selectedImage)
+//            .sheet(isPresented: $showImagePicker) {
+//                PhotoPicker(image: $selectedImage)
+//            }
+            
+            .sheet(isPresented: $showDefaultMediaPicker) {
+                MediaPicker(
+                    isPresented: $showDefaultMediaPicker,
+                    onChange: { medias = $0 }
+                )
             }
+            
             .sheet(isPresented: $showVideoPicker) {
-                //                VideoPicker(videoURL: $selectedVideoURL)
                 VideoPicker(videoPath: Binding(
                     get: { selectedVideoURL?.path },
                     set: { newPath in selectedVideoURL = newPath.map { URL(fileURLWithPath: $0) } }
@@ -121,18 +141,49 @@ struct AddNoteView: View {
     }
     
     func saveNote() {
-        guard !noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selectedImage != nil || selectedVideoURL != nil else {
+        guard !noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selectedImage != nil || selectedVideoURL != nil || !medias.isEmpty else {
             return
         }
-        
+
         let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
-        
-        //        let newNote = Note(text: noteText, imageData: imageData, videoURL: selectedVideoURL)
-        let newNote = Note(text: noteText, imageData: imageData, videoPath: selectedVideoURL?.path)
-        modelContext.insert(newNote)
-        
-        
-        dismiss()
+        if imageData != nil || selectedVideoURL != nil || !noteText.isEmpty {
+            let newNote = Note(text: noteText, imageData: imageData, videoPath: selectedVideoURL?.path)
+            modelContext.insert(newNote)
+        }
+
+        Task {
+            for media in medias {
+                do {
+                    switch media.type {
+                    case .image:
+                        if let imageData = try await media.getData() {
+                            let newNote = Note(text: "", imageData: imageData, videoPath: nil)
+                            modelContext.insert(newNote)
+                        }
+                    case .video:
+                        let originalURL = try await media.getURL()
+                        let fileManager = FileManager.default
+                        let docsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                        guard let unwrappedURL = originalURL else { continue }
+                        let newURL = docsURL.appendingPathComponent(unwrappedURL.lastPathComponent)
+
+                        do {
+                            if !fileManager.fileExists(atPath: newURL.path) {
+                                try fileManager.copyItem(at: unwrappedURL, to: newURL)
+                            }
+                            let newNote = Note(text: "", imageData: nil, videoPath: newURL.path)
+                            modelContext.insert(newNote)
+                        } catch {
+                            print("Error copying video file: \(error)")
+                        }
+                    }
+                } catch {
+                    print("Error copying video file: \(error)")
+                }
+            }
+
+            dismiss()
+        }
     }
     
     func generateThumbnail(for url: URL) -> UIImage? {
