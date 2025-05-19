@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftGlass
 
 struct SurveyView: View {
     @Environment(\.dismiss) var dismiss
@@ -28,13 +29,8 @@ struct SurveyView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-
-            LinearGradient(colors: [.mint.opacity(0.3), .blue.opacity(0.3)],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-            .blendMode(.overlay)
-            .ignoresSafeArea()
-
+            
+        
             VStack(alignment: .leading, spacing: 24) {
                 quoteSection
                 ForEach(tagGroups, id: \.title) { group in
@@ -44,12 +40,12 @@ struct SurveyView: View {
                     Text("Complete Check-In")
                         .font(.headline)
                         .foregroundColor(.text)
-                        .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.col)
-                        .cornerRadius(32)
-                        .shadow(radius: 8)
-                        .padding(.top, 20)
+                        .frame(maxWidth: 300)
+                        .background(Color.snow)
+                        .cornerRadius(20)
+                        .shadow(radius: 5)
+                        .padding(.leading, 35)
                 }
             }
             .padding()
@@ -90,7 +86,7 @@ struct SurveyView: View {
             .font(.headline)
             .padding(.top, 12)
     }
-
+      
     @ViewBuilder
     func surveySection(title: String, tags: [String]) -> some View {
         
@@ -195,6 +191,7 @@ struct SurveyView: View {
                 }
             }
         }
+        .glass()
     }
     func saveCheckIn() {
         // Combine default + user tags per group
