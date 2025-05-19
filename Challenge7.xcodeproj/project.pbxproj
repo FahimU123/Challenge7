@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1ED5C6972DDBAAE7006CCE22 /* ExyteMediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 1ED5C6962DDBAAE7006CCE22 /* ExyteMediaPicker */; };
+		1ED5C69F2DDBF344006CCE22 /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = 1ED5C69E2DDBF344006CCE22 /* WaterfallGrid */; };
 		DD4048962DDA6DB400C99291 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = DD4048952DDA6DB400C99291 /* Vortex */; };
 		DD4048992DDA708600C99291 /* Liquid in Frameworks */ = {isa = PBXBuildFile; productRef = DD4048982DDA708600C99291 /* Liquid */; };
 		DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */ = {isa = PBXBuildFile; productRef = DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */; };
@@ -64,6 +65,7 @@
 				DDA46A7D2DD35F820083E6A5 /* SwiftGlass in Frameworks */,
 				DDA46A7A2DD35F6C0083E6A5 /* ConfettiSwiftUI in Frameworks */,
 				DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */,
+				1ED5C69F2DDBF344006CCE22 /* WaterfallGrid in Frameworks */,
 				DD4048962DDA6DB400C99291 /* Vortex in Frameworks */,
 				DDA469E42DCE9E2C0083E6A5 /* Lottie in Frameworks */,
 			);
@@ -116,6 +118,7 @@
 				DD4048982DDA708600C99291 /* Liquid */,
 				DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */,
 				1ED5C6962DDBAAE7006CCE22 /* ExyteMediaPicker */,
+				1ED5C69E2DDBF344006CCE22 /* WaterfallGrid */,
 			);
 			productName = Challenge7;
 			productReference = DD55075B2DC93A9500C419DA /* Challenge7.app */;
@@ -153,6 +156,7 @@
 				DD4048972DDA708600C99291 /* XCRemoteSwiftPackageReference "liquid" */,
 				DD40489D2DDA7ABA00C99291 /* XCRemoteSwiftPackageReference "ConcentricOnboarding" */,
 				1ED5C6952DDBAAE6006CCE22 /* XCRemoteSwiftPackageReference "MediaPicker" */,
+				1ED5C69D2DDBF344006CCE22 /* XCRemoteSwiftPackageReference "WaterfallGrid" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD55075C2DC93A9500C419DA /* Products */;
@@ -410,6 +414,14 @@
 				minimumVersion = 3.1.4;
 			};
 		};
+		1ED5C69D2DDBF344006CCE22 /* XCRemoteSwiftPackageReference "WaterfallGrid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paololeonardi/WaterfallGrid";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		DD4048942DDA6DB400C99291 /* XCRemoteSwiftPackageReference "Vortex" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/Vortex.git";
@@ -465,6 +477,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1ED5C6952DDBAAE6006CCE22 /* XCRemoteSwiftPackageReference "MediaPicker" */;
 			productName = ExyteMediaPicker;
+		};
+		1ED5C69E2DDBF344006CCE22 /* WaterfallGrid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1ED5C69D2DDBF344006CCE22 /* XCRemoteSwiftPackageReference "WaterfallGrid" */;
+			productName = WaterfallGrid;
 		};
 		DD4048952DDA6DB400C99291 /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;

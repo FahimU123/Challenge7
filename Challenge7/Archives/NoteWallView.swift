@@ -8,6 +8,7 @@
 import SwiftData
 import SwiftUI
 import TipKit
+import WaterfallGrid
 
 struct NotesWallView: View {
     @Query var notes: [Note]
@@ -16,7 +17,7 @@ struct NotesWallView: View {
     @State private var showingNewNoteSheet = false
 
 
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+//    let columns = [GridItem(.flexible()), GridItem(.flexible())]
     let tip = AddToArchiveTip()
 
     var randomNote: Note? {
@@ -59,43 +60,19 @@ struct NotesWallView: View {
                     .popoverTip(tip)
                 }
                 ScrollView {
-                    HStack(alignment: .top, spacing: 10) {
-        
-                        LazyVStack(spacing: 10) {
-                            ForEach(
-                                notes.enumerated().filter { $0.offset % 2 == 0 }
-                                    .map { $0.element }
-                            ) { note in
-                                NoteCardView(note: note)
-                                    .contextMenu {
-                                        Button(role: .destructive) {
-                                            deleteNote(note)
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    }
+                    WaterfallGrid(notes) { note in
+                        NoteCardView(note: note)
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    deleteNote(note)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
-                        }
-
-                        // Second Column
-                        LazyVStack(spacing: 10) {
-                            ForEach(
-                                notes.enumerated().filter { $0.offset % 2 == 1 }
-                                    .map { $0.element }
-                            ) { note in
-                                NoteCardView(note: note)
-                                    .contextMenu {
-                                        Button(role: .destructive) {
-                                            deleteNote(note)
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    }
-                            }
-                        }
                     }
-                    .padding()
-                }
+                    .gridStyle(columnsInPortrait: 2, columnsInLandscape: 3, spacing: 8, animation: .easeInOut(duration: 0.5))
+                    .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
+                    }
             }
             .sheet(isPresented: $showingNewNoteSheet) {
                 AddNoteView()
