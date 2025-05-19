@@ -97,8 +97,9 @@ struct SurveyView: View {
             Text(title)
                 .font(.headline)
                 .foregroundColor(.snow)
+                .padding(.top, 8)
 
-            LazyVGrid(columns: columns, spacing: 8) {
+            LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(tags, id: \.self) { tag in
                     Text(tag)
                         .padding(.horizontal, 16)
@@ -126,8 +127,8 @@ struct SurveyView: View {
                         Text(tag)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 10)
-                            .background(selectedTags.contains(tag) ? Color.text : Color.clear)
-                            .foregroundColor(selectedTags.contains(tag) ? .black : .snow)
+                            .background(selectedTags.contains(tag) ? Color.snow : Color.text)
+                            .foregroundColor(selectedTags.contains(tag) ? Color.text : .snow)
                             .overlay(
                                 Capsule()
                                     .stroke(Color.snow.opacity(0.6), lineWidth: 1)
@@ -191,6 +192,7 @@ struct SurveyView: View {
                 }
             }
         }
+        .padding(.bottom, 12)
         .glass()
     }
     func saveCheckIn() {
@@ -200,9 +202,10 @@ struct SurveyView: View {
             return (group.title, group.tags + userTags)
         })
 
-        let activity = selectedTags.filter { allTags[tagGroups[0].title]?.contains($0) == true }
-        let location = selectedTags.filter { allTags[tagGroups[1].title]?.contains($0) == true }
-        let companions = selectedTags.filter { allTags[tagGroups[2].title]?.contains($0) == true }
+        let selectedTagsArray = Array(selectedTags)
+        let activity = selectedTagsArray.filter { allTags[tagGroups[0].title]?.contains($0) == true }
+        let location = selectedTagsArray.filter { allTags[tagGroups[1].title]?.contains($0) == true }
+        let companions = selectedTagsArray.filter { allTags[tagGroups[2].title]?.contains($0) == true }
 
         guard !activity.isEmpty || !location.isEmpty || !companions.isEmpty else {
             dismiss()
@@ -224,4 +227,3 @@ struct SurveyView: View {
 #Preview {
     SurveyView()
 }
-

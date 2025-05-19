@@ -55,12 +55,19 @@ struct RiskTriggersView: View {
                 .foregroundColor(Color.text)
                 .font(.system(size: 20))
 
-            Text(label)
+            Text(label.uppercased())
                 .font(.caption)
                 .foregroundColor(Color.text)
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
+                .truncationMode(.tail)
+                .padding(.horizontal, 6)
+                .allowsTightening(true)
+                .textCase(.uppercase)
+                .layoutPriority(1)
         }
-        .frame(width: 70, height: 80)
+        .frame(width: 85, height: 95)
         .glass(
             shadowOpacity: 0.1,
             shadowRadius: 20

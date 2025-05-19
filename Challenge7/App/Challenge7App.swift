@@ -18,9 +18,8 @@ struct Challenge7App: App {
         WindowGroup {
             ContentView()
                 .environmentObject(checkInManager)
-                .modelContainer(for: [Note.self, CheckInEntry.self])
         }
-        .modelContainer(for: Note.self)
+        .modelContainer(for: [Note.self, CheckInEntry.self])
     }
 
     init() {
