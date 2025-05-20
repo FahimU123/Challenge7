@@ -1,6 +1,15 @@
 {
-  "originHash" : "32ae9abb7baad600e538acde20e26b8ed9e9842ddc2cec7ae7b2914d23e481fe",
+  "originHash" : "774e61404bf4297e220436801bc5aedfca74e718fc3081f3724ba54edaea05c8",
   "pins" : [
+    {
+      "identity" : "anchoredpopup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/AnchoredPopup.git",
+      "state" : {
+        "revision" : "787f27027d3ef38c01469d228ce062ab4d5645f5",
+        "version" : "1.0.6"
+      }
+    },
     {
       "identity" : "concentriconboarding",
       "kind" : "remoteSourceControl",
@@ -38,6 +47,15 @@
       }
     },
     {
+      "identity" : "mediapicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/MediaPicker.git",
+      "state" : {
+        "revision" : "c287ee410e5d9e9d642ed9c715042830f174a1d6",
+        "version" : "3.1.4"
+      }
+    },
+    {
       "identity" : "swiftglass",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/1998code/SwiftGlass.git",
@@ -53,6 +71,15 @@
       "state" : {
         "revision" : "26e036c4f04efcc019c95d43bfeffeaefbef3c99",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "waterfallgrid",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/paololeonardi/WaterfallGrid.git",
+      "state" : {
+        "revision" : "c7c08652c3540adf8e48409c351879b4caea7e89",
+        "version" : "1.1.0"
       }
     }
   ],
