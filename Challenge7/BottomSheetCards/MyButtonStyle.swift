@@ -14,7 +14,7 @@ struct MyButtonStyle: ButtonStyle {
                 Capsule()
                     .foregroundColor(configuration.isPressed ? Color.primary.opacity(0.7) : Color.primary)
             )
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .scaleEffect(configuration.isPressed ? 0.95 : 3.0)
             .animation(.spring(), value: configuration.isPressed)
     }
 }
