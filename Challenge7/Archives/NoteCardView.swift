@@ -42,7 +42,6 @@ struct NoteCardView: View {
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.leading)
                         .lineLimit(nil)
-//                        .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: 155, maxHeight: 210, alignment: .leading)
                         .padding()
                 }
