@@ -11,7 +11,8 @@ import TipKit
 import WaterfallGrid
 
 struct NotesWallView: View {
-    @Query var notes: [Note]
+    //    @Query var notes: [Note]
+    @Query(sort: \Note.createdAt, order: .reverse) var notes: [Note]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     @State private var showingNewNoteSheet = false
