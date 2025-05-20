@@ -16,9 +16,10 @@ struct NotesWallView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     @State private var showingNewNoteSheet = false
+    @State private var selectionMode = false
+    @State private var selectedNotes: Set<Note> = []
 
 
-//    let columns = [GridItem(.flexible()), GridItem(.flexible())]
     let tip = AddToArchiveTip()
 
     var randomNote: Note? {
@@ -49,6 +50,7 @@ struct NotesWallView: View {
 
                     Spacer()
 
+                    
                     Button {
                         showingNewNoteSheet = true
                     } label: {
@@ -58,22 +60,72 @@ struct NotesWallView: View {
                             .fontWeight(.ultraLight)
                             .padding()
                     }
-                    .popoverTip(tip)
+                }
+                if selectionMode {
+                    Text("Tap notes to select. Tap trash to delete.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.bottom, 4)
                 }
                 ScrollView {
                     WaterfallGrid(notes) { note in
-                        NoteCardView(note: note)
-                            .contextMenu {
-                                Button(role: .destructive) {
-                                    deleteNote(note)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+                        ZStack(alignment: .topLeading) {
+                            NoteCardView(note: note)
+                                .allowsHitTesting(!selectionMode)
+                            if selectionMode {
+                                Image(systemName: selectedNotes.contains(note) ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(selectedNotes.contains(note) ? .blue : .gray)
+                                    .font(.title2)
+                                    .padding(8)
+                            }
+                        }
+                        .onTapGesture {
+                            if selectionMode {
+                                if selectedNotes.contains(note) {
+                                    selectedNotes.remove(note)
+                                } else {
+                                    selectedNotes.insert(note)
                                 }
                             }
+                        }
+                        .onLongPressGesture {
+                            if !selectionMode {
+                                selectionMode = true
+                            }
+                            if selectedNotes.contains(note) {
+                                selectedNotes.remove(note)
+                            } else {
+                                selectedNotes.insert(note)
+                            }
+                        }
                     }
                     .gridStyle(columnsInPortrait: 2, columnsInLandscape: 3, spacing: 8, animation: .easeInOut(duration: 0.5))
                     .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
                     }
+                HStack {
+                    if selectionMode {
+                        Button {
+                            selectionMode = false
+                            selectedNotes.removeAll()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(Color.green)
+                                .font(.system(size: 35))
+                        }
+                        
+                        if !selectedNotes.isEmpty {
+                            Button(role: .destructive) {
+                                deleteSelectedNotes()
+                            } label: {
+                                Image(systemName: "trash")
+                                    .foregroundStyle(Color.red)
+                                    .font(.system(size: 24))
+                            }
+                            .padding(.trailing)
+                        }
+                    }
+                }
+
             }
             .sheet(isPresented: $showingNewNoteSheet) {
                 AddNoteView()
@@ -81,9 +133,14 @@ struct NotesWallView: View {
         }
     }
 
-    private func deleteNote(_ note: Note) {
-        modelContext.delete(note)
+
+    private func deleteSelectedNotes() {
+        for note in selectedNotes {
+            modelContext.delete(note)
+        }
         try? modelContext.save()
+        selectedNotes.removeAll()
+        selectionMode = false
     }
 }
 
