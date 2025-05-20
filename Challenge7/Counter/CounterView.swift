@@ -50,7 +50,7 @@ struct CounterView: View {
             Liquid()
                 .frame(width: 370, height: 330)
                 .foregroundColor(.col)
-        
+            
                 .opacity(0.3)
             
             Liquid()
@@ -61,7 +61,7 @@ struct CounterView: View {
             Liquid(samples: 5)
                 .frame(width: 320, height: 290)
                 .foregroundColor(.col)
-         
+            
             VStack(spacing: 12) {
                 timeDisplay
                     .popoverTip(checkInTip)
@@ -145,65 +145,64 @@ struct CounterView: View {
 }
 
 
-struct IndicatorView: View {
-    var progress: CGFloat
-    let ringSize: CGFloat
-    let lineWidth: CGFloat
-    let ringColor: Color
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(
-                    ringColor.opacity(0.5),
-                    style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
-                )
-                .frame(width: ringSize, height: ringSize)
-            
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(
-                    ringColor,
-                    style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
-                )
-                .frame(width: ringSize, height: ringSize)
-        }
-        .rotationEffect(.degrees(-90))
-    }
-}
 struct LongPressToActionButton: View {
     var viewModel: CounterViewModel
     var onAction: () -> Void
     var ringColor: Color
     var icon: String
-    
     @State private var timerStart = false
     @State private var timeRemaining: CGFloat = 2.0
     @State private var actionPerformed = false
-    
     private let activeTime: CGFloat = 2.0
     private let ringSize: CGFloat = 80
-    private let lineWidth: CGFloat = 8
-    
     let timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
-    
-    
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
         ZStack {
-            IndicatorView(
-                progress: (activeTime - timeRemaining) / activeTime,
-                ringSize: ringSize,
-                lineWidth: lineWidth,
-                ringColor: ringColor
-            )
+            let progress = 1.0 - timeRemaining / activeTime
             
-            Text(icon)
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.text.opacity(timerStart ? 0.5 : 1.0))
+            Circle()
+                .fill(ringColor)
+                .frame(width: ringSize + 20, height: ringSize + 20)
+                .opacity(timerStart ? 0.2 + 0.5 * progress : 0)
+                .scaleEffect(timerStart ? 1.1 + 0.3 * progress : 1.0)
+                .blur(radius: timerStart ? 4 + 16 * progress : 0)
+                .animation(.easeOut(duration: 0.5), value: progress)
+            
+            ZStack {
+                
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: ringSize * 1.1, height: ringSize * 1.1)
+                    .offset(y: 4)
+                
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [ringColor, ringColor.opacity(0.9)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                    )
+                    .shadow(radius: 6)
+                    .frame(width: ringSize, height: ringSize)
+                    .scaleEffect(timerStart ? 0.88 : 1.0)
+                    .shadow(color: ringColor.opacity(timerStart ? 0.6 : 0), radius: timerStart ? 10 : 0)
+                    .animation(.easeInOut(duration: 0.2), value: timerStart)
+                    .overlay(
+                        Text(icon)
+                            .font(.system(size: 22, weight: .heavy))
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.6), radius: 2, x: 1, y: 1)
+                    )
+            }
         }
-        .frame(width: ringSize, height: ringSize)
+        .frame(width: ringSize + 20, height: ringSize + 20)
         .gesture(
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in
@@ -236,7 +235,6 @@ struct LongPressToActionButton: View {
         }
     }
 }
-
 
 #Preview {
     CounterView(viewModel: CounterViewModel(), showLottieScreen: .constant(false))

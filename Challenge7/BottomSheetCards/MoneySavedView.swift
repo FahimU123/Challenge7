@@ -10,10 +10,11 @@ import SwiftGlass
 
 struct MoneySavedView: View {
     let presetAmounts: [Double] = [100, 250, 500, 750, 1000]
-    
     @AppStorage("lastSavedAmount") private var lastSavedAmount: Double = 0
     @AppStorage("lastSavedDate") private var lastSavedDate: Double = 0
-    
+    @State private var showAlert = false
+    @FocusState private var customAmountIsFocused: Bool
+
     @State private var selectedAmount: Double?
     @State private var customAmount: String = ""
     @State private var showHome = false
@@ -47,29 +48,49 @@ struct MoneySavedView: View {
                     Section(header: Text("Or enter a custom amount")) {
                         TextField("Custom amount", text: $customAmount)
                             .keyboardType(.decimalPad)
+                            .focused($customAmountIsFocused)
                             .onChange(of: customAmount) { _ in
                                 selectedAmount = nil
                             }
+                            .toolbar {
+                                ToolbarItemGroup(placement: .keyboard) {
+                                    Spacer()
+                                    Button("Done") {
+                                        customAmountIsFocused = false
+                                    }
+                                }
+                            
+
+                            }
                     }
+
                 }
     
                 Button {
                     let finalAmount = calculateInputAmount()
-                    saveWeeklyAmount(finalAmount)
-                    showHome = true
-                    dismiss()
+                    if finalAmount <= 0 {
+                        showAlert = true
+                    } else {
+                        saveWeeklyAmount(finalAmount)
+                        showHome = true
+                        dismiss()
+                    }
                 } label: {
                     Text("CONFIRM")
                         .fontWeight(.bold)
                         .foregroundColor(.text)
                 }
-                .disabled(calculateInputAmount() <= 0)
+                .disabled(false)
                 .padding()
                 .frame(maxWidth: 300)
                 .background(Color.snow)
                 .cornerRadius(20)
                 .shadow(radius: 5)
                 .offset(y: 300)
+                .alert("Please select or enter a valid amount", isPresented: $showAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+
                 .navigationTitle("Money Saved")
             }
         }
@@ -94,3 +115,4 @@ struct MoneySavedView: View {
 #Preview {
     MoneySavedView()
 }
+

@@ -24,12 +24,12 @@ struct PlainCounterView: View {
         VStack {
             Text(String(format: "%02d", value))
                 .font(.system(size: 24, weight: .bold, design: .default))
-                .foregroundColor(.white)
+                .foregroundColor(.snow)
                 .contentTransition(.numericText())
                 .animation(.default, value: value) 
             Text(label)
                 .font(.caption2)
-                .foregroundColor(.white)
+                .foregroundColor(.snow)
         }
     }
 }

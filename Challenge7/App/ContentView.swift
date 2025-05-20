@@ -15,6 +15,7 @@ struct ContentView: View {
         ZStack {
             if showHome {
                 HomeView()
+                    .ignoresSafeArea(.all)
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             } else {
                 OnboardingView(onFinished: {
@@ -34,8 +35,7 @@ struct ContentView: View {
     }
 }
 
-
-
 #Preview {
     ContentView()
+        .environmentObject(CheckInDataManager())
 }

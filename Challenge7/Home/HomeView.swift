@@ -15,14 +15,14 @@ import Vortex
 struct HomeView: View {
     @State private var sheetOffset: CGFloat = 300
     @State private var dragOffset: CGFloat = 100
-    private let expandedOffset: CGFloat = 50
+    private let expandedOffset: CGFloat = 100
     private let collapsedOffset: CGFloat = 400
     @State var trigger: Int = 0
     @State private var sharedViewModel = CounterViewModel()
     @State private var showLottieScreen = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var hapticEngine: CHHapticEngine?
-    @Environment(\.colorScheme) var colorScheme
+    //    @Environment(\.colorScheme) var colorScheme
     @State private var animate = false
     
     private var isExpanded: Bool {
@@ -31,9 +31,8 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-        
             if showLottieScreen {
-                    CelebrationBackground()
+                CelebrationBackground()
                     .confettiCannon(
                         trigger: $trigger,
                         num: 50,
@@ -42,28 +41,27 @@ struct HomeView: View {
                         radius: 200,
                         hapticFeedback: true
                     )
-                    LottieView(animation: LottieAnimation.named("test"))
-                        .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
-                        .frame(width: 300, height: 300)
+                LottieView(animation: LottieAnimation.named("test"))
+                    .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
+                    .frame(width: 300, height: 300)
                 
-                .onAppear {
-                    triggerEffects()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        withAnimation {
-                            showLottieScreen = false
+                    .onAppear {
+                        triggerEffects()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation {
+                                showLottieScreen = false
+                            }
+                            animate = true
                         }
-                        animate = true
                     }
-                }
             } else {
                 if !isExpanded {
-
                     VortexView(createSnow()) {
-                                Circle()
-                                    .fill(.snow)
-                                    .frame(width: 5)
-                                    .tag("circle")
-                            }
+                        Circle()
+                            .fill(.snow)
+                            .frame(width: 5)
+                            .tag("circle")
+                    }
                 }
                 
                 VStack {
@@ -72,6 +70,7 @@ struct HomeView: View {
                             .padding(.top, 60)
                     } else {
                         PlainCounterView(viewModel: sharedViewModel)
+                            .padding(.top, 50)
                     }
                     Spacer()
                 }
@@ -103,18 +102,18 @@ struct HomeView: View {
     }
     
     func createSnow() -> VortexSystem {
-            let system = VortexSystem(tags: ["circle"])
-            system.position = [0.5, 0]
-            system.speed = 0.05
-            system.speedVariation = 0.25
-            system.lifespan = 5
-            system.shape = .box(width: 1, height: 0)
-            system.angle = .degrees(180)
-            system.angleRange = .degrees(20)
-            system.size = 0.25
-            system.sizeVariation = 0.5
-            return system
-        }
+        let system = VortexSystem(tags: ["circle"])
+        system.position = [0.5, 0]
+        system.speed = 0.05
+        system.speedVariation = 0.25
+        system.lifespan = 5
+        system.shape = .box(width: 1, height: 0)
+        system.angle = .degrees(180)
+        system.angleRange = .degrees(20)
+        system.size = 0.25
+        system.sizeVariation = 0.5
+        return system
+    }
     
     func triggerEffects() {
         playSpreadingHaptics()
@@ -176,4 +175,3 @@ struct HomeView: View {
     HomeView()
         .environmentObject(CheckInDataManager())
 }
-
