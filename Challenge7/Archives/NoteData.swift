@@ -14,6 +14,7 @@ class Note: Identifiable {
     var text: String?
     var imageData: Data?
     var videoPath: String?
+    var createdAt: Date = Date()
     
     init(text: String?, imageData: Data?, videoPath: String?) {
         self.id = UUID()

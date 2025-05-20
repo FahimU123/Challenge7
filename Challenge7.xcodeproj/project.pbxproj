@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1ED5C6F22DDD1C6C006CCE22 /* ExyteMediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 1ED5C6F12DDD1C6C006CCE22 /* ExyteMediaPicker */; };
+		1ED5C6F52DDD1C91006CCE22 /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = 1ED5C6F42DDD1C91006CCE22 /* WaterfallGrid */; };
 		DD4048962DDA6DB400C99291 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = DD4048952DDA6DB400C99291 /* Vortex */; };
 		DD4048992DDA708600C99291 /* Liquid in Frameworks */ = {isa = PBXBuildFile; productRef = DD4048982DDA708600C99291 /* Liquid */; };
 		DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */ = {isa = PBXBuildFile; productRef = DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */; };
@@ -45,10 +47,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ED5C6F22DDD1C6C006CCE22 /* ExyteMediaPicker in Frameworks */,
 				DD4048992DDA708600C99291 /* Liquid in Frameworks */,
 				DDA46A7D2DD35F820083E6A5 /* SwiftGlass in Frameworks */,
 				DDA46A7A2DD35F6C0083E6A5 /* ConfettiSwiftUI in Frameworks */,
 				DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */,
+				1ED5C6F52DDD1C91006CCE22 /* WaterfallGrid in Frameworks */,
 				DD4048962DDA6DB400C99291 /* Vortex in Frameworks */,
 				DDA469E42DCE9E2C0083E6A5 /* Lottie in Frameworks */,
 			);
@@ -100,6 +104,8 @@
 				DD4048952DDA6DB400C99291 /* Vortex */,
 				DD4048982DDA708600C99291 /* Liquid */,
 				DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */,
+				1ED5C6F12DDD1C6C006CCE22 /* ExyteMediaPicker */,
+				1ED5C6F42DDD1C91006CCE22 /* WaterfallGrid */,
 			);
 			productName = Challenge7;
 			productReference = DD55075B2DC93A9500C419DA /* Challenge7.app */;
@@ -136,6 +142,8 @@
 				DD4048942DDA6DB400C99291 /* XCRemoteSwiftPackageReference "Vortex" */,
 				DD4048972DDA708600C99291 /* XCRemoteSwiftPackageReference "liquid" */,
 				DD40489D2DDA7ABA00C99291 /* XCRemoteSwiftPackageReference "ConcentricOnboarding" */,
+				1ED5C6F02DDD1C6C006CCE22 /* XCRemoteSwiftPackageReference "MediaPicker" */,
+				1ED5C6F32DDD1C91006CCE22 /* XCRemoteSwiftPackageReference "WaterfallGrid" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD55075C2DC93A9500C419DA /* Products */;
@@ -296,9 +304,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SD28Q5JP86;
+				DEVELOPMENT_TEAM = 22PRLCDTWD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access to let you take photos or videos.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need microphone access for video recording.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need photo library access to let you choose existing media.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -328,9 +339,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SD28Q5JP86;
+				DEVELOPMENT_TEAM = 22PRLCDTWD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access to let you take photos or videos.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need microphone access for video recording.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need photo library access to let you choose existing media.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -377,6 +391,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1ED5C6F02DDD1C6C006CCE22 /* XCRemoteSwiftPackageReference "MediaPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/MediaPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.4;
+			};
+		};
+		1ED5C6F32DDD1C91006CCE22 /* XCRemoteSwiftPackageReference "WaterfallGrid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/paololeonardi/WaterfallGrid";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		DD4048942DDA6DB400C99291 /* XCRemoteSwiftPackageReference "Vortex" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/Vortex.git";
@@ -428,6 +458,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1ED5C6F12DDD1C6C006CCE22 /* ExyteMediaPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1ED5C6F02DDD1C6C006CCE22 /* XCRemoteSwiftPackageReference "MediaPicker" */;
+			productName = ExyteMediaPicker;
+		};
+		1ED5C6F42DDD1C91006CCE22 /* WaterfallGrid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1ED5C6F32DDD1C91006CCE22 /* XCRemoteSwiftPackageReference "WaterfallGrid" */;
+			productName = WaterfallGrid;
+		};
 		DD4048952DDA6DB400C99291 /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DD4048942DDA6DB400C99291 /* XCRemoteSwiftPackageReference "Vortex" */;
