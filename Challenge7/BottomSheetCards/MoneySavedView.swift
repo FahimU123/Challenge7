@@ -79,10 +79,10 @@ struct MoneySavedView: View {
                     Text("CONFIRM")
                         .fontWeight(.bold)
                         .foregroundColor(.text)
+                        .frame(maxWidth: 300)
                 }
                 .disabled(false)
                 .padding()
-                .frame(maxWidth: 300)
                 .background(Color.snow)
                 .cornerRadius(20)
                 .shadow(radius: 5)
