@@ -34,9 +34,22 @@
 		DD55075B2DC93A9500C419DA /* Challenge7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Challenge7.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DD404A3D2DDD4D3300C99291 /* Exceptions for "Challenge7" folder in "Challenge7" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DD55075A2DC93A9500C419DA /* Challenge7 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DD55075D2DC93A9500C419DA /* Challenge7 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD404A3D2DDD4D3300C99291 /* Exceptions for "Challenge7" folder in "Challenge7" target */,
+			);
 			path = Challenge7;
 			sourceTree = "<group>";
 		};
@@ -307,6 +320,9 @@
 				DEVELOPMENT_TEAM = SD28Q5JP86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Challenge7/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = idejbvyh;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = need;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -339,6 +355,9 @@
 				DEVELOPMENT_TEAM = SD28Q5JP86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Challenge7/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = idejbvyh;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = need;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
