@@ -11,6 +11,11 @@ import AVKit
 struct NoteCardView: View {
     let note: Note
     
+    private var persistentColor: Color {
+        let colors: [Color] = [.col, .cardColor1, .cardColor2, .cardColor3]
+        return colors.indices.contains(note.colorID) ? colors[note.colorID] : .gray
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
@@ -33,7 +38,7 @@ struct NoteCardView: View {
             if let text = note.text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 15)
-                        .fill(Color(.systemGray5))
+                        .fill(persistentColor)
                         .frame(width: 175)
                         .frame(minHeight: 100, maxHeight: 224)
 
