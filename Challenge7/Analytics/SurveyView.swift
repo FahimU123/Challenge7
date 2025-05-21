@@ -16,6 +16,8 @@ struct SurveyView: View {
     @State private var userTagsPerGroup: [String: [String]] = [:]
     @State private var showInputForGroup: String? = nil
     @FocusState private var focusedGroup: String?
+    @State private var showValidationError: Bool = false
+    @State private var showAlert = false
 
     private let userTagsKey = "userTagsPerGroup"
 
@@ -77,6 +79,9 @@ struct SurveyView: View {
                 .clipShape(Capsule())
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .topTrailing)
+        }
+        .alert("Please answer all questions", isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
         }
     }
 
@@ -207,8 +212,8 @@ struct SurveyView: View {
         let location = selectedTagsArray.filter { allTags[tagGroups[1].title]?.contains($0) == true }
         let companions = selectedTagsArray.filter { allTags[tagGroups[2].title]?.contains($0) == true }
 
-        guard !activity.isEmpty || !location.isEmpty || !companions.isEmpty else {
-            dismiss()
+        if activity.isEmpty || location.isEmpty || companions.isEmpty {
+            showAlert = true
             return
         }
 
