@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftGlass
 
 struct SurveyView: View {
     @Environment(\.dismiss) var dismiss
@@ -193,7 +192,7 @@ struct SurveyView: View {
             }
         }
         .padding(.bottom, 12)
-        .glass()
+
     }
     func saveCheckIn() {
         // Combine default + user tags per group

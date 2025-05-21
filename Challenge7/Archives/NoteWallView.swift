@@ -51,6 +51,7 @@ struct NotesWallView: View {
                         .fontWeight(.medium)
                         .bold()
                         .padding(.leading)
+                        .popoverTip(tip)
                     
                     Spacer()
                     

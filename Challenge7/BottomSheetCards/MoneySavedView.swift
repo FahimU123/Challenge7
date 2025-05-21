@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftGlass
 
 struct MoneySavedView: View {
     let presetAmounts: [Double] = [100, 250, 500, 750, 1000]
@@ -14,7 +13,7 @@ struct MoneySavedView: View {
     @AppStorage("lastSavedDate") private var lastSavedDate: Double = 0
     @State private var showAlert = false
     @FocusState private var customAmountIsFocused: Bool
-
+    
     @State private var selectedAmount: Double?
     @State private var customAmount: String = ""
     @State private var showHome = false
@@ -59,13 +58,10 @@ struct MoneySavedView: View {
                                         customAmountIsFocused = false
                                     }
                                 }
-                            
-
-                            }
+                        }
                     }
-
                 }
-    
+                
                 Button {
                     let finalAmount = calculateInputAmount()
                     if finalAmount <= 0 {
@@ -81,7 +77,6 @@ struct MoneySavedView: View {
                         .foregroundColor(.text)
                         .frame(maxWidth: 300)
                 }
-                .disabled(false)
                 .padding()
                 .background(Color.snow)
                 .cornerRadius(20)
@@ -90,12 +85,11 @@ struct MoneySavedView: View {
                 .alert("Please select or enter a valid amount", isPresented: $showAlert) {
                     Button("OK", role: .cancel) { }
                 }
-
                 .navigationTitle("Money Saved")
             }
         }
     }
-
+    
     private func calculateInputAmount() -> Double {
         if let selected = selectedAmount {
             return selected
@@ -104,7 +98,7 @@ struct MoneySavedView: View {
         }
         return 0
     }
-
+    
     private func saveWeeklyAmount(_ amount: Double) {
         lastSavedAmount = amount
         lastSavedDate = Date().timeIntervalSince1970

@@ -36,7 +36,7 @@ struct CounterView: View {
         "SEE YOU TOMORROW, LEGEND. 🌟"
     ]
     
-    let checkInTip = CheckInTip()
+    let theTip = CheckInTip()
     
     
     var dailyMessage: String {
@@ -61,10 +61,10 @@ struct CounterView: View {
             Liquid(samples: 5)
                 .frame(width: 320, height: 290)
                 .foregroundColor(.col)
+                .popoverTip(theTip)
             
             VStack(spacing: 12) {
                 timeDisplay
-                    .popoverTip(checkInTip)
                 
                 if !viewModel.checkin {
                     VStack(spacing: 18) {
