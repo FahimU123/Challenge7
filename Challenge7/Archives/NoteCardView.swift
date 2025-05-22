@@ -22,17 +22,17 @@ struct NoteCardView: View {
                     .scaledToFill()
                     .frame(width: 175, height: 224)
                     .clipped()
-                    .cornerRadius(16, corners: [.topLeft, .topRight])
+                    .cornerRadius(32, corners: [.topLeft, .topRight])
             } else if let path = note.videoPath {
                 let url = URL(fileURLWithPath: path)
                 VideoPlayer(player: AVPlayer(url: url))
                         .frame(width: 175, height: 224)
-                        .cornerRadius(25, corners: [.topLeft, .topRight])
+                        .cornerRadius(32, corners: [.topLeft, .topRight])
             }
             
             if let text = note.text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 ZStack(alignment: .topLeading) {
-                    RoundedRectangle(cornerRadius: 15)
+                    RoundedRectangle(cornerRadius: 32)
                         .fill(Color(.systemGray5))
                         .frame(width: 175)
                         .frame(minHeight: 100, maxHeight: 224)
@@ -49,7 +49,7 @@ struct NoteCardView: View {
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 25))
+        .clipShape(RoundedRectangle(cornerRadius: 32))
     }
 }
 

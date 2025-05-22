@@ -87,7 +87,7 @@ struct RecoveryRatioCardView: View {
                         ])
                         .chartLegend(.hidden)
                         .frame(width: 50, height: 70)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .clipShape(RoundedRectangle(cornerRadius: 32))
                         
                         if let percentage = soberPercentage {
                             Text("\(percentage)%")
@@ -105,7 +105,7 @@ struct RecoveryRatioCardView: View {
                     .padding(.leading, 20)
                     .frame(width: 140, height: 110)
                     .background(Color.col)
-                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                    .clipShape(RoundedRectangle(cornerRadius: 32))
                     .glass(shadowOpacity: 0.1, shadowRadius: 20)
                 }
                 .popoverTip(chartTip)

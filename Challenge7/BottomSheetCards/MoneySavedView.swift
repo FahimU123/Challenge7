@@ -79,7 +79,7 @@ struct MoneySavedView: View {
                 }
                 .padding()
                 .background(Color.snow)
-                .cornerRadius(20)
+                .cornerRadius(32)
                 .shadow(radius: 5)
                 .offset(y: 300)
                 .alert("Please select or enter a valid amount", isPresented: $showAlert) {

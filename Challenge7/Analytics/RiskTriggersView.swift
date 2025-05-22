@@ -13,7 +13,7 @@ struct RiskTriggersView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 35) {
                 Text("YOUR RISK TRIGGERS")
                     .font(.headline)
                     .foregroundColor(Color.text)
@@ -28,7 +28,7 @@ struct RiskTriggersView: View {
                         .font(.subheadline)
                         .padding(.top, 8)
                 } else {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 35) {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 25) {
                         triggerCard(icon: "clock", label: entry.timestamp.formatted(date: .omitted, time: .shortened))
 
                         if let what = entry.activityTags.first, !what.isEmpty {
@@ -45,18 +45,21 @@ struct RiskTriggersView: View {
                     }
                 }
             }
-            .padding(8)
+            .padding(24)
             .background(Color.col)
-            .cornerRadius(15)
+            .cornerRadius(32)
         }
         .padding(.horizontal)
+        .frame(width: 370, height: 150)
+        .padding(.top, 110)
     }
+        
 
     func triggerCard(icon: String, label: String) -> some View {
         VStack(spacing: 8) {
             Image(systemName: icon)
                 .foregroundColor(Color.text)
-                .font(.system(size: 48))
+                .font(.system(size: 32))
 
             Text(label.uppercased())
                 .font(.caption)
@@ -70,7 +73,7 @@ struct RiskTriggersView: View {
                 .textCase(.uppercase)
                 .layoutPriority(1)
         }
-        .frame(width: 150, height: 150)
+        .frame(width: 120, height: 100)
         .glass(
             shadowOpacity: 0.1,
             shadowRadius: 20
