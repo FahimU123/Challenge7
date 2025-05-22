@@ -1,5 +1,5 @@
 {
-  "originHash" : "774e61404bf4297e220436801bc5aedfca74e718fc3081f3724ba54edaea05c8",
+  "originHash" : "3bb31409d2fd2bb35b7a1fdc3e3716bdd10c712f6710457c1e68f988dbc59509",
   "pins" : [
     {
       "identity" : "anchoredpopup",
@@ -29,6 +29,15 @@
       }
     },
     {
+      "identity" : "gsplayer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wxxsw/GSPlayer.git",
+      "state" : {
+        "revision" : "bdd5da716d665a398ec09706df39252cf55ef492",
+        "version" : "0.2.28"
+      }
+    },
+    {
       "identity" : "liquid",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/maustinstar/liquid.git",
@@ -49,7 +58,7 @@
     {
       "identity" : "mediapicker",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/MediaPicker.git",
+      "location" : "https://github.com/exyte/MediaPicker",
       "state" : {
         "revision" : "c287ee410e5d9e9d642ed9c715042830f174a1d6",
         "version" : "3.1.4"
@@ -65,6 +74,15 @@
       }
     },
     {
+      "identity" : "videoplayer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wxxsw/VideoPlayer",
+      "state" : {
+        "revision" : "0a271928849292713daf471398a2a9185f28709c",
+        "version" : "1.2.4"
+      }
+    },
+    {
       "identity" : "vortex",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/twostraws/Vortex.git",
@@ -76,7 +94,7 @@
     {
       "identity" : "waterfallgrid",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/paololeonardi/WaterfallGrid.git",
+      "location" : "https://github.com/paololeonardi/WaterfallGrid",
       "state" : {
         "revision" : "c7c08652c3540adf8e48409c351879b4caea7e89",
         "version" : "1.1.0"

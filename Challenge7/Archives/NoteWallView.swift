@@ -12,7 +12,6 @@ import WaterfallGrid
 import ExyteMediaPicker
 
 struct NotesWallView: View {
-    //    @Query var notes: [Note]
     @Query(sort: \Note.createdAt, order: .reverse) var notes: [Note]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
@@ -21,8 +20,6 @@ struct NotesWallView: View {
     @State private var selectedNotes: Set<Note> = []
     @State private var showCustomizedMediaPicker = false
     @State private var pendingMediaItems: [Media] = []
-    //    @State private var medias: [Media] = []
-    
     
     let tip = AddToArchiveTip()
     
@@ -212,7 +209,6 @@ struct NotesWallView: View {
         try? modelContext.save()
     }
 }
-// Removed static previewContainer and #Preview from inside the struct to avoid circular reference
 
 let previewContainer: ModelContainer = {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)

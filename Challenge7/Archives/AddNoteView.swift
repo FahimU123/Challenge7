@@ -14,13 +14,7 @@ import ExyteMediaPicker
 struct AddNoteView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
-    
     @State private var noteText: String = ""
-    @FocusState private var isFocused: Bool
-    @State private var selectedImage: UIImage?
-    @State private var selectedVideoURL: URL?
-    
-    @State private var medias: [Media] = []
     
     var body: some View {
         NavigationView {
@@ -29,14 +23,9 @@ struct AddNoteView: View {
                     .font(.system(size: 36, weight: .medium, design: .default))
                     .fontWidth(.condensed)
                     .fontWeight(.medium)
-                // When New Note is tapped the keyboard then dismisses
-                    .onTapGesture {
-                        isFocused = false
-                    }
-                
+
                 TextEditor(text: $noteText)
                     .frame(height: 150)
-                    .focused($isFocused)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.black)
@@ -59,18 +48,13 @@ struct AddNoteView: View {
     }
     
     func saveNote() {
-        guard !noteText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selectedImage != nil || selectedVideoURL != nil || !medias.isEmpty else {
-            return
-            
-        }
-
-        let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
-        if imageData != nil || selectedVideoURL != nil || !noteText.isEmpty {
-            let newNote = Note(text: noteText, imageData: imageData, videoPath: selectedVideoURL?.path)
-            modelContext.insert(newNote)
-        }
-
-            dismiss()
+        let trimmedText = noteText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedText.isEmpty else { return }
+        
+        let newNote = Note(text: trimmedText, imageData: nil, videoPath: nil)
+        modelContext.insert(newNote)
+        
+        dismiss()
     }
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1ED5C7E42DDFB8AC006CCE22 /* VideoPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 1ED5C7E32DDFB8AC006CCE22 /* VideoPlayer */; };
 		DD4048962DDA6DB400C99291 /* Vortex in Frameworks */ = {isa = PBXBuildFile; productRef = DD4048952DDA6DB400C99291 /* Vortex */; };
 		DD4048992DDA708600C99291 /* Liquid in Frameworks */ = {isa = PBXBuildFile; productRef = DD4048982DDA708600C99291 /* Liquid */; };
 		DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */ = {isa = PBXBuildFile; productRef = DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */; };
@@ -67,6 +68,7 @@
 				DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */,
 				DD404A3B2DDD4B8400C99291 /* WaterfallGrid in Frameworks */,
 				DD4048962DDA6DB400C99291 /* Vortex in Frameworks */,
+				1ED5C7E42DDFB8AC006CCE22 /* VideoPlayer in Frameworks */,
 				DDA469E42DCE9E2C0083E6A5 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +121,7 @@
 				DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */,
 				DD404A372DDD4B6900C99291 /* ExyteMediaPicker */,
 				DD404A3A2DDD4B8400C99291 /* WaterfallGrid */,
+				1ED5C7E32DDFB8AC006CCE22 /* VideoPlayer */,
 			);
 			productName = Challenge7;
 			productReference = DD55075B2DC93A9500C419DA /* Challenge7.app */;
@@ -157,6 +160,7 @@
 				DD40489D2DDA7ABA00C99291 /* XCRemoteSwiftPackageReference "ConcentricOnboarding" */,
 				DD404A362DDD4B6900C99291 /* XCRemoteSwiftPackageReference "MediaPicker" */,
 				DD404A392DDD4B8400C99291 /* XCRemoteSwiftPackageReference "WaterfallGrid" */,
+				1ED5C7E22DDFB8AC006CCE22 /* XCRemoteSwiftPackageReference "VideoPlayer" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD55075C2DC93A9500C419DA /* Products */;
@@ -404,6 +408,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1ED5C7E22DDFB8AC006CCE22 /* XCRemoteSwiftPackageReference "VideoPlayer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wxxsw/VideoPlayer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.4;
+			};
+		};
 		DD4048942DDA6DB400C99291 /* XCRemoteSwiftPackageReference "Vortex" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/Vortex.git";
@@ -471,6 +483,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1ED5C7E32DDFB8AC006CCE22 /* VideoPlayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1ED5C7E22DDFB8AC006CCE22 /* XCRemoteSwiftPackageReference "VideoPlayer" */;
+			productName = VideoPlayer;
+		};
 		DD4048952DDA6DB400C99291 /* Vortex */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DD4048942DDA6DB400C99291 /* XCRemoteSwiftPackageReference "Vortex" */;
