@@ -87,6 +87,16 @@ struct TimeSavedView: View {
                     Button("OK", role: .cancel) { }
                 }
                 .navigationTitle("Time Saved")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
             }
         }
     }

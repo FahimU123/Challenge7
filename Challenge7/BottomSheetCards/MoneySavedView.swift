@@ -86,6 +86,16 @@ struct MoneySavedView: View {
                     Button("OK", role: .cancel) { }
                 }
                 .navigationTitle("Money Saved")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                }
             }
         }
     }
@@ -109,4 +119,3 @@ struct MoneySavedView: View {
 #Preview {
     MoneySavedView()
 }
-
