@@ -33,7 +33,6 @@ struct SurveyView: View {
             
         
             VStack(alignment: .leading, spacing: 24) {
-                quoteSection
                 ForEach(tagGroups, id: \.title) { group in
                     surveySection(title: group.title, tags: group.tags)
                 }
@@ -82,13 +81,6 @@ struct SurveyView: View {
         .alert("Please answer all questions", isPresented: $showAlert) {
             Button("OK", role: .cancel) { }
         }
-    }
-
-    var quoteSection: some View {
-        Text("Thank you for being honest. Reflecting is the first step toward control. We'll check in again tomorrow.")
-            .foregroundColor(.snow)
-            .font(.headline)
-            .padding(.top, 12)
     }
       
     @ViewBuilder
@@ -152,7 +144,7 @@ struct SurveyView: View {
             }
 
             if showInputForGroup == title {
-                TextField("Enter custom tag", text: Binding(
+                TextField("...", text: Binding(
                     get: { customTags[title, default: ""] },
                     set: { customTags[title] = $0 }
                 ))

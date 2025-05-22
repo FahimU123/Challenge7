@@ -63,14 +63,14 @@ struct AddNoteView: View {
             return
             
         }
-
+        
         let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
         if imageData != nil || selectedVideoURL != nil || !noteText.isEmpty {
             let newNote = Note(text: noteText, imageData: imageData, videoPath: selectedVideoURL?.path)
             modelContext.insert(newNote)
         }
-
-            dismiss()
+        
+        dismiss()
     }
 }
 

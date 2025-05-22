@@ -51,7 +51,7 @@ struct RiskTriggersView: View {
         }
         .padding(.horizontal)
         .frame(width: 370, height: 150)
-        .padding(.top, 110)
+        .padding(.top, 100)
     }
         
 
