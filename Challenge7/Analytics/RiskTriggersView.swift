@@ -12,48 +12,51 @@ struct RiskTriggersView: View {
     let entry: CheckInEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("YOUR RISK TRIGGERS")
-                .font(.headline)
-                .foregroundColor(Color.text)
-
-            let hasActivity = !entry.activityTags.isEmpty
-            let hasLocation = !entry.locationTags.isEmpty
-            let hasCompanions = !entry.companionTags.isEmpty
-
-            if !hasActivity && !hasLocation && !hasCompanions {
-                Text("You currently have no risk triggers.")
+        HStack {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("YOUR RISK TRIGGERS")
+                    .font(.headline)
                     .foregroundColor(Color.text)
-                    .font(.subheadline)
-                    .padding(.top, 8)
-            } else {
-                HStack(spacing: 12) {
-                    triggerCard(icon: "clock", label: entry.timestamp.formatted(date: .omitted, time: .shortened))
 
-                    if let what = entry.activityTags.first, !what.isEmpty {
-                        triggerCard(icon: "person", label: what.uppercased())
-                    }
+                let hasActivity = !entry.activityTags.isEmpty
+                let hasLocation = !entry.locationTags.isEmpty
+                let hasCompanions = !entry.companionTags.isEmpty
 
-                    if let whereTag = entry.locationTags.first, !whereTag.isEmpty {
-                        triggerCard(icon: "location", label: whereTag.uppercased())
-                    }
+                if !hasActivity && !hasLocation && !hasCompanions {
+                    Text("You currently have no risk triggers.")
+                        .foregroundColor(Color.text)
+                        .font(.subheadline)
+                        .padding(.top, 8)
+                } else {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 35) {
+                        triggerCard(icon: "clock", label: entry.timestamp.formatted(date: .omitted, time: .shortened))
 
-                    if let who = entry.companionTags.first, !who.isEmpty {
-                        triggerCard(icon: "person.3", label: who.uppercased())
+                        if let what = entry.activityTags.first, !what.isEmpty {
+                            triggerCard(icon: "person", label: what.uppercased())
+                        }
+
+                        if let whereTag = entry.locationTags.first, !whereTag.isEmpty {
+                            triggerCard(icon: "location", label: whereTag.uppercased())
+                        }
+
+                        if let who = entry.companionTags.first, !who.isEmpty {
+                            triggerCard(icon: "person.3", label: who.uppercased())
+                        }
                     }
                 }
             }
+            .padding(8)
+            .background(Color.col)
+            .cornerRadius(15)
         }
-        .padding()
-        .background(Color.col)
-        .cornerRadius(20)
+        .padding(.horizontal)
     }
 
     func triggerCard(icon: String, label: String) -> some View {
         VStack(spacing: 8) {
             Image(systemName: icon)
                 .foregroundColor(Color.text)
-                .font(.system(size: 20))
+                .font(.system(size: 48))
 
             Text(label.uppercased())
                 .font(.caption)
@@ -67,7 +70,7 @@ struct RiskTriggersView: View {
                 .textCase(.uppercase)
                 .layoutPriority(1)
         }
-        .frame(width: 85, height: 95)
+        .frame(width: 150, height: 150)
         .glass(
             shadowOpacity: 0.1,
             shadowRadius: 20
