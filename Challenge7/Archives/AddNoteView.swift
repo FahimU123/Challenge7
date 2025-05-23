@@ -27,7 +27,7 @@ struct AddNoteView: View {
                 TextEditor(text: $noteText)
                     .frame(height: 150)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: 32)
                             .stroke(Color.black)
                             .opacity(0.5)
                     )
@@ -39,7 +39,7 @@ struct AddNoteView: View {
                         .padding()
                         .background(Color.black)
                         .foregroundStyle(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(32)
                 }
                 Spacer()
             }

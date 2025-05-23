@@ -35,7 +35,7 @@ struct NotesWallView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .foregroundStyle(Color.primary)
+                            .foregroundStyle(Color.snow)
                             .font(.title)
                     }
                     .padding(.leading)
@@ -44,10 +44,8 @@ struct NotesWallView: View {
                         .font(
                             .system(size: 24, weight: .medium, design: .default)
                         )
-                        .fontWidth(.condensed)
-                        .fontWeight(.medium)
-                        .bold()
                         .padding(.leading)
+                        .popoverTip(tip)
                     
                     Spacer()
                     
@@ -66,7 +64,7 @@ struct NotesWallView: View {
                         }
                     } label: {
                         Image(systemName: "plus.circle.fill")
-                            .foregroundStyle(Color.primary)
+                            .foregroundStyle(Color.snow)
                             .font(.system(size: 35))
                             .fontWeight(.ultraLight)
                             .padding()

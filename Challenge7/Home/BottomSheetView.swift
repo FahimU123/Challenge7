@@ -46,27 +46,25 @@ struct BottomSheetView: View {
                             RecoveryRatioView(dataManager: checkInManager)
                         }
                     }
-                        Group {
+                     
                             if let recentEntry = checkIns.first {
                                 RiskTriggersView(entry: recentEntry)
                                     .padding(.horizontal)
                             } else {
-                                VStack(alignment: .leading, spacing: 16) {
-                                    Text("YOUR RISK TRIGGERS")
+                                VStack {
+
+                                    Text("Check in for more in depth insights")
                                         .font(.headline)
                                         .foregroundColor(Color.text)
-
-                                    Text("You currently have no risk triggers.")
-                                        .font(.subheadline)
-                                        .foregroundColor(Color.text)
-                                        .padding(.top, 8)
+                                        
                                 }
                                 .padding()
+                                .frame(width: 350, height: 100)
                                 .background(Color.col)
-                                .cornerRadius(20)
+                                .cornerRadius(32)
                                 .glass(shadowOpacity: 0.1, shadowRadius: 20)
                                 .padding(.horizontal)
-                            }
+                    
                         }
 
                     
@@ -78,7 +76,7 @@ struct BottomSheetView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .glass()
         .opacity(0.8)
-        .cornerRadius(isExpanded ? 5 : 16)
+        .cornerRadius(isExpanded ? 16 : 32)
     }
 }
 

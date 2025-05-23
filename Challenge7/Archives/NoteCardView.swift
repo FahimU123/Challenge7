@@ -29,7 +29,7 @@ struct NoteCardView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 175)
-                    .cornerRadius(16, corners: [.topLeft, .topRight])
+                    .cornerRadius(32, corners: [.topLeft, .topRight])
             } else if let path = note.videoPath {
                 let url = URL(fileURLWithPath: path)
                 ResizableAVPlayerCard(url: url, width: 175)
@@ -38,7 +38,7 @@ struct NoteCardView: View {
                       note.imageData == nil,
                       note.videoPath == nil {
                 ZStack(alignment: .topLeading) {
-                    RoundedRectangle(cornerRadius: 15)
+                    RoundedRectangle(cornerRadius: 32)
                         .fill(persistentColor)
                         .frame(width: 175)
                         .frame(minHeight: 100, maxHeight: 224)
@@ -52,8 +52,9 @@ struct NoteCardView: View {
                         .padding()
                 }
                 .fixedSize(horizontal: false, vertical: true)
-            }        }
-        .clipShape(RoundedRectangle(cornerRadius: 25))
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 32))
     }
 }
 

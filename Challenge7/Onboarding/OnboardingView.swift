@@ -32,7 +32,7 @@ struct OnboardingView: View {
                 (AnyView(OnboardingPageView(
                     title: "TRACK YOUR RECOVERY RATIO.",
                     subtitle: "SEE HOW MUCH OF YOUR TIME IS ACTUALLY GAMBLE-FREE—WEEKLY, MONTHLY, YEARLY."
-                )), .white),
+                )), .purple),
 
                 (AnyView(OnboardingPageView(
                     title: "SLIPS REVEAL YOUR TRIGGERS.",
