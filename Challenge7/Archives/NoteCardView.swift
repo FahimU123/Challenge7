@@ -7,33 +7,39 @@
 
 import SwiftUI
 import AVKit
+import UIKit
 
 struct NoteCardView: View {
     let note: Note
+    @State private var play = false
+    
+    private var persistentColor: Color {
+        let colors: [Color] = [.col, .cardColor1, .cardColor2, .cardColor3]
+        return colors.indices.contains(note.colorID) ? colors[note.colorID] : .gray
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            // Image or video
-            
-            if let photo = note.imageData, let image = UIImage(data: photo) {
+            if let photo = note.imageData,
+               (note.text == nil || note.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true),
+               note.videoPath == nil,
+               let image = UIImage(data: photo) {
                 Image(uiImage: image)
                     .resizable()
-                    .scaledToFill()
-                    .frame(width: 175, height: 224)
-                    .clipped()
+                    .scaledToFit()
+                    .frame(width: 175)
                     .cornerRadius(32, corners: [.topLeft, .topRight])
             } else if let path = note.videoPath {
                 let url = URL(fileURLWithPath: path)
-                VideoPlayer(player: AVPlayer(url: url))
-                        .frame(width: 175, height: 224)
-                        .cornerRadius(32, corners: [.topLeft, .topRight])
-            }
-            
-            if let text = note.text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                ResizableAVPlayerCard(url: url, width: 175)
+            } else if let text = note.text,
+                      !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                      note.imageData == nil,
+                      note.videoPath == nil {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 32)
-                        .fill(Color(.systemGray5))
+                        .fill(persistentColor)
                         .frame(width: 175)
                         .frame(minHeight: 100, maxHeight: 224)
 
@@ -42,7 +48,6 @@ struct NoteCardView: View {
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.leading)
                         .lineLimit(nil)
-//                        .fixedSize(horizontal: false, vertical: true)
                         .frame(maxWidth: 155, maxHeight: 210, alignment: .leading)
                         .padding()
                 }
@@ -74,9 +79,13 @@ struct RoundedCorner: Shape {
 }
 
 #Preview {
-        ScrollView{
+        TabView{
 //             Long Sample Note
             NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil, videoPath: nil))
+            
+//             Very Long Sample Note
+            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet shy shy shy shy shy shy shy shy  shy shy shy shy shy shy shy shy shy shy shys hsy shsy s syshs s shys  s hs.", imageData: nil, videoPath: nil))
+
             
 //             Shorter Sample Note
             NoteCardView(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil, videoPath: nil))
@@ -88,20 +97,9 @@ struct RoundedCorner: Shape {
             } else {
                 Text("Image not found")
             }
-            
-//             Sample Image Note w/ Note
-            if let url = Bundle.main.url(forResource: "samplePhoto", withExtension: "jpeg"),
-               let data = try? Data(contentsOf: url) {
-                NoteCardView(note: Note(text: "Sample photo with text", imageData: data, videoPath: nil))
-            } else {
-                Text("Image not found")
-            }
-            
-            
+                        
 //             Sample Video Note
             NoteCardView(note: Note(text: nil, imageData: nil, videoPath: Bundle.main.path(forResource: "sampleVideo", ofType: "mp4")))
-            
-//             Sample Video w/ Note
-            NoteCardView(note: Note(text: "Sample video with text", imageData: nil, videoPath: Bundle.main.path(forResource: "sampleVideo", ofType: "mp4")))
     }
+        .tabViewStyle(.page)
 }
