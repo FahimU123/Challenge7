@@ -13,10 +13,23 @@
 		DD40489F2DDA7ABA00C99291 /* ConcentricOnboarding in Frameworks */ = {isa = PBXBuildFile; productRef = DD40489E2DDA7ABA00C99291 /* ConcentricOnboarding */; };
 		DD404A382DDD4B6900C99291 /* ExyteMediaPicker in Frameworks */ = {isa = PBXBuildFile; productRef = DD404A372DDD4B6900C99291 /* ExyteMediaPicker */; };
 		DD404A3B2DDD4B8400C99291 /* WaterfallGrid in Frameworks */ = {isa = PBXBuildFile; productRef = DD404A3A2DDD4B8400C99291 /* WaterfallGrid */; };
+		DD57116A2DE114AD00D4E448 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD5711692DE114AD00D4E448 /* WidgetKit.framework */; };
+		DD57116C2DE114AD00D4E448 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD57116B2DE114AD00D4E448 /* SwiftUI.framework */; };
+		DD57117B2DE114AE00D4E448 /* Challenge7WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DD5711672DE114AD00D4E448 /* Challenge7WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DDA469E42DCE9E2C0083E6A5 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = DDA469E32DCE9E2C0083E6A5 /* Lottie */; };
 		DDA46A7A2DD35F6C0083E6A5 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = DDA46A792DD35F6C0083E6A5 /* ConfettiSwiftUI */; };
 		DDA46A7D2DD35F820083E6A5 /* SwiftGlass in Frameworks */ = {isa = PBXBuildFile; productRef = DDA46A7C2DD35F820083E6A5 /* SwiftGlass */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD5711792DE114AE00D4E448 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD5507532DC93A9500C419DA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD5711662DE114AD00D4E448;
+			remoteInfo = Challenge7WidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		DD55086E2DCE92C800C419DA /* Embed Frameworks */ = {
@@ -29,10 +42,24 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD5711802DE114AE00D4E448 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DD57117B2DE114AE00D4E448 /* Challenge7WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		DD55075B2DC93A9500C419DA /* Challenge7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Challenge7.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD5711672DE114AD00D4E448 /* Challenge7WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Challenge7WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD5711692DE114AD00D4E448 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		DD57116B2DE114AD00D4E448 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -43,6 +70,13 @@
 			);
 			target = DD55075A2DC93A9500C419DA /* Challenge7 */;
 		};
+		DD57117F2DE114AE00D4E448 /* Exceptions for "Challenge7Widget" folder in "Challenge7WidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DD5711662DE114AD00D4E448 /* Challenge7WidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +86,14 @@
 				DD404A3D2DDD4D3300C99291 /* Exceptions for "Challenge7" folder in "Challenge7" target */,
 			);
 			path = Challenge7;
+			sourceTree = "<group>";
+		};
+		DD57116D2DE114AD00D4E448 /* Challenge7Widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD57117F2DE114AE00D4E448 /* Exceptions for "Challenge7Widget" folder in "Challenge7WidgetExtension" target */,
+			);
+			path = Challenge7Widget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -73,6 +115,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD5711642DE114AD00D4E448 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD57116C2DE114AD00D4E448 /* SwiftUI.framework in Frameworks */,
+				DD57116A2DE114AD00D4E448 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -80,6 +131,8 @@
 			isa = PBXGroup;
 			children = (
 				DD55075D2DC93A9500C419DA /* Challenge7 */,
+				DD57116D2DE114AD00D4E448 /* Challenge7Widget */,
+				DD5711682DE114AD00D4E448 /* Frameworks */,
 				DD55075C2DC93A9500C419DA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +141,18 @@
 			isa = PBXGroup;
 			children = (
 				DD55075B2DC93A9500C419DA /* Challenge7.app */,
+				DD5711672DE114AD00D4E448 /* Challenge7WidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DD5711682DE114AD00D4E448 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD5711692DE114AD00D4E448 /* WidgetKit.framework */,
+				DD57116B2DE114AD00D4E448 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,10 +166,12 @@
 				DD5507582DC93A9500C419DA /* Frameworks */,
 				DD5507592DC93A9500C419DA /* Resources */,
 				DD55086E2DCE92C800C419DA /* Embed Frameworks */,
+				DD5711802DE114AE00D4E448 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DD57117A2DE114AE00D4E448 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				DD55075D2DC93A9500C419DA /* Challenge7 */,
@@ -127,6 +192,28 @@
 			productReference = DD55075B2DC93A9500C419DA /* Challenge7.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DD5711662DE114AD00D4E448 /* Challenge7WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD57117C2DE114AE00D4E448 /* Build configuration list for PBXNativeTarget "Challenge7WidgetExtension" */;
+			buildPhases = (
+				DD5711632DE114AD00D4E448 /* Sources */,
+				DD5711642DE114AD00D4E448 /* Frameworks */,
+				DD5711652DE114AD00D4E448 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DD57116D2DE114AD00D4E448 /* Challenge7Widget */,
+			);
+			name = Challenge7WidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = Challenge7WidgetExtension;
+			productReference = DD5711672DE114AD00D4E448 /* Challenge7WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -138,6 +225,9 @@
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					DD55075A2DC93A9500C419DA = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					DD5711662DE114AD00D4E448 = {
 						CreatedOnToolsVersion = 16.3;
 					};
 				};
@@ -168,12 +258,20 @@
 			projectRoot = "";
 			targets = (
 				DD55075A2DC93A9500C419DA /* Challenge7 */,
+				DD5711662DE114AD00D4E448 /* Challenge7WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DD5507592DC93A9500C419DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD5711652DE114AD00D4E448 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -190,7 +288,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD5711632DE114AD00D4E448 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD57117A2DE114AE00D4E448 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD5711662DE114AD00D4E448 /* Challenge7WidgetExtension */;
+			targetProxy = DD5711792DE114AE00D4E448 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DD5507642DC93A9600C419DA /* Debug */ = {
@@ -321,7 +434,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 22PRLCDTWD;
+				DEVELOPMENT_TEAM = SD28Q5JP86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Challenge7/Info.plist;
@@ -356,7 +469,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 22PRLCDTWD;
+				DEVELOPMENT_TEAM = SD28Q5JP86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Challenge7/Info.plist;
@@ -384,6 +497,60 @@
 			};
 			name = Release;
 		};
+		DD57117D2DE114AE00D4E448 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SD28Q5JP86;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Challenge7Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Challenge7Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Haven.FahimUddin.Haven.Challenge7Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD57117E2DE114AE00D4E448 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SD28Q5JP86;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Challenge7Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Challenge7Widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Haven.FahimUddin.Haven.Challenge7Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -401,6 +568,15 @@
 			buildConfigurations = (
 				DD5507672DC93A9600C419DA /* Debug */,
 				DD5507682DC93A9600C419DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD57117C2DE114AE00D4E448 /* Build configuration list for PBXNativeTarget "Challenge7WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD57117D2DE114AE00D4E448 /* Debug */,
+				DD57117E2DE114AE00D4E448 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

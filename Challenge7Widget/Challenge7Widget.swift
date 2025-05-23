@@ -48,7 +48,7 @@ struct Challenge7WidgetEntryView : View {
 
     var body: some View {
         VStack {
-            Text("Time:")
+            Text("Test:")
             Text(entry.date, style: .time)
 
             Text("Emoji:")
