@@ -31,10 +31,28 @@ struct SurveyView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             
-        
+
             VStack(alignment: .leading, spacing: 24) {
                 ForEach(tagGroups, id: \.title) { group in
-                    surveySection(title: group.title, tags: group.tags)
+                    let tagBinding = Binding<String>(
+                        get: { customTags[group.title, default: ""] },
+                        set: { customTags[group.title] = $0 }
+                    )
+
+                    SurveySectionView(
+                        title: group.title,
+                        tags: group.tags,
+                        selectedTags: $selectedTags,
+                        userTags: userTagsPerGroup[group.title] ?? [],
+                        customTag: tagBinding,
+                        onAddCustomTag: { tag in
+                            userTagsPerGroup[group.title, default: []].append(tag)
+                            selectedTags.insert(tag)
+                            if let encoded = try? JSONEncoder().encode(userTagsPerGroup) {
+                                UserDefaults.standard.set(encoded, forKey: userTagsKey)
+                            }
+                        }
+                    )
                 }
                 Button(action: saveCheckIn) {
                     Text("Complete Check-In")
@@ -83,20 +101,74 @@ struct SurveyView: View {
         }
     }
       
-    @ViewBuilder
-    func surveySection(title: String, tags: [String]) -> some View {
-        
-        VStack(alignment: .leading, spacing: 12) {
-            
-            Divider()
+    func saveCheckIn() {
+        // Combine default + user tags per group
+        let allTags = Dictionary(uniqueKeysWithValues: tagGroups.map { group in
+            let userTags = userTagsPerGroup[group.title] ?? []
+            return (group.title, group.tags + userTags)
+        })
 
+        func tags(for title: String) -> [String] {
+            selectedTags.filter { allTags[title]?.contains($0) == true }
+        }
+
+        guard
+            let activityGroup = tagGroups.first(where: { $0.title == "What were you doing?" }),
+            let locationGroup = tagGroups.first(where: { $0.title == "Where were you?" }),
+            let companionGroup = tagGroups.first(where: { $0.title == "Who were you with?" })
+        else {
+            print("Missing tag groups")
+            return
+        }
+
+        let activity = tags(for: activityGroup.title)
+        let location = tags(for: locationGroup.title)
+        let companions = tags(for: companionGroup.title)
+
+        if activity.isEmpty || location.isEmpty || companions.isEmpty {
+            showAlert = true
+            return
+        }
+
+        let entry = CheckInEntry(
+            timestamp: Date(),
+            activityTags: activity,
+            locationTags: location,
+            companionTags: companions
+        )
+
+        modelContext.insert(entry)
+        dismiss()
+    }
+}
+
+#Preview {
+    SurveyView()
+}
+
+struct SurveySectionView: View {
+    let title: String
+    let tags: [String]
+    @Binding var selectedTags: Set<String>
+    var userTags: [String]
+    @Binding var customTag: String
+    var onAddCustomTag: (String) -> Void
+
+    @State private var showInput = false
+    @FocusState private var isFocused: Bool
+
+    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Divider()
             Text(title)
                 .font(.headline)
                 .foregroundColor(.snow)
                 .padding(.top, 8)
 
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(tags, id: \.self) { tag in
+                ForEach(tags + userTags, id: \.self) { tag in
                     Text(tag)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
@@ -117,66 +189,34 @@ struct SurveyView: View {
                             }
                         }
                 }
-
-                if let userTags = userTagsPerGroup[title], !userTags.isEmpty {
-                    ForEach(userTags, id: \.self) { tag in
-                        Text(tag)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(selectedTags.contains(tag) ? Color.snow : Color.text)
-                            .foregroundColor(selectedTags.contains(tag) ? Color.text : .snow)
-                            .overlay(
-                                Capsule()
-                                    .stroke(Color.snow.opacity(0.6), lineWidth: 1)
-                            )
-                            .font(.system(size: 14))
-                            .fontWeight(.medium)
-                            .clipShape(Capsule())
-                            .onTapGesture {
-                                if selectedTags.contains(tag) {
-                                    selectedTags.remove(tag)
-                                } else {
-                                    selectedTags.insert(tag)
-                                }
-                            }
-                    }
-                }
             }
 
-            if showInputForGroup == title {
-                TextField("...", text: Binding(
-                    get: { customTags[title, default: ""] },
-                    set: { customTags[title] = $0 }
-                ))
-                .focused($focusedGroup, equals: title)
-                .onSubmit {
-                    let trimmed = customTags[title, default: ""].trimmingCharacters(in: .whitespaces)
-                    guard !trimmed.isEmpty else { return }
-                    userTagsPerGroup[title, default: []].append(trimmed)
-                    selectedTags.insert(trimmed)
-                    customTags[title] = ""
-                    showInputForGroup = nil
-
-                    if let encoded = try? JSONEncoder().encode(userTagsPerGroup) {
-                        UserDefaults.standard.set(encoded, forKey: userTagsKey)
+            if showInput {
+                TextField("...", text: $customTag)
+                    .focused($isFocused)
+                    .onSubmit {
+                        let trimmed = customTag.trimmingCharacters(in: .whitespaces)
+                        guard !trimmed.isEmpty else { return }
+                        onAddCustomTag(trimmed)
+                        customTag = ""
+                        showInput = false
                     }
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-                .background(Color.snow.opacity(0.2))
-                .foregroundColor(.snow)
-                .clipShape(Capsule())
-                .overlay(
-                    Capsule()
-                        .stroke(Color.snow.opacity(0.4), lineWidth: 1)
-                )
-                .submitLabel(.done)
-                .onAppear {
-                    focusedGroup = title
-                }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(Color.snow.opacity(0.2))
+                    .foregroundColor(.snow)
+                    .clipShape(Capsule())
+                    .overlay(
+                        Capsule()
+                            .stroke(Color.snow.opacity(0.4), lineWidth: 1)
+                    )
+                    .submitLabel(.done)
+                    .onAppear {
+                        isFocused = true
+                    }
             } else {
                 Button(action: {
-                    showInputForGroup = title
+                    showInput = true
                 }) {
                     Label("Add your own...", systemImage: "plus")
                         .font(.subheadline)
@@ -189,37 +229,5 @@ struct SurveyView: View {
             }
         }
         .padding(.bottom, 12)
-
     }
-    func saveCheckIn() {
-        // Combine default + user tags per group
-        let allTags = Dictionary(uniqueKeysWithValues: tagGroups.map { group in
-            let userTags = userTagsPerGroup[group.title] ?? []
-            return (group.title, group.tags + userTags)
-        })
-
-        let selectedTagsArray = Array(selectedTags)
-        let activity = selectedTagsArray.filter { allTags[tagGroups[0].title]?.contains($0) == true }
-        let location = selectedTagsArray.filter { allTags[tagGroups[1].title]?.contains($0) == true }
-        let companions = selectedTagsArray.filter { allTags[tagGroups[2].title]?.contains($0) == true }
-
-        if activity.isEmpty || location.isEmpty || companions.isEmpty {
-            showAlert = true
-            return
-        }
-
-        let entry = CheckInEntry(
-            timestamp: Date(),
-            activityTags: Array(activity),
-            locationTags: Array(location),
-            companionTags: Array(companions)
-        )
-
-        modelContext.insert(entry)
-        dismiss()
-    }
-}
-
-#Preview {
-    SurveyView()
 }
