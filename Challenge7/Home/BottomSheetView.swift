@@ -20,6 +20,7 @@ struct BottomSheetView: View {
 
     var body: some View {
         VStack(spacing: 16) {
+            
             Capsule()
                 .fill(Color.gray)
                 .frame(width: 40, height: 6)

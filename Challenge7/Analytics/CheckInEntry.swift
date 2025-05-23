@@ -5,7 +5,6 @@
 //  Created by Fahim Uddin on 5/5/25.
 //
 
-import SwiftUI
 import Foundation
 import SwiftData
 

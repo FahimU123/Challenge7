@@ -5,8 +5,6 @@
 //  Created by Fahim Uddin on 5/5/25.
 //
 
-import SwiftUI
-import Lottie
 import SwiftData
 import TipKit
 

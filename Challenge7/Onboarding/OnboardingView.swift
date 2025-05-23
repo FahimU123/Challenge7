@@ -17,17 +17,17 @@ struct OnboardingView: View {
             (AnyView(OnboardingPageView(
                     title: "QUITTING GAMBLING ISN’T LINEAR.",
                     subtitle: "SOME DAYS ARE STRONG. SOME ARE NOT."
-                )), .yellow),
+                )), .ripple),
 
                 (AnyView(OnboardingPageView(
                     title: "YOUR STREAK MIGHT BREAK...",
                     subtitle: "BUT THAT DOESN'T MEAN YOU'RE STARTING FROM ZERO."
-                )), .indigo),
+                )), .col),
 
                 (AnyView(OnboardingPageView(
                     title: "YOU DON'T HAVE TO ANNOUNCE THIS TO ANYONE.",
                     subtitle: "IF YOU FEEL SHAME, YOU CAN HIDE THE APP IN SETTINGS. RECOVERY IS YOURS—PRIVATE IF YOU WANT IT TO BE."
-                )), .cyan),
+                )), .uhhh),
 
                 (AnyView(OnboardingPageView(
                     title: "TRACK YOUR RECOVERY RATIO.",
@@ -37,12 +37,12 @@ struct OnboardingView: View {
                 (AnyView(OnboardingPageView(
                     title: "SLIPS REVEAL YOUR TRIGGERS.",
                     subtitle: "WHEN YOU BREAK A STREAK, WE HELP YOU SPOT THE ‘WHY’—AND BUILD STRATEGIES AROUND IT."
-                )), Color.green.opacity(0.85)),
+                )), .next),
 
                 (AnyView(OnboardingPageView(
                     title: "PROGRESS ISN’T ABOUT BEING FLAWLESS.",
                     subtitle: "IT’S ABOUT SHOWING UP—AGAIN AND AGAIN."
-                )), Color.pink.opacity(0.9)),
+                )), .pls),
 
                 (AnyView(OnboardingPageView(
                     title: "WELCOME TO HAVEN.",
