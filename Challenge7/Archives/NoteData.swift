@@ -13,15 +13,13 @@ class Note: Identifiable {
     var id: UUID
     var text: String?
     var imageData: Data?
-    var videoPath: String?
     var createdAt: Date = Date()
     var colorID: Int
     
-    init(text: String?, imageData: Data?, videoPath: String?) {
+    init(text: String?, imageData: Data?) {
         self.id = UUID()
         self.text = text
         self.imageData = imageData
-        self.videoPath = videoPath
         self.colorID = Int.random(in: 0..<4)
     }
 }
