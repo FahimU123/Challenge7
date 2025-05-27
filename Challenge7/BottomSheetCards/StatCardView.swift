@@ -14,19 +14,17 @@ struct StatCardView: View {
     @AppStorage("lastSavedTime") private var savedTime: Double = 0
     @AppStorage("lastSavedTimeDate") private var savedTimeDate: Double = 0
     
-    private var aWeekInSeconds: Double { 60 * 60 * 24 * 7 }
-    private var now: Double { Date().timeIntervalSince1970 }
+    private var now: Date { Date() }
     
     var body: some View {
-        let moneyStatText: String = {
-            let elapsed = now - savedAmountDate
-            return elapsed >= aWeekInSeconds ? "$\(Int(savedAmount))" : "--"
-        }()
+        let moneyWeeks = weeksSince(savedAmountDate)
+        let timeWeeks = weeksSince(savedTimeDate)
         
-        let timeStatText: String = {
-            let elapsed = now - savedTimeDate
-            return elapsed >= aWeekInSeconds ? "\(Int(savedTime)) Hours" : "--"
-        }()
+        let moneyTotal = savedAmount * Double(moneyWeeks)
+        let timeTotal = savedTime * Double(timeWeeks)
+        
+        let moneyStatText = moneyWeeks > 0 ? "$\(Int(moneyTotal))" : "--"
+        let timeStatText = timeWeeks > 0 ? "\(Int(timeTotal)) Hours" : "--"
         
         let moneySaved = StatCardModel(
             image: "banknote",
@@ -46,6 +44,14 @@ struct StatCardView: View {
             StatCard(stat: moneySaved)
             StatCard(stat: timeSaved)
         }
+    }
+    
+    func weeksSince(_ timestamp: Double) -> Int {
+        guard timestamp > 0 else { return 0 }
+        let from = Date(timeIntervalSince1970: timestamp)
+        let components = Calendar.current.dateComponents([.day], from: from, to: now)
+        let days = components.day ?? 0
+        return max(0, days / 7)
     }
 }
 
@@ -81,7 +87,7 @@ struct StatCard: View {
                         .padding(.leading, 5)
                     
                     Spacer()
-        
+                    
                     Image(systemName: "pencil.circle.fill")
                         .font(.system(size: 17, weight: .medium))
                         .foregroundColor(Color.text)

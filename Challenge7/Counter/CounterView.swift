@@ -38,7 +38,6 @@ struct CounterView: View {
     
     let theTip = CheckInTip()
     
-    
     var dailyMessage: String {
         let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: Date()) ?? 0
         return encouragementMessages[dayOfYear % encouragementMessages.count]
@@ -74,21 +73,23 @@ struct CounterView: View {
                             .multilineTextAlignment(.center)
                         
                         HStack(spacing: 30) {
+                            
                             LongPressToActionButton(
                                 viewModel: viewModel,
                                 onAction: {
-                                    viewModel.checkin = true
+                                    
+                                    showLottieScreen = true
+                                    
                                     checkInManager.addRecord(for: Date(), didGamble: false)
-                                    withAnimation {
-                                        showLottieScreen = true
-                                    }
                                 },
                                 ringColor: .green,
                                 icon: "NO"
                             )
+                            
                             LongPressToActionButton(
                                 viewModel: viewModel,
                                 onAction: {
+                                    viewModel.checkedIn()
                                     viewModel.reset()
                                     checkInManager.addRecord(for: Date(), didGamble: true)
                                     showSurvey = true

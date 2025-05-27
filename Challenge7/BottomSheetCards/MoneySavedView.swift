@@ -58,7 +58,7 @@ struct MoneySavedView: View {
                                         customAmountIsFocused = false
                                     }
                                 }
-                        }
+                            }
                     }
                 }
                 

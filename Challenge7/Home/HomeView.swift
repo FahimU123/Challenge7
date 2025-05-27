@@ -22,8 +22,8 @@ struct HomeView: View {
     @State private var showLottieScreen = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var hapticEngine: CHHapticEngine?
-    //    @Environment(\.colorScheme) var colorScheme
-    @State private var animate = false
+    @EnvironmentObject var checkInManager: CheckInDataManager
+    
     
     private var isExpanded: Bool {
         sheetOffset <= expandedOffset + 50
@@ -47,13 +47,20 @@ struct HomeView: View {
                 
                     .onAppear {
                         triggerEffects()
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             withAnimation {
                                 showLottieScreen = false
+                                sharedViewModel.checkedIn()
                             }
-                            animate = true
+                            checkInManager.addRecord(for: Date(), didGamble: false)
                         }
+                        
+                        
+                        
                     }
+                
+                
             } else {
                 if !isExpanded {
                     VortexView(createSnow()) {
