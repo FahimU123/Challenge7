@@ -9,7 +9,6 @@ import SwiftUI
 import PhotosUI
 import SwiftData
 import AVKit
-import ExyteMediaPicker
 
 struct AddNoteView: View {
     @Environment(\.dismiss) var dismiss
@@ -51,7 +50,7 @@ struct AddNoteView: View {
         let trimmedText = noteText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedText.isEmpty else { return }
         
-        let newNote = Note(text: trimmedText, imageData: nil, videoPath: nil)
+        let newNote = Note(text: trimmedText, imageData: nil)
         modelContext.insert(newNote)
         
         dismiss()

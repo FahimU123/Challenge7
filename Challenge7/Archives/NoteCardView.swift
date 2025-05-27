@@ -23,20 +23,15 @@ struct NoteCardView: View {
             
             if let photo = note.imageData,
                (note.text == nil || note.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true),
-               note.videoPath == nil,
                let image = UIImage(data: photo) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 175)
                     .cornerRadius(32, corners: [.topLeft, .topRight])
-            } else if let path = note.videoPath {
-                let url = URL(fileURLWithPath: path)
-                ResizableAVPlayerCard(url: url, width: 175)
             } else if let text = note.text,
                       !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                      note.imageData == nil,
-                      note.videoPath == nil {
+                      note.imageData == nil {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 32)
                         .fill(persistentColor)
@@ -47,7 +42,7 @@ struct NoteCardView: View {
                         .font(.system(size: 12, design: .default))
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.leading)
-                        .lineLimit(nil)
+                        .lineLimit(13)
                         .frame(maxWidth: 155, maxHeight: 210, alignment: .leading)
                         .padding()
                 }
@@ -81,25 +76,22 @@ struct RoundedCorner: Shape {
 #Preview {
         TabView{
 //             Long Sample Note
-            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil, videoPath: nil))
+            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil))
             
 //             Very Long Sample Note
-            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet shy shy shy shy shy shy shy shy  shy shy shy shy shy shy shy shy shy shy shys hsy shsy s syshs s shys  s hs.", imageData: nil, videoPath: nil))
+            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet shy shy shy shy shy shy shy shy  shy shy shy shy shy shy shy shy shy shy shys hsy shsy s syshs s shys  s hs.", imageData: nil))
 
             
 //             Shorter Sample Note
-            NoteCardView(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil, videoPath: nil))
+            NoteCardView(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil))
             
 //             Sample Image Note
             if let url = Bundle.main.url(forResource: "samplePhoto", withExtension: "jpeg"),
                let data = try? Data(contentsOf: url) {
-                NoteCardView(note: Note(text: nil, imageData: data, videoPath: nil))
+                NoteCardView(note: Note(text: nil, imageData: data))
             } else {
                 Text("Image not found")
             }
-                        
-//             Sample Video Note
-            NoteCardView(note: Note(text: nil, imageData: nil, videoPath: Bundle.main.path(forResource: "sampleVideo", ofType: "mp4")))
     }
         .tabViewStyle(.page)
 }

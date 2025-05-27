@@ -26,11 +26,11 @@ struct RandomNoteView: View {
                                 .scaledToFill()
                                 .frame(width: 140, height: 118)
                                 .clipped()
-                        } else if let videoPath = note.videoPath {
-                            let videoURL = URL(fileURLWithPath: videoPath)
-                            VideoPlayer(player: AVPlayer(url: videoURL))
-                                .scaledToFill()
-                                .frame(width: 140, height: 110)
+//                        } else if let videoPath = note.videoPath {
+//                            let videoURL = URL(fileURLWithPath: videoPath)
+//                            VideoPlayer(player: AVPlayer(url: videoURL))
+//                                .scaledToFill()
+//                                .frame(width: 140, height: 110)
                         } else if let text = note.text {
                             Text(text)
                                 .font(.system(size: 12, design: .default))
@@ -91,8 +91,8 @@ struct RandomNoteView: View {
     func refreshRandomNote() {
         let validNotes = notes.filter { note in
             note.text != nil ||
-            (note.imageData != nil && UIImage(data: note.imageData!) != nil) ||
-            (note.videoPath != nil && FileManager.default.fileExists(atPath: note.videoPath!))
+            (note.imageData != nil && UIImage(data: note.imageData!) != nil) /*||*/
+//            (note.videoPath != nil && FileManager.default.fileExists(atPath: note.videoPath!))
         }
         
         guard !validNotes.isEmpty else {

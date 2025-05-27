@@ -30,18 +30,13 @@ extension Note {
         Note(
             text: "Test note with image",
             imageData: UIImage.solidColor(.blue).jpegData(compressionQuality: 1.0),
-//            videoURL: Bundle.main.url(forResource: "sampleVideo", withExtension: "mp4")
-            videoPath: Bundle.main.path(forResource: "sampleVideo", ofType: "mp4")
         )
     }
     
     static var samples: [Note] {
         [
-            Note(text: "Only Note", imageData: nil, videoPath: nil),
-            Note(text: "Note with video", imageData: nil, videoPath: Bundle.main.path(forResource: "sampleVideo", ofType: "mp4")),
-            Note(text: "Note with image", imageData: samplePhoto, videoPath: nil),
-            Note(text: nil, imageData: samplePhoto, videoPath: nil),
-            Note(text: nil, imageData: nil, videoPath: Bundle.main.path(forResource: "sampleVideo", ofType: "mp4"))
+            Note(text: "Only Note", imageData: nil),
+            Note(text: nil, imageData: samplePhoto)
         ]
     }
 }
