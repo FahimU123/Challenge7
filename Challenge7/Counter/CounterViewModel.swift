@@ -33,14 +33,26 @@ final class CounterViewModel: ObservableObject {
     private var timer: Timer?
     
     init() {
-        let savedDate = UserDefaults.standard.object(forKey: "startDate") as? Date
-        let savedCheckin = UserDefaults.standard.bool(forKey: "checkin")
-        let savedCheckinDate = UserDefaults.standard.object(forKey: "lastCheckinDate") as? Date ?? Date.distantPast
+        if let savedDate = UserDefaults.standard.object(forKey: "startDate") as? Date {
+            self.startDate = savedDate
+        } else {
+            let now = Date()
+            self.startDate = now
+            UserDefaults.standard.set(now, forKey: "startDate")
+        }
+
+        self.checkin = UserDefaults.standard.bool(forKey: "checkin")
         
-        self.startDate = savedDate ?? Date()
-        self.checkin = savedCheckin
-        self.lastCheckinDate = savedCheckinDate
-        
+        if let savedCheckinDate = UserDefaults.standard.object(forKey: "lastCheckinDate") as? Date {
+            self.lastCheckinDate = savedCheckinDate
+        } else {
+            let distantPast = Date.distantPast
+            self.lastCheckinDate = distantPast
+            UserDefaults.standard.set(distantPast, forKey: "lastCheckinDate")
+        }
+
+        updateCheckinStatus()
+
         startTimer()
     }
     
@@ -52,16 +64,24 @@ final class CounterViewModel: ObservableObject {
         checkin = true
         lastCheckinDate = Date()
     }
+
+
+    private func updateCheckinStatus() {
+        if !Calendar.current.isDateInToday(lastCheckinDate) {
+            checkin = false
+        }
+    }
     
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.now = Date()
             
-            if !Calendar.current.isDateInToday(self.lastCheckinDate) {
+            if !Calendar.current.isDateInToday(self.lastCheckinDate) && self.checkin {
                 self.checkin = false
             }
         }
     }
+
     
     func seconds() -> Int {
         Int(now.timeIntervalSince(startDate)) % 60
