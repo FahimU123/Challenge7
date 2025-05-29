@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import PhotosUI
-import SwiftData
-import AVKit
 
 struct AddNoteView: View {
     @Environment(\.dismiss) var dismiss
