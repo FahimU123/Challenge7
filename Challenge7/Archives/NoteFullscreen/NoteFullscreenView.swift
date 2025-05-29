@@ -13,7 +13,7 @@ struct NoteFullscreenView: View {
     
     var body: some View {
         if let selected = vm.selectedNote,
-           let startIndex = vm.notes.firstIndex(of: selected) {
+           vm.notes.contains(selected) {
             ZStack(alignment: .topTrailing) {
                 TabView(selection: $vm.currentNoteID) {
                     ForEach(vm.notes, id: \.self) { note in

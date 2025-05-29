@@ -149,9 +149,9 @@ struct NotesWallView: View {
                 matching: .images,
                 photoLibrary: .shared()
             )
-            .onChange(of: vm.selectedPhotoItems) { newItems in
+            .onChange(of: vm.selectedPhotoItems) {
                 Task {
-                    await vm.processPhotoItems(newItems, with: modelContext)
+                    await vm.processPhotoItems(vm.selectedPhotoItems, with: modelContext)
                 }
             }
         }
