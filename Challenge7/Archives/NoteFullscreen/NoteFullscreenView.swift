@@ -25,42 +25,14 @@ struct NoteFullscreenView: View {
                                     .scaledToFit()
                                     .tag(note.id)
                             } else if let text = note.text {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 0)
-                                        .fill(vm.colorFrom(note.colorID))
-                                        .edgesIgnoringSafeArea(.all)
-                                    GeometryReader { geometry in
-                                        ZStack {
-                                            if vm.textHeight(for: text, in: geometry.size.width) > geometry.size.height {
-                                                ScrollView {
-                                                    Text(text)
-                                                        .font(.title)
-                                                        .padding()
-                                                        .foregroundColor(.white)
-                                                }
-                                            } else {
-                                                VStack {
-                                                    Spacer()
-                                                    Text(text)
-                                                        .font(.title)
-                                                        .padding()
-                                                        .foregroundColor(.white)
-                                                        .multilineTextAlignment(.center)
-                                                        .frame(maxWidth: .infinity, alignment: .center)
-                                                        .lineLimit(nil)
-                                                        .truncationMode(.tail)
-                                                    Spacer()
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                .tag(note)
+                                TextNoteView(text: text, backgroundColor: vm.colorFrom(note.colorID))
                             } else {
                                 EmptyView()
-                                    .tag(note)
+//                                    .tag(note)
                             }
                         }
+                        .id(note.id)
+                        .tag(note.id)
                     }
                     
                     .onAppear {
