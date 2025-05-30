@@ -16,30 +16,33 @@ struct NoteFullscreenView: View {
            vm.notes.contains(selected) {
             ZStack(alignment: .topTrailing) {
                 TabView(selection: $vm.currentNoteID) {
-                    ForEach(vm.notes, id: \.self) { note in
-                        Group {
-                            if let imageData = note.imageData,
-                               let image = UIImage(data: imageData) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .tag(note.id)
-                            } else if let text = note.text {
-                                TextNoteView(text: text, backgroundColor: vm.colorFrom(note.colorID))
-                            } else {
-                                EmptyView()
-//                                    .tag(note)
+                    if let currentID = vm.currentNoteID,
+                       let currentIndex = vm.notes.firstIndex(where: { $0.id == currentID }) {
+
+                        let range = max(0, currentIndex - 1)...min(vm.notes.count - 1, currentIndex + 1)
+
+                        ForEach(vm.notes[range], id: \.self) { note in
+                            Group {
+                                if let imageData = note.imageData,
+                                   let image = UIImage(data: imageData) {
+                                    ImageNoteView(image: image)
+                                } else if let text = note.text {
+                                    TextNoteView(text: text, backgroundColor: vm.colorFrom(note.colorID))
+                                } else {
+                                    Color.black
+                                }
                             }
+                            .id(note.id)
+                            .tag(note.id)
+                            .transition(.identity)
                         }
-                        .id(note.id)
-                        .tag(note.id)
                     }
-                    
-                    .onAppear {
-                        vm.initializeCurrentNote()
-                    }
-                    
-                    
+                }
+                .onAppear {
+                    vm.initializeCurrentNote()
+                }
+                .onAppear {
+                    vm.initializeCurrentNote()
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                 .background(Color.black.edgesIgnoringSafeArea(.all))

@@ -74,6 +74,7 @@ struct NotesWallView: View {
                 }
                 
                 ScrollView {
+                    LazyVStack {
                     WaterfallGrid(notes) { note in
                         
                         NoteGridCellView(
@@ -97,6 +98,7 @@ struct NotesWallView: View {
                     }
                     .gridStyle(columnsInPortrait: 2, columnsInLandscape: 3, spacing: 8)
                     .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
+                    }
                 }
                 
                 HStack {
@@ -139,7 +141,7 @@ struct NotesWallView: View {
             }
             
             .fullScreenCover(item: $vm.selectedNote) { note in
-                NoteFullscreenView(vm: NoteFullscreenViewModel(notes: notes, selectedNote: $vm.selectedNote))
+                PagingFullscreenView(notes: notes, selectedNote: $vm.selectedNote)
             }
             
             .photosPicker(

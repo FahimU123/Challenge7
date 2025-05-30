@@ -10,22 +10,17 @@ import SwiftUI
 struct TextNoteView: View {
     let text: String
     let backgroundColor: Color
-    
-    
+
     var body: some View {
-        ZStack {
-            backgroundColor
-                .edgesIgnoringSafeArea(.all)
-            GeometryReader { geometry in
-                ZStack {
-                    if textHeight(for: text, in: geometry.size.width) > geometry.size.height {
-                        ScrollView {
-                            Text(text)
-                                .font(.title)
-                                .padding()
-                                .foregroundStyle(.white)
-                        }
-                    } else {
+        GeometryReader { geometry in
+            ZStack {
+                backgroundColor
+                    .edgesIgnoringSafeArea(.all)
+
+                Group {
+                    let fitsScreen = textHeight(for: text, in: geometry.size.width) < geometry.size.height * 0.85
+
+                    if fitsScreen {
                         VStack {
                             Spacer()
                             Text(text)
@@ -33,17 +28,28 @@ struct TextNoteView: View {
                                 .padding()
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .lineLimit(nil)
-                                .truncationMode(.tail)
+                                .fixedSize(horizontal: false, vertical: true)
                             Spacer()
+                        }
+                    } else {
+                        ScrollView(showsIndicators: false) {
+                            VStack(alignment: .center) {
+                                Text(text)
+                                    .font(.title)
+                                    .padding(.top, 60)
+                                    .padding(.horizontal)
+                                    .foregroundStyle(.white)
+                                    .multilineTextAlignment(.center)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
                     }
                 }
             }
         }
     }
-    
+
     private func textHeight(for text: String, in width: CGFloat) -> CGFloat {
         let constraintRect = CGSize(width: width - 32, height: .greatestFiniteMagnitude)
         let boundingBox = text.boundingRect(
