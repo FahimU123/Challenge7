@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NoteCardView: View {
-//    let note: Note
     @StateObject var vm: NoteCardViewModel
     var onTap: (() -> Void)? = nil
     var onLongPress: (() -> Void)? = nil
