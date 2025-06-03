@@ -21,11 +21,11 @@ struct AddNoteView: View {
                     .fontWeight(.medium)
 
                 TextEditor(text: $noteText)
+                    .padding(8)
                     .frame(height: 150)
                     .overlay(
                         RoundedRectangle(cornerRadius: 32)
-                            .stroke(Color.black)
-                            .opacity(0.5)
+                            .stroke(Color.black.opacity(0.5))
                     )
                 
                 Button(action: saveNote) {
