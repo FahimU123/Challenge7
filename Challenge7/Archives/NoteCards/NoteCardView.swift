@@ -6,38 +6,32 @@
 //
 
 import SwiftUI
-import AVKit
-import UIKit
 
 struct NoteCardView: View {
-    let note: Note
-    @State private var play = false
+    @StateObject var vm: NoteCardViewModel
+    var onTap: (() -> Void)? = nil
+    var onLongPress: (() -> Void)? = nil
     
     private var persistentColor: Color {
         let colors: [Color] = [.col, .cardColor1, .cardColor2, .cardColor3]
-        return colors.indices.contains(note.colorID) ? colors[note.colorID] : .gray
+        return colors.indices.contains(vm.note.colorID) ? colors[vm.note.colorID] : .gray
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
-            if let photo = note.imageData,
-               (note.text == nil || note.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true),
-               let image = UIImage(data: photo) {
+            if let image = vm.image {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 175)
                     .cornerRadius(32, corners: [.topLeft, .topRight])
-            } else if let text = note.text,
-                      !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                      note.imageData == nil {
+            } else if let text = vm.note.text {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 32)
                         .fill(persistentColor)
                         .frame(width: 175)
                         .frame(minHeight: 100, maxHeight: 224)
-
+                    
                     Text(text)
                         .font(.system(size: 12, design: .default))
                         .fontWeight(.semibold)
@@ -50,6 +44,14 @@ struct NoteCardView: View {
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 32))
+        
+        .onTapGesture {
+            onTap?()
+        }
+        
+        .onLongPressGesture {
+            onLongPress?()
+        }
     }
 }
 
@@ -76,19 +78,19 @@ struct RoundedCorner: Shape {
 #Preview {
         TabView{
 //             Long Sample Note
-            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil))
+            NoteCardView(vm: NoteCardViewModel(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil)))
             
 //             Very Long Sample Note
-            NoteCardView(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet shy shy shy shy shy shy shy shy  shy shy shy shy shy shy shy shy shy shy shys hsy shsy s syshs s shys  s hs.", imageData: nil))
+            NoteCardView(vm: NoteCardViewModel(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet shy shy shy shy shy shy shy shy  shy shy shy shy shy shy shy shy shy shy shys hsy shsy s syshs s shys  s hs.", imageData: nil)))
 
             
 //             Shorter Sample Note
-            NoteCardView(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil))
+            NoteCardView(vm: NoteCardViewModel(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil)))
             
 //             Sample Image Note
             if let url = Bundle.main.url(forResource: "samplePhoto", withExtension: "jpeg"),
                let data = try? Data(contentsOf: url) {
-                NoteCardView(note: Note(text: nil, imageData: data))
+                NoteCardView(vm: NoteCardViewModel(note: Note(text: nil, imageData: data)))
             } else {
                 Text("Image not found")
             }
