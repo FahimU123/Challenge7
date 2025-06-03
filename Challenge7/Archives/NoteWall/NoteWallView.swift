@@ -154,6 +154,7 @@ struct NotesWallView: View {
             .onChange(of: vm.selectedPhotoItems) {
                 Task {
                     await vm.processPhotoItems(vm.selectedPhotoItems, with: modelContext)
+                    vm.selectedPhotoItems = []
                 }
             }
         }
