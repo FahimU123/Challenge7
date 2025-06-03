@@ -17,10 +17,10 @@ final class CheckInDataManager: ObservableObject {
 
     private let storageKey = "CheckInRecords"
 
-//    init() {
-//        load()
-//        _ = NotificationManager.shared
-//    }
+    init() {
+        load()
+        _ = NotificationManager.shared
+    }
 
     func addRecord(for date: Date, didGamble: Bool?) {
         let newRecord = CheckInRecord(date: date, didGamble: didGamble)
@@ -30,19 +30,23 @@ final class CheckInDataManager: ObservableObject {
             records.append(newRecord)
         }
         save()
-//        NotificationManager.shared.cancelScheduledNotification()
-    }
 
-    func hasCheckedIn(for date: Date) -> Bool {
-        return records.contains { Calendar.current.isDate($0.date, inSameDayAs: date) }
+        NotificationManager.shared.cancelTodayNotification()
+
     }
 
     func scheduleCheckInReminder() {
         let today = Date()
         if !hasCheckedIn(for: today) {
-//            NotificationManager.shared.scheduleCheckInReminder(for: today)
+            NotificationManager.shared.scheduleCheckInReminder(for: today)
         }
     }
+
+
+    func hasCheckedIn(for date: Date) -> Bool {
+        return records.contains { Calendar.current.isDate($0.date, inSameDayAs: date) }
+    }
+
 
     private func load() {
         guard let data = UserDefaults.standard.data(forKey: storageKey),

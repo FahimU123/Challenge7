@@ -51,8 +51,6 @@ final class CounterViewModel: ObservableObject {
             UserDefaults.standard.set(distantPast, forKey: "lastCheckinDate")
         }
 
-        updateCheckinStatus()
-
         startTimer()
     }
     
@@ -63,13 +61,6 @@ final class CounterViewModel: ObservableObject {
     func checkedIn() {
         checkin = true
         lastCheckinDate = Date()
-    }
-
-
-    private func updateCheckinStatus() {
-        if !Calendar.current.isDateInToday(lastCheckinDate) {
-            checkin = false
-        }
     }
     
     private func startTimer() {

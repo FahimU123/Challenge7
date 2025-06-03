@@ -5,6 +5,7 @@
 //  Created by Fahim Uddin on 5/5/25.
 //
 
+
 import SwiftUI
 import Lottie
 import AVFoundation
@@ -18,6 +19,7 @@ struct CounterView: View {
     @EnvironmentObject var checkInManager: CheckInDataManager
     @State private var showSurvey = false
     @State private var surveyCompleted = false
+    
     
     init(viewModel: CounterViewModel, showLottieScreen: Binding<Bool>) {
         self._viewModel = ObservedObject(initialValue: viewModel)
