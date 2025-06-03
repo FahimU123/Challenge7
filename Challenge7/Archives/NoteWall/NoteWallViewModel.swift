@@ -15,12 +15,12 @@ class NoteWallViewModel: ObservableObject {
     @Published var selectionMode = false
     @Published var selectedNotes: Set<Note> = []
     @Published var selectedPhotoItems: [PhotosPickerItem] = []
-    @Published var activatePhotosPicker = false
     @Published var selectedNote: Note? = nil
+    @Published var selectedNoteIndex: Int = 0
+    @Published var activatePhotosPicker = false
     @Published var showDeleteConfirmation = false
     @Published var showFullscreen = false
-    @Published var selectedNoteIndex: Int = 0
-
+    
     func toggleSelection(for note: Note) {
         if selectedNotes.contains(note) {
             selectedNotes.remove(note)
