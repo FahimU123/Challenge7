@@ -74,30 +74,54 @@ struct NotesWallView: View {
                 }
                 
                 ScrollView {
-                    LazyVStack {
-                    WaterfallGrid(notes) { note in
-                        
-                        NoteGridCellView(
-                            note: note,
-                            isSelected: vm.selectedNotes.contains(note),
-                            selectionMode: vm.selectionMode,
-                            onTap: {
-                                if vm.selectionMode {
-                                    vm.toggleSelection(for: note)
-                                } else {
-                                    vm.selectedNote = note
-                                }
-                            },
-                            onLongPress: {
-                                if !vm.selectionMode {
-                                    vm.selectionMode = true
-                                }
-                                vm.toggleSelection(for: note)
+                    // Fix for WaterfallGrid, 3 photos must be uploaded on in the View before you could see them. Now they just appear in the very middle of the view until the count reaches over 3
+                    if notes.count < 3 {
+                        LazyVStack(spacing: 16) {
+                            ForEach(notes) { note in
+                                NoteGridCellView(
+                                    note: note,
+                                    isSelected: vm.selectedNotes.contains(note),
+                                    selectionMode: vm.selectionMode,
+                                    onTap: {
+                                        if vm.selectionMode {
+                                            vm.toggleSelection(for: note)
+                                        } else {
+                                            vm.selectedNote = note
+                                        }
+                                    },
+                                    onLongPress: {
+                                        if !vm.selectionMode {
+                                            vm.selectionMode = true
+                                        }
+                                        vm.toggleSelection(for: note)
+                                    }
+                                )
+                                .padding(.horizontal)
                             }
-                        )
-                    }
-                    .gridStyle(columnsInPortrait: 2, columnsInLandscape: 3, spacing: 8)
-                    .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
+                        }
+                    } else {
+                        WaterfallGrid(notes) { note in
+                            NoteGridCellView(
+                                note: note,
+                                isSelected: vm.selectedNotes.contains(note),
+                                selectionMode: vm.selectionMode,
+                                onTap: {
+                                    if vm.selectionMode {
+                                        vm.toggleSelection(for: note)
+                                    } else {
+                                        vm.selectedNote = note
+                                    }
+                                },
+                                onLongPress: {
+                                    if !vm.selectionMode {
+                                        vm.selectionMode = true
+                                    }
+                                    vm.toggleSelection(for: note)
+                                }
+                            )
+                        }
+                        .gridStyle(columnsInPortrait: 2, columnsInLandscape: 3, spacing: 8)
+                        .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
                     }
                 }
                 

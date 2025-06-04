@@ -47,7 +47,7 @@ struct PagingFullscreenView: View {
                                 Color.black
                             }
                         }
-                        .frame(width: width)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                     }
                 }
                 .offset(x: offset)
