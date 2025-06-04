@@ -23,4 +23,4 @@ DeadBet is more than just a tracker; it's a tool that helps you understand your 
 
 ## Support
 
-Questions or feedback? We're here to help. Reach out to us at [your\_support\_email@example.com](mailto:fahu8901@example.com).
+Questions or feedback? We're here to help. Reach out to us at [fahu8901@example.com](mailto:fahu8901@example.com).
