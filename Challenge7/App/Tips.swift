@@ -50,3 +50,4 @@ struct CheckInTip: Tip {
         Image(systemName: "calendar")
     }
 }
+

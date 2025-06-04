@@ -39,8 +39,8 @@ final class NoteImageCache: ObservableObject {
         ]
         guard let source = CGImageSourceCreateWithData(data as CFData, options as CFDictionary),
               let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
-              let width = properties[kCGImagePropertyPixelWidth] as? CGFloat,
-              let height = properties[kCGImagePropertyPixelHeight] as? CGFloat else { return nil }
+              let _ = properties[kCGImagePropertyPixelWidth] as? CGFloat,
+              let _ = properties[kCGImagePropertyPixelHeight] as? CGFloat else { return nil }
 
         let downsampleOptions: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,

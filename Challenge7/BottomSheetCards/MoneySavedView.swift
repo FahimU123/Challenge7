@@ -13,13 +13,13 @@ struct MoneySavedView: View {
     @AppStorage("lastSavedDate") private var lastSavedDate: Double = 0
     @State private var showAlert = false
     @FocusState private var customAmountIsFocused: Bool
-    
+
     @State private var selectedAmount: Double?
     @State private var customAmount: String = ""
     @State private var showHome = false
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -43,12 +43,13 @@ struct MoneySavedView: View {
                             }
                         }
                     }
-                    
+
                     Section(header: Text("Or enter a custom amount")) {
                         TextField("Custom amount", text: $customAmount)
                             .keyboardType(.decimalPad)
                             .focused($customAmountIsFocused)
-                            .onChange(of: customAmount) { _ in
+                            // Fix: Use the new onChange syntax with two parameters
+                            .onChange(of: customAmount) { oldValue, newValue in
                                 selectedAmount = nil
                             }
                             .toolbar {
@@ -61,14 +62,14 @@ struct MoneySavedView: View {
                             }
                     }
                 }
-                
+
                 Button {
                     let finalAmount = calculateInputAmount()
                     if finalAmount <= 0 {
                         showAlert = true
                     } else {
                         saveWeeklyAmount(finalAmount)
-                        showHome = true
+                        showHome = true // Consider what `showHome` does here. If it's for navigation, you might need a `NavigationLink` or `.sheet` modifier.
                         dismiss()
                     }
                 } label: {
@@ -99,7 +100,7 @@ struct MoneySavedView: View {
             }
         }
     }
-    
+
     private func calculateInputAmount() -> Double {
         if let selected = selectedAmount {
             return selected
@@ -108,13 +109,12 @@ struct MoneySavedView: View {
         }
         return 0
     }
-    
+
     private func saveWeeklyAmount(_ amount: Double) {
         lastSavedAmount = amount
         lastSavedDate = Date().timeIntervalSince1970
     }
 }
-
 
 #Preview {
     MoneySavedView()

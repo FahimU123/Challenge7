@@ -29,7 +29,7 @@ struct RecoveryRatioView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var dataManager: CheckInDataManager
     @State private var selectedTimeFrame: TimeFrame = .weekly
-
+    
     private var soberPercentage: Int? {
         let records = filteredRecords()
         let total = records.count
@@ -76,6 +76,7 @@ struct RecoveryRatioView: View {
     }
 
     var body: some View {
+
         NavigationView {
             VStack(spacing: 32) {
                 Text("RECOVERY RATIO")

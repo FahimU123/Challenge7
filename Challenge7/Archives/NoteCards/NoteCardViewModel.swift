@@ -9,7 +9,7 @@
 import SwiftUI
 
 @MainActor
-final class NoteCardViewModel: ObservableObject, Equatable {
+final class NoteCardViewModel: ObservableObject, @preconcurrency Equatable {
     static func == (lhs: NoteCardViewModel, rhs: NoteCardViewModel) -> Bool {
         lhs.note.id == rhs.note.id &&
         lhs.note.imageData == rhs.note.imageData &&

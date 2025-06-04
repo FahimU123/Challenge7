@@ -45,7 +45,7 @@ struct OnboardingView: View {
                 )), .pls),
 
                 (AnyView(OnboardingPageView(
-                    title: "WELCOME TO HAVEN.",
+                    title: "WELCOME TO DEADBET.",
                     subtitle: "LET’S WALK YOUR RECOVERY PATH—WHATEVER IT LOOKS LIKE."
                 )), .blue)
             ])
