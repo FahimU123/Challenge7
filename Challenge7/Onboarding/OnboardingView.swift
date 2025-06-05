@@ -42,12 +42,12 @@ struct OnboardingView: View {
                 (AnyView(OnboardingPageView(
                     title: "PROGRESS ISN’T ABOUT BEING FLAWLESS.",
                     subtitle: "IT’S ABOUT SHOWING UP—AGAIN AND AGAIN."
-                )), .pls),
+                )), .col),
 
                 (AnyView(OnboardingPageView(
                     title: "WELCOME TO DEADBET.",
                     subtitle: "LET’S WALK YOUR RECOVERY PATH—WHATEVER IT LOOKS LIKE."
-                )), .blue)
+                )), .ripple)
             ])
         .nextIcon("chevron.right")
         .didGoToLastPage {

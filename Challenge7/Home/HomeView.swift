@@ -63,12 +63,12 @@ struct HomeView: View {
                 
             } else {
                 if !isExpanded {
-                    VortexView(createSnow()) {
-                        Circle()
-                            .fill(.snow)
-                            .frame(width: 5)
-                            .tag("circle")
-                    }
+//                    VortexView(createSnow()) {
+//                        Circle()
+//                            .fill(.snow)
+//                            .frame(width: 5)
+//                            .tag("circle")
+//                    }
                 }
                 
                 VStack {

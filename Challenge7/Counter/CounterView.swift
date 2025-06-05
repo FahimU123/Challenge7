@@ -62,7 +62,7 @@ struct CounterView: View {
             Liquid(samples: 5)
                 .frame(width: 320, height: 290)
                 .foregroundColor(.col)
-                .popoverTip(theTip)
+//                .popoverTip(theTip)
             
             VStack(spacing: 12) {
                 timeDisplay
