@@ -38,7 +38,7 @@ struct CounterView: View {
         "SEE YOU TOMORROW, LEGEND. 🌟"
     ]
     
-    let theTip = CheckInTip()
+
     
     var dailyMessage: String {
         let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: Date()) ?? 0
@@ -153,18 +153,30 @@ struct LongPressToActionButton: View {
     var onAction: () -> Void
     var ringColor: Color
     var icon: String
+
     @State private var timerStart = false
-    @State private var timeRemaining: CGFloat = 2.0
+    @State private var timeRemaining: CGFloat
     @State private var actionPerformed = false
-    private let activeTime: CGFloat = 2.0
+
+
+    private let activeTime: CGFloat = 0.55
+
     private let ringSize: CGFloat = 80
     let timer = Timer.publish(every: 0.05, on: .main, in: .common).autoconnect()
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-    
+
+    init(viewModel: CounterViewModel, onAction: @escaping () -> Void, ringColor: Color, icon: String) {
+        self.viewModel = viewModel
+        self.onAction = onAction
+        self.ringColor = ringColor
+        self.icon = icon
+        self._timeRemaining = State(initialValue: self.activeTime)
+    }
+
     var body: some View {
         ZStack {
             let progress = 1.0 - timeRemaining / activeTime
-            
+
             Circle()
                 .fill(ringColor)
                 .frame(width: ringSize + 20, height: ringSize + 20)
@@ -172,14 +184,14 @@ struct LongPressToActionButton: View {
                 .scaleEffect(timerStart ? 1.1 + 0.3 * progress : 1.0)
                 .blur(radius: timerStart ? 4 + 16 * progress : 0)
                 .animation(.easeOut(duration: 0.5), value: progress)
-            
+
             ZStack {
-                
+
                 Circle()
                     .fill(Color.black)
                     .frame(width: ringSize * 1.1, height: ringSize * 1.1)
                     .offset(y: 4)
-                
+
                 Circle()
                     .fill(
                         LinearGradient(
@@ -238,7 +250,6 @@ struct LongPressToActionButton: View {
         }
     }
 }
-
 #Preview {
     CounterView(viewModel: CounterViewModel(), showLottieScreen: .constant(false))
         .environmentObject(CheckInDataManager())

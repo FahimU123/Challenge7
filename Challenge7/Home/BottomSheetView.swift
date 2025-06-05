@@ -54,7 +54,7 @@ struct BottomSheetView: View {
                             } else {
                                 VStack {
 
-                                    Text("Check in for more in depth insights")
+                                    Text("Should you relapse, this tool will help you find the triggers. For now, your record is clear.")
                                         .font(.headline)
                                         .foregroundColor(Color.text)
                                         

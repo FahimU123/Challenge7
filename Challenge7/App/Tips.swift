@@ -14,7 +14,7 @@ struct AddToArchiveTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap this button to save a note, video, or image that reminds you why you're choosing to quit gambling.")
+        Text("Tap this button to save a note, or image that reminds you why you're choosing to quit gambling.")
     }
     
     var image: Image? {
@@ -35,19 +35,3 @@ struct ChartTip: Tip {
         Image(systemName: "chart.bar.fill")
     }
 }
-
-
-struct CheckInTip: Tip {
-    var title: Text {
-        Text("Make It a Daily Habit")
-    }
-    
-    var message: Text? {
-        Text("Check in here every day to track your progress and stay focused on your goals.")
-    }
-    
-    var image: Image? {
-        Image(systemName: "calendar")
-    }
-}
-
