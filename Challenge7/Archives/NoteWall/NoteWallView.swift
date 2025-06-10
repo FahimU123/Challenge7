@@ -166,7 +166,7 @@ struct NotesWallView: View {
                                 }
                                 Button("Cancel" ,role: .cancel) { }
                             }
-=                        }
+                        }
                     }
                 }
                 .padding(.horizontal)
