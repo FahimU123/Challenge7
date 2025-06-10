@@ -125,24 +125,36 @@ struct NotesWallView: View {
                     }
                 }
                 
-                HStack {
+                HStack(spacing: 16){
                     if vm.selectionMode {
-                        Button {
-                            vm.selectionMode = false
-                            vm.selectedNotes.removeAll()
+
+                        Button(role: .destructive) {
+                            vm.showDeleteConfirmation = true
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(Color.green)
-                                .font(.system(size: 35))
+                            RoundedRectangle(cornerRadius: 32)
+                                .frame(height: 50)
+                                .frame(maxWidth: .infinity)
+                                .overlay(
+                                    Text("Delete")
+                                        .font(.title3)
+                                        .foregroundStyle(.white)
+                                )
                         }
+                        Spacer()
                         
                         if !vm.selectedNotes.isEmpty {
-                            Button(role: .destructive) {
-                                vm.showDeleteConfirmation = true
+                            Button {
+                                vm.selectionMode = false
+                                vm.selectedNotes.removeAll()
                             } label: {
-                                Image(systemName: "trash")
-                                    .foregroundStyle(Color.red)
-                                    .font(.system(size: 24))
+                                RoundedRectangle(cornerRadius: 32)
+                                    .frame(height: 50)
+                                    .frame(maxWidth: .infinity)
+                                    .overlay(
+                                        Text("Done")
+                                            .font(.title3)
+                                            .foregroundStyle(.white)
+                                    )
                             }
                             .confirmationDialog(
                                 "Are you sure you want to delete the selected notes?",
@@ -154,11 +166,10 @@ struct NotesWallView: View {
                                 }
                                 Button("Cancel" ,role: .cancel) { }
                             }
-                            
-                            .padding(.trailing)
-                        }
+=                        }
                     }
                 }
+                .padding(.horizontal)
             }
             .sheet(isPresented: $vm.showingNewNoteSheet) {
                 AddNoteView()
