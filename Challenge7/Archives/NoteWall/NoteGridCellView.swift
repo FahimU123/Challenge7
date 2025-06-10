@@ -26,7 +26,8 @@ struct NoteGridCellView: View {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .foregroundStyle(isSelected ? .blue : .gray)
                     .font(.title2)
-                    .padding(0)
+                    .padding(.top, 6)
+                    .padding(.leading, 12)
             }
         }
     }
