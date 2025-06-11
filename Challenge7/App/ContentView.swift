@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
-    @State private var showHome: Bool = false
 
+    @AppStorage("isOnboarding") private var isOnboarding: Bool?
+    @State private var showHome: Bool = false
+    
     var body: some View {
         ZStack {
             if showHome {
@@ -18,18 +19,23 @@ struct ContentView: View {
                     .ignoresSafeArea(.all)
                     .transition(.move(edge: .trailing).combined(with: .opacity))
             } else {
-                OnboardingView(onFinished: {
-                    withAnimation(.easeInOut(duration: 0.6)) {
-                        showHome = true
-                        hasSeenOnboarding = true
-                    }
-                })
-                .transition(.move(edge: .leading).combined(with: .opacity))
+                // No more padding or background needed here
+                OnBoardingView()
+//                    .transition(.move(edge: .leading).combined(with: .opacity))
             }
         }
         .onAppear {
-            if hasSeenOnboarding {
+            if isOnboarding == false {
                 showHome = true
+            } else {
+                showHome = false
+            }
+        }
+        .onChange(of: isOnboarding) {
+            withAnimation(.easeInOut(duration: 0.6)) {
+                if isOnboarding == false {
+                    showHome = true
+                }
             }
         }
     }

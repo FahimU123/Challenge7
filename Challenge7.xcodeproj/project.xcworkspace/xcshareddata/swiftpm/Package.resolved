@@ -1,24 +1,6 @@
 {
-  "originHash" : "3bb31409d2fd2bb35b7a1fdc3e3716bdd10c712f6710457c1e68f988dbc59509",
+  "originHash" : "fbe5485b742f6644ebca64f3c0309d6505b85e3a7ec57cf75c73cb58c0e9be36",
   "pins" : [
-    {
-      "identity" : "anchoredpopup",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/AnchoredPopup.git",
-      "state" : {
-        "revision" : "787f27027d3ef38c01469d228ce062ab4d5645f5",
-        "version" : "1.0.6"
-      }
-    },
-    {
-      "identity" : "concentriconboarding",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/ConcentricOnboarding.git",
-      "state" : {
-        "revision" : "a8e51cd46e3a32839c3a7fac4142e8af38d61875",
-        "version" : "1.1.1"
-      }
-    },
     {
       "identity" : "confettiswiftui",
       "kind" : "remoteSourceControl",
@@ -26,15 +8,6 @@
       "state" : {
         "revision" : "79666d42b882bf7921b1941fa7c636d681d77980",
         "version" : "2.0.3"
-      }
-    },
-    {
-      "identity" : "gsplayer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/wxxsw/GSPlayer.git",
-      "state" : {
-        "revision" : "bdd5da716d665a398ec09706df39252cf55ef492",
-        "version" : "0.2.28"
       }
     },
     {
@@ -56,39 +29,12 @@
       }
     },
     {
-      "identity" : "mediapicker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/MediaPicker",
-      "state" : {
-        "revision" : "c287ee410e5d9e9d642ed9c715042830f174a1d6",
-        "version" : "3.1.4"
-      }
-    },
-    {
       "identity" : "swiftglass",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/1998code/SwiftGlass.git",
       "state" : {
         "revision" : "85ebac895eec35925c0821c93a83f22d796eeb8a",
         "version" : "1.8.0"
-      }
-    },
-    {
-      "identity" : "videoplayer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/wxxsw/VideoPlayer",
-      "state" : {
-        "revision" : "0a271928849292713daf471398a2a9185f28709c",
-        "version" : "1.2.4"
-      }
-    },
-    {
-      "identity" : "vortex",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/twostraws/Vortex.git",
-      "state" : {
-        "revision" : "26e036c4f04efcc019c95d43bfeffeaefbef3c99",
-        "version" : "1.0.3"
       }
     },
     {

@@ -10,7 +10,7 @@ import Lottie
 import AVFoundation
 import CoreHaptics
 import ConfettiSwiftUI
-import Vortex
+
 
 struct HomeView: View {
     @State private var sheetOffset: CGFloat = 300
@@ -63,12 +63,7 @@ struct HomeView: View {
                 
             } else {
                 if !isExpanded {
-//                    VortexView(createSnow()) {
-//                        Circle()
-//                            .fill(.snow)
-//                            .frame(width: 5)
-//                            .tag("circle")
-//                    }
+
                 }
                 
                 VStack {
@@ -106,20 +101,6 @@ struct HomeView: View {
         .onAppear {
             prepareHaptics()
         }
-    }
-    
-    func createSnow() -> VortexSystem {
-        let system = VortexSystem(tags: ["circle"])
-        system.position = [0.5, 0]
-        system.speed = 0.05
-        system.speedVariation = 0.25
-        system.lifespan = 5
-        system.shape = .box(width: 1, height: 0)
-        system.angle = .degrees(180)
-        system.angleRange = .degrees(20)
-        system.size = 0.25
-        system.sizeVariation = 0.5
-        return system
     }
     
     func triggerEffects() {
