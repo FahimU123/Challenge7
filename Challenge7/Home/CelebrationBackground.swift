@@ -27,6 +27,7 @@ struct CelebrationBackground: View {
             )
             .background(colorScheme == .dark ? Color.black : Color.white)
             .ignoresSafeArea()
+            .accessibilityHidden(true)
 
             ForEach(0..<5) { i in
                 Circle()
@@ -38,6 +39,7 @@ struct CelebrationBackground: View {
                         .easeOut(duration: 2.5).delay(Double(i) * 0.4),
                         value: animate
                     )
+                    .accessibilityHidden(true)
             }
         }
         .onAppear {
@@ -47,6 +49,7 @@ struct CelebrationBackground: View {
                 await tryRequestReview()
             }
         }
+        .accessibilityHidden(true) 
     }
 
     @MainActor
@@ -58,15 +61,6 @@ struct CelebrationBackground: View {
         }
     }
 }
-
-extension Color {
-    static var random: Color {
-        return Color(hue: Double.random(in: 0...1),
-                     saturation: 0.7,
-                     brightness: 1.0)
-    }
-}
-
 
 #Preview {
     CelebrationBackground()

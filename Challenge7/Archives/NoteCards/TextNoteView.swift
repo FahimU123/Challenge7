@@ -16,8 +16,8 @@ struct TextNoteView: View {
             ZStack {
                 backgroundColor
                     .edgesIgnoringSafeArea(.all)
+                    .accessibilityHidden(true)
 
-                Group {
                     let fitsScreen = textHeight(for: text, in: geometry.size.width) < geometry.size.height * 0.85
 
                     if fitsScreen {
@@ -29,6 +29,8 @@ struct TextNoteView: View {
                                 .foregroundStyle(.white)
                                 .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
+                                .accessibilityLabel(text)
+                                .accessibilityAddTraits(.isStaticText)
                             Spacer()
                         }
                     } else {
@@ -41,11 +43,15 @@ struct TextNoteView: View {
                                     .foregroundStyle(.white)
                                     .multilineTextAlignment(.center)
                                     .fixedSize(horizontal: false, vertical: true)
+                                    .accessibilityLabel(text)
+                                    .accessibilityAddTraits(.isStaticText)
                             }
                             .frame(maxWidth: .infinity)
                         }
+                        .accessibilityLabel("Scrollable text note")
+                  
                     }
-                }
+                
             }
         }
     }

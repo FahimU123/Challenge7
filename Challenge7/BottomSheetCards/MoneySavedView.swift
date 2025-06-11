@@ -25,7 +25,8 @@ struct MoneySavedView: View {
             ZStack {
                 Color.snow
                 Form {
-                    Section(header: Text("Select your average weekly gambling amount")) {
+                    Section(header: Text("Select your average weekly gambling amount")
+                                .accessibilityAddTraits(.isHeader)) {
                         ForEach(presetAmounts, id: \.self) { amount in
                             Button {
                                 selectedAmount = amount
@@ -33,22 +34,26 @@ struct MoneySavedView: View {
                             } label: {
                                 HStack {
                                     Text("$\(String(format: "%.2f", amount))")
-                                        .foregroundColor(selectedAmount == amount ? .snow : .snow)
+                                        .foregroundColor(selectedAmount == amount ? .accentColor : .primary) // Adjusted for better contrast
                                     Spacer()
                                     if selectedAmount == amount {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.blue)
+                                            .accessibilityHidden(true)
                                     }
                                 }
                             }
+                            .accessibilityLabel("Select \(String(format: "%.0f", amount)) dollars")
+                            .accessibilityAddTraits(selectedAmount == amount ? [.isButton, .isSelected] : .isButton)
+                            .accessibilityHint(selectedAmount == amount ? "Currently selected. Double tap to deselect." : "Double tap to select this amount.")
                         }
                     }
 
-                    Section(header: Text("Or enter a custom amount")) {
+                    Section(header: Text("Or enter a custom amount")
+                                .accessibilityAddTraits(.isHeader)) {
                         TextField("Custom amount", text: $customAmount)
                             .keyboardType(.decimalPad)
                             .focused($customAmountIsFocused)
-                            // Fix: Use the new onChange syntax with two parameters
                             .onChange(of: customAmount) { oldValue, newValue in
                                 selectedAmount = nil
                             }
@@ -58,8 +63,11 @@ struct MoneySavedView: View {
                                     Button("Done") {
                                         customAmountIsFocused = false
                                     }
+                                    .accessibilityLabel("Done with custom amount input")
                                 }
                             }
+                            .accessibilityLabel("Custom amount text field")
+                            .accessibilityHint("Enter your average weekly gambling amount here.")
                     }
                 }
 
@@ -69,7 +77,7 @@ struct MoneySavedView: View {
                         showAlert = true
                     } else {
                         saveWeeklyAmount(finalAmount)
-                        showHome = true // Consider what `showHome` does here. If it's for navigation, you might need a `NavigationLink` or `.sheet` modifier.
+                        showHome = true
                         dismiss()
                     }
                 } label: {
@@ -85,7 +93,10 @@ struct MoneySavedView: View {
                 .offset(y: 300)
                 .alert("Please select or enter a valid amount", isPresented: $showAlert) {
                     Button("OK", role: .cancel) { }
+                    .accessibilityLabel("OK")
                 }
+                .accessibilityLabel("Confirm amount button")
+                .accessibilityHint("Confirms your selected or custom weekly gambling amount.")
                 .navigationTitle("Money Saved")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -95,6 +106,8 @@ struct MoneySavedView: View {
                             Image(systemName: "xmark")
                                 .foregroundColor(.primary)
                         }
+                        .accessibilityLabel("Dismiss")
+                        .accessibilityHint("Closes the money saved screen.")
                     }
                 }
             }
@@ -115,7 +128,6 @@ struct MoneySavedView: View {
         lastSavedDate = Date().timeIntervalSince1970
     }
 }
-
 #Preview {
     MoneySavedView()
 }

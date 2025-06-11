@@ -16,8 +16,10 @@ struct PlainCounterView: View {
             timeBlock(value: viewModel.hours(), label: "H")
             timeBlock(value: viewModel.minutes(), label: "M")
             timeBlock(value: viewModel.seconds(), label: "S")
-            
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Time since last action")
+        .accessibilityValue("\(viewModel.days()) days, \(viewModel.hours()) hours, \(viewModel.minutes()) minutes, \(viewModel.seconds()) seconds")
     }
     
     func timeBlock(value: Int, label: String) -> some View {
@@ -26,11 +28,15 @@ struct PlainCounterView: View {
                 .font(.system(size: 24, weight: .bold, design: .default))
                 .foregroundColor(.snow)
                 .contentTransition(.numericText())
-                .animation(.default, value: value) 
+                .animation(.default, value: value)
+                .accessibilityHidden(true)
             Text(label)
                 .font(.caption2)
                 .foregroundColor(.snow)
+                .accessibilityHidden(true)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(String(format: "%02d", value)) \(label)")
     }
 }
 

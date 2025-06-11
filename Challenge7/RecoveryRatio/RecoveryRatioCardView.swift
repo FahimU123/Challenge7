@@ -72,7 +72,6 @@ struct RecoveryRatioCardView: View {
                     showFullRecoveryRatioView = true
                 } label: {
                     HStack(spacing: 12) {
-                        
                         Chart(pieData(), id: \.label) { item in
                             SectorMark(
                                 angle: .value("Count", item.count),
@@ -88,17 +87,21 @@ struct RecoveryRatioCardView: View {
                         .chartLegend(.hidden)
                         .frame(width: 50, height: 70)
                         .clipShape(RoundedRectangle(cornerRadius: 32))
+                        .accessibilityHidden(true) // Hide the chart visuals, as we'll describe the data
                         
                         if let percentage = soberPercentage {
                             Text("\(percentage)%")
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(.text)
                                 .fixedSize(horizontal: true, vertical: false)
-                            
+                                .accessibilityLabel("Recovery ratio: \(percentage) percent clean")
                         } else {
-                            Text("")
-                             
-                            }
+                            Text("--") 
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(.text)
+                                .fixedSize(horizontal: true, vertical: false)
+                                .accessibilityLabel("Recovery ratio not available")
+                        }
                         
                         Spacer()
                     }
@@ -112,6 +115,11 @@ struct RecoveryRatioCardView: View {
                 .fullScreenCover(isPresented: $showFullRecoveryRatioView) {
                     RecoveryRatioView(dataManager: checkInManager)
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Recovery Ratio Card")
+                .accessibilityValue(soberPercentage != nil ? "\(soberPercentage!) percent clean" : "No data available")
+                .accessibilityHint("Double tap to view detailed recovery statistics.")
+                .accessibilityAddTraits(.isButton)
             }
             
             Image(systemName: "arrow.up.left.and.arrow.down.right")
@@ -121,6 +129,10 @@ struct RecoveryRatioCardView: View {
                 .background(Color.snow)
                 .clipShape(Circle())
                 .offset(x: -12, y: 10)
+                .accessibilityLabel("Expand recovery ratio chart")
+                .accessibilityHint("Opens a full screen view of your recovery ratio details.")
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Recovery Ratio")
     }
 }

@@ -44,6 +44,8 @@ struct StatCardView: View {
             StatCard(stat: moneySaved)
             StatCard(stat: timeSaved)
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Statistics cards")
     }
     
     func weeksSince(_ timestamp: Double) -> Int {
@@ -70,6 +72,7 @@ struct StatCard: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color.text)
                         .padding(.horizontal, 5)
+                        .accessibilityHidden(true)
                     
                     Spacer()
                     
@@ -77,6 +80,7 @@ struct StatCard: View {
                         .font(.system(size: 15, weight: .bold))
                         .padding(.horizontal, 5)
                         .foregroundColor(Color.text)
+                        .accessibilityLabel("Current value is \(stat.stat)")
                 }
                 .padding(.bottom, 30)
                 
@@ -85,6 +89,7 @@ struct StatCard: View {
                         .font(.system(size: 12, weight: .bold))
                         .foregroundColor(Color.text)
                         .padding(.leading, 5)
+                        .accessibilityAddTraits(.isHeader)
                     
                     Spacer()
                     
@@ -92,6 +97,7 @@ struct StatCard: View {
                         .font(.system(size: 17, weight: .medium))
                         .foregroundColor(Color.text)
                         .padding(.trailing, 5)
+                        .accessibilityHidden(true)
                 }
             }
             .padding()
@@ -106,6 +112,9 @@ struct StatCard: View {
         .fullScreenCover(isPresented: $isPresented) {
             stat.viewProvider()
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(stat.title) card. \(stat.stat)")
+        .accessibilityHint("Double tap to adjust \(stat.title.lowercased()) settings.")
+        .accessibilityAddTraits(.isButton)
     }
 }
-

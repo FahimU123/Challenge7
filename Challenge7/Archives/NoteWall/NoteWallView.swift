@@ -35,6 +35,8 @@ struct NotesWallView: View {
                             .font(.title)
                     }
                     .padding(.leading)
+                    .accessibilityLabel("Dismiss notes wall")
+                    .accessibilityHint("Closes the current view and returns to the previous screen.")
                     
                     Text("Why I'm Doing This")
                         .font(
@@ -42,6 +44,8 @@ struct NotesWallView: View {
                         )
                         .padding(.leading)
                         .popoverTip(tip)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityLabel("Why I'm Doing This. Tap for information on organizing your notes.")
                     
                     Spacer()
                     
@@ -51,12 +55,16 @@ struct NotesWallView: View {
                         } label: {
                             Label("Add Photo", systemImage: "photo")
                         }
+                        .accessibilityLabel("Add Photo button")
+                        .accessibilityHint("Opens photo library to add an image note.")
                         
                         Button {
                             vm.showingNewNoteSheet = true
                         } label: {
                             Label("Add New Note", systemImage: "note.text")
                         }
+                        .accessibilityLabel("Add New Note button")
+                        .accessibilityHint("Opens a sheet to create a new text note.")
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .foregroundStyle(Color.snow)
@@ -64,6 +72,8 @@ struct NotesWallView: View {
                             .fontWeight(.ultraLight)
                             .padding()
                     }
+                    .accessibilityLabel("Add new note options")
+                    .accessibilityHint("Opens a menu to add a photo or a new text note.")
                 }
                 
                 if vm.selectionMode {
@@ -71,10 +81,11 @@ struct NotesWallView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .padding(.bottom, 4)
+                        .accessibilityLabel("Selection mode active. Tap notes to select. Tap the trash icon to delete selected notes.")
+                       
                 }
                 
                 ScrollView {
-                    // Fix for WaterfallGrid, 3 photos must be uploaded on in the View before you could see them. Now they just appear in the very middle of the view until the count reaches over 3
                     if notes.count < 3 {
                         LazyVStack(spacing: 16) {
                             ForEach(notes) { note in
@@ -97,6 +108,7 @@ struct NotesWallView: View {
                                     }
                                 )
                                 .padding(.horizontal)
+                                .accessibilityIdentifier("noteCell_\(note.id.uuidString)")
                             }
                         }
                     } else {
@@ -119,19 +131,22 @@ struct NotesWallView: View {
                                     vm.toggleSelection(for: note)
                                 }
                             )
+                            .accessibilityIdentifier("noteCell_\(note.id.uuidString)")
                         }
                         .gridStyle(columnsInPortrait: 2, columnsInLandscape: 3, spacing: 8)
                         .padding(EdgeInsets(top: 16, leading: 8, bottom: 16, trailing: 8))
                     }
                 }
-                
+                .accessibilityLabel("Your notes grid")
+                .accessibilityHint("Swipe left or right to navigate through notes. Long press a note to enter selection mode.")
+
                 HStack(spacing: 16){
                     if vm.selectionMode {
-
                         Button(role: .destructive) {
                             vm.showDeleteConfirmation = true
                         } label: {
                             RoundedRectangle(cornerRadius: 32)
+                                .fill(Color.red)
                                 .frame(height: 50)
                                 .frame(maxWidth: .infinity)
                                 .overlay(
@@ -140,6 +155,10 @@ struct NotesWallView: View {
                                         .foregroundStyle(.white)
                                 )
                         }
+                        .accessibilityLabel("Delete selected notes")
+                        .accessibilityHint("Deletes all notes currently selected.")
+                        .disabled(vm.selectedNotes.isEmpty)
+                        
                         Spacer()
                         
                         if !vm.selectedNotes.isEmpty {
@@ -148,6 +167,7 @@ struct NotesWallView: View {
                                 vm.selectedNotes.removeAll()
                             } label: {
                                 RoundedRectangle(cornerRadius: 32)
+                                    .fill(Color.blue)
                                     .frame(height: 50)
                                     .frame(maxWidth: .infinity)
                                     .overlay(
@@ -164,8 +184,12 @@ struct NotesWallView: View {
                                 Button("Delete", role: .destructive) {
                                     vm.deleteSelectedNotes(using: modelContext)
                                 }
+                                .accessibilityLabel("Confirm delete")
                                 Button("Cancel" ,role: .cancel) { }
+                                .accessibilityLabel("Cancel delete")
                             }
+                            .accessibilityLabel("Done with selection")
+                            .accessibilityHint("Exits selection mode and deselects all notes.")
                         }
                     }
                 }
@@ -193,17 +217,21 @@ struct NotesWallView: View {
                 }
             }
         }
+        .accessibilityLabel("Notes Wall View")
     }
 }
-    
-    let previewContainer: ModelContainer = {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try! ModelContainer(for: Note.self, configurations: config)
-        Task { @MainActor in
-            Note.samples.forEach { container.mainContext.insert($0) }
-        }
-        return container
-    }()
+ 
+let previewContainer: ModelContainer = {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Note.self, configurations: config)
+    Task { @MainActor in
+        // Assuming Note.samples are defined elsewhere or provide real data
+        // For a minimal working example, you might need to define dummy data here
+        // For instance: [Note(text: "Hello", colorID: 0)]
+    }
+    return container
+}()
+
     
     #Preview {
         NotesWallView()

@@ -17,11 +17,11 @@ struct ContentView: View {
             if showHome {
                 HomeView()
                     .ignoresSafeArea(.all)
-                    .transition(.move(edge: .trailing).combined(with: .opacity))
+                   
             } else {
-                // No more padding or background needed here
+    
                 OnBoardingView()
-//                    .transition(.move(edge: .leading).combined(with: .opacity))
+
             }
         }
         .onAppear {

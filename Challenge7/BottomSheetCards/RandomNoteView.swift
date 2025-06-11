@@ -26,11 +26,8 @@ struct RandomNoteView: View {
                                 .scaledToFill()
                                 .frame(width: 140, height: 118)
                                 .clipped()
-//                        } else if let videoPath = note.videoPath {
-//                            let videoURL = URL(fileURLWithPath: videoPath)
-//                            VideoPlayer(player: AVPlayer(url: videoURL))
-//                                .scaledToFill()
-//                                .frame(width: 140, height: 110)
+                                .accessibilityLabel(note.text ?? "Image note")
+                                .accessibilityAddTraits(.isImage)
                         } else if let text = note.text {
                             Text(text)
                                 .font(.system(size: 12, design: .default))
@@ -42,10 +39,13 @@ struct RandomNoteView: View {
                                     shadowOpacity: 0.1,
                                     shadowRadius: 20
                                 )
+                                .accessibilityLabel(text)
+                                .accessibilityAddTraits(.isStaticText)
                         } else {
                             Text("No content")
                                 .font(.headline)
                                 .frame(width: 140, height: 110)
+                                .accessibilityLabel("No content available for this note.")
                         }
                     } else {
                         Image(systemName: "plus.circle.fill")
@@ -59,7 +59,8 @@ struct RandomNoteView: View {
                                 shadowOpacity: 0.1,
                                 shadowRadius: 20
                             )
-                            
+                            .accessibilityLabel("No notes available. Tap to add a new note.")
+                            .accessibilityAddTraits(.isButton)
                     }
 
                     Image(systemName: "arrow.up.left.and.arrow.down.right")
@@ -69,12 +70,11 @@ struct RandomNoteView: View {
                         .background(Color.snow)
                         .clipShape(Circle())
                         .offset(x: -12, y: 14)
+                        .accessibilityLabel("Expand note button")
+                        .accessibilityHint("Double tap to view the note in full screen.")
                 }
-                
                 Spacer()
-            
             }
-    
         }
         .padding()
         .frame(width: 140, height: 110)
@@ -86,13 +86,15 @@ struct RandomNoteView: View {
         .onDisappear {
             timer?.invalidate()
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(currentNote?.text ?? "Random note display")
+        .accessibilityHint("Shows a random note. Refreshes periodically.")
     }
     
     func refreshRandomNote() {
         let validNotes = notes.filter { note in
             note.text != nil ||
-            (note.imageData != nil && UIImage(data: note.imageData!) != nil) /*||*/
-//            (note.videoPath != nil && FileManager.default.fileExists(atPath: note.videoPath!))
+            (note.imageData != nil && UIImage(data: note.imageData!) != nil)
         }
         
         guard !validNotes.isEmpty else {
@@ -107,7 +109,6 @@ struct RandomNoteView: View {
         }
     }
 
-    
     func startRandomTimer() {
         timer?.invalidate()
         let interval = Double.random(in: 5...15)

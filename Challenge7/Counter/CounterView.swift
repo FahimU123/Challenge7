@@ -20,7 +20,6 @@ struct CounterView: View {
     @State private var showSurvey = false
     @State private var surveyCompleted = false
     
-    
     init(viewModel: CounterViewModel, showLottieScreen: Binding<Bool>) {
         self._viewModel = ObservedObject(initialValue: viewModel)
         self._showLottieScreen = showLottieScreen
@@ -38,8 +37,6 @@ struct CounterView: View {
         "SEE YOU TOMORROW, LEGEND. 🌟"
     ]
     
-
-    
     var dailyMessage: String {
         let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: Date()) ?? 0
         return encouragementMessages[dayOfYear % encouragementMessages.count]
@@ -51,17 +48,19 @@ struct CounterView: View {
             Liquid()
                 .frame(width: 370, height: 330)
                 .foregroundColor(.col)
-            
                 .opacity(0.3)
+                .accessibilityHidden(true)
             
             Liquid()
                 .frame(width: 350, height: 310)
                 .foregroundColor(.col)
                 .opacity(0.6)
+                .accessibilityHidden(true)
             
             Liquid(samples: 5)
                 .frame(width: 320, height: 290)
                 .foregroundColor(.col)
+                .accessibilityHidden(true)
             
             VStack(spacing: 12) {
                 timeDisplay
@@ -72,6 +71,7 @@ struct CounterView: View {
                             .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.text)
                             .multilineTextAlignment(.center)
+                            .accessibilityAddTraits(.isHeader)
                         
                         HStack(spacing: 30) {
                             
@@ -86,6 +86,8 @@ struct CounterView: View {
                                 ringColor: .green,
                                 icon: "NO"
                             )
+                            .accessibilityLabel("No, I did not gamble today button")
+                            .accessibilityHint("Long press to confirm you did not gamble today. This will update your counter.")
                             
                             LongPressToActionButton(
                                 viewModel: viewModel,
@@ -98,6 +100,8 @@ struct CounterView: View {
                                 ringColor: .red,
                                 icon: "YES"
                             )
+                            .accessibilityLabel("Yes, I gambled today button")
+                            .accessibilityHint("Long press to confirm you gambled today. This will reset your counter and open a survey.")
                         }
                     }
                 } else {
@@ -108,6 +112,7 @@ struct CounterView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 12)
                             .transition(.opacity)
+                            .accessibilityLabel(dailyMessage)
                     }
                     .padding(.top, 8)
                 }
@@ -118,8 +123,10 @@ struct CounterView: View {
             viewModel.reset()
             surveyCompleted = true
         }) {
-            SurveyView()
+            SurveyView() // Assume SurveyView is accessible internally
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Sobriety Counter")
     }
     
     var timeDisplay: some View {
@@ -129,6 +136,9 @@ struct CounterView: View {
             timeBlock(value: viewModel.minutes(), label: "M")
             timeBlock(value: viewModel.seconds(), label: "S")
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Time since last gamble")
+        .accessibilityValue("\(viewModel.days()) days, \(viewModel.hours()) hours, \(viewModel.minutes()) minutes, \(viewModel.seconds()) seconds")
     }
     
     func timeBlock(value: Int, label: String) -> some View {
@@ -138,11 +148,15 @@ struct CounterView: View {
                 .foregroundColor(.text)
                 .contentTransition(.numericText())
                 .animation(.default, value: value)
+                .accessibilityHidden(true)
             
             Text(label)
                 .font(.system(size: 15, weight: .light, design: .default))
                 .foregroundColor(.text)
+                .accessibilityHidden(true)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(String(format: "%02d", value)) \(label) ")
     }
 }
 
@@ -183,6 +197,7 @@ struct LongPressToActionButton: View {
                 .scaleEffect(timerStart ? 1.1 + 0.3 * progress : 1.0)
                 .blur(radius: timerStart ? 4 + 16 * progress : 0)
                 .animation(.easeOut(duration: 0.5), value: progress)
+                .accessibilityHidden(true)
 
             ZStack {
 
@@ -190,6 +205,7 @@ struct LongPressToActionButton: View {
                     .fill(Color.black)
                     .frame(width: ringSize * 1.1, height: ringSize * 1.1)
                     .offset(y: 4)
+                    .accessibilityHidden(true)
 
                 Circle()
                     .fill(
@@ -202,6 +218,7 @@ struct LongPressToActionButton: View {
                     .overlay(
                         Circle()
                             .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                            .accessibilityHidden(true)
                     )
                     .shadow(radius: 6)
                     .frame(width: ringSize, height: ringSize)
@@ -213,6 +230,7 @@ struct LongPressToActionButton: View {
                             .font(.system(size: 22, weight: .heavy))
                             .foregroundColor(.white)
                             .shadow(color: .black.opacity(0.6), radius: 2, x: 1, y: 1)
+                            .accessibilityHidden(true) 
                     )
             }
         }
@@ -247,6 +265,10 @@ struct LongPressToActionButton: View {
                 }
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(icon)
+        .accessibilityHint("Long press to activate. Progress: \(Int((1.0 - timeRemaining / activeTime) * 100)) percent.")
+        .accessibilityAddTraits([.isButton, .allowsDirectInteraction]) 
     }
 }
 #Preview {

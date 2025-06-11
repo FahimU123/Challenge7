@@ -25,12 +25,15 @@ struct NoteCardView: View {
                     .scaledToFit()
                     .frame(width: 175)
                     .cornerRadius(32, corners: [.topLeft, .topRight])
+                    .accessibilityLabel(vm.note.text ?? "Note image")
+                    .accessibilityAddTraits(.isImage)
             } else if let text = vm.note.text {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 32)
                         .fill(persistentColor)
                         .frame(width: 175)
                         .frame(minHeight: 100, maxHeight: 224)
+                        .accessibilityHidden(true)
                     
                     Text(text)
                         .font(.system(size: 12, design: .default))
@@ -39,19 +42,22 @@ struct NoteCardView: View {
                         .lineLimit(13)
                         .frame(maxWidth: 155, maxHeight: 210, alignment: .leading)
                         .padding()
+                        .accessibilityLabel(text)
                 }
                 .fixedSize(horizontal: false, vertical: true)
+                .accessibilityElement(children: .contain)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 32))
-        
         .onTapGesture {
             onTap?()
         }
-        
         .onLongPressGesture {
             onLongPress?()
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint(vm.note.text != nil ? "Double tap to view note details." : "Double tap to view image note details.")
     }
 }
 
@@ -73,27 +79,4 @@ struct RoundedCorner: Shape {
         )
         return Path(path.cgPath)
     }
-}
-
-#Preview {
-        TabView{
-//             Long Sample Note
-            NoteCardView(vm: NoteCardViewModel(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet.", imageData: nil)))
-            
-//             Very Long Sample Note
-            NoteCardView(vm: NoteCardViewModel(note: Note(text: "Long Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit. In iaculis turpis sed justo luctus aliquam. Mauris ac arcu vestibulum, venenatis mi finibus, porta massa. Curabitur auctor, magna vitae condimentum laoreet shy shy shy shy shy shy shy shy  shy shy shy shy shy shy shy shy shy shy shys hsy shsy s syshs s shys  s hs.", imageData: nil)))
-
-            
-//             Shorter Sample Note
-            NoteCardView(vm: NoteCardViewModel(note: Note(text: "Short Note: Lorem ipsum dolor sit amet, consectetur adipiscing elit.", imageData: nil)))
-            
-//             Sample Image Note
-            if let url = Bundle.main.url(forResource: "samplePhoto", withExtension: "jpeg"),
-               let data = try? Data(contentsOf: url) {
-                NoteCardView(vm: NoteCardViewModel(note: Note(text: nil, imageData: data)))
-            } else {
-                Text("Image not found")
-            }
-    }
-        .tabViewStyle(.page)
 }

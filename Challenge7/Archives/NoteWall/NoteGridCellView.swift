@@ -21,14 +21,29 @@ struct NoteGridCellView: View {
                 onTap: onTap,
                 onLongPress: onLongPress
             )
-            
+            .accessibilityHidden(selectionMode)
+
             if selectionMode {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .foregroundStyle(isSelected ? .blue : .gray)
                     .font(.title2)
                     .padding(.top, 6)
                     .padding(.leading, 12)
+                    .accessibilityHidden(true)
             }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(note.text ?? "Note")
+        .accessibilityValue(isSelected ? "Selected" : "Not selected")
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+        .accessibilityHint(selectionMode ?
+                          (isSelected ? "Double tap to deselect this note." : "Double tap to select this note.") :
+                          "Double tap to open note details. Long press for more options.")
+        .onTapGesture {
+            onTap()
+        }
+        .onLongPressGesture {
+            onLongPress()
         }
     }
 }

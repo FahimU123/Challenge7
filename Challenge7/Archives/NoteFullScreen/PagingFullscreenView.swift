@@ -5,7 +5,6 @@
 //  Created by Davaughn Williams on 5/30/25.
 //
 
-
 import SwiftUI
 
 struct PagingFullscreenView: View {

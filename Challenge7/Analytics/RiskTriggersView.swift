@@ -17,6 +17,7 @@ struct RiskTriggersView: View {
                 Text("YOUR RISK TRIGGERS")
                     .font(.headline)
                     .foregroundColor(Color.text)
+                    .accessibilityAddTraits(.isHeader)
 
                 let hasActivity = !entry.activityTags.isEmpty
                 let hasLocation = !entry.locationTags.isEmpty
@@ -29,20 +30,41 @@ struct RiskTriggersView: View {
                         .padding(.top, 8)
                 } else {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 25) {
-                        triggerCard(icon: "clock", label: entry.timestamp.formatted(date: .omitted, time: .shortened))
+                        triggerCard(
+                            icon: "clock",
+                            label: entry.timestamp.formatted(date: .omitted, time: .shortened),
+                            accessibilityLabel: "Time of check-in",
+                            accessibilityValue: entry.timestamp.formatted(date: .omitted, time: .shortened)
+                        )
 
                         if let what = entry.activityTags.first, !what.isEmpty {
-                            triggerCard(icon: "person", label: what.uppercased())
+                            triggerCard(
+                                icon: "person",
+                                label: what.uppercased(),
+                                accessibilityLabel: "Activity",
+                                accessibilityValue: what.uppercased()
+                            )
                         }
 
                         if let whereTag = entry.locationTags.first, !whereTag.isEmpty {
-                            triggerCard(icon: "location", label: whereTag.uppercased())
+                            triggerCard(
+                                icon: "location",
+                                label: whereTag.uppercased(),
+                                accessibilityLabel: "Location",
+                                accessibilityValue: whereTag.uppercased()
+                            )
                         }
 
                         if let who = entry.companionTags.first, !who.isEmpty {
-                            triggerCard(icon: "person.3", label: who.uppercased())
+                            triggerCard(
+                                icon: "person.3",
+                                label: who.uppercased(),
+                                accessibilityLabel: "Companions",
+                                accessibilityValue: who.uppercased()
+                            )
                         }
                     }
+                    .accessibilityElement(children: .contain)
                 }
             }
             .padding(24)
@@ -53,13 +75,13 @@ struct RiskTriggersView: View {
         .frame(width: 370, height: 150)
         .padding(.top, 100)
     }
-        
 
-    func triggerCard(icon: String, label: String) -> some View {
+    func triggerCard(icon: String, label: String, accessibilityLabel: String, accessibilityValue: String? = nil) -> some View {
         VStack(spacing: 8) {
             Image(systemName: icon)
                 .foregroundColor(Color.text)
                 .font(.system(size: 32))
+                .accessibilityHidden(true)
 
             Text(label.uppercased())
                 .font(.caption)
@@ -72,12 +94,17 @@ struct RiskTriggersView: View {
                 .allowsTightening(true)
                 .textCase(.uppercase)
                 .layoutPriority(1)
+                .accessibilityHidden(true)
         }
         .frame(width: 120, height: 100)
         .glass(
             shadowOpacity: 0.1,
             shadowRadius: 20
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityValue(accessibilityValue ?? "")
+        .accessibilityHint("Represents a risk trigger.")
     }
 }
 

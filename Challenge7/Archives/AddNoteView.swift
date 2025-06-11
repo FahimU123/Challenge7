@@ -19,6 +19,7 @@ struct AddNoteView: View {
                     .font(.system(size: 36, weight: .medium, design: .default))
                     .fontWidth(.condensed)
                     .fontWeight(.medium)
+                    .accessibilityAddTraits(.isHeader)
 
                 TextEditor(text: $noteText)
                     .padding(8)
@@ -27,6 +28,8 @@ struct AddNoteView: View {
                         RoundedRectangle(cornerRadius: 32)
                             .stroke(Color.black.opacity(0.5))
                     )
+                    .accessibilityLabel("Note text field")
+                    .accessibilityHint("Enter your note here.")
                 
                 Button(action: saveNote) {
                     Text("Save Note")
@@ -37,6 +40,9 @@ struct AddNoteView: View {
                         .foregroundStyle(.white)
                         .cornerRadius(32)
                 }
+                .accessibilityLabel("Save Note button")
+                .accessibilityHint("Saves your note and dismisses the new note screen.")
+                
                 Spacer()
             }
             .padding()

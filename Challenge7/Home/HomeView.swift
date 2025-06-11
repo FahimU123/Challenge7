@@ -24,7 +24,6 @@ struct HomeView: View {
     @State private var hapticEngine: CHHapticEngine?
     @EnvironmentObject var checkInManager: CheckInDataManager
     
-    
     private var isExpanded: Bool {
         sheetOffset <= expandedOffset + 50
     }
@@ -44,7 +43,9 @@ struct HomeView: View {
                 LottieView(animation: LottieAnimation.named("test"))
                     .playbackMode(.playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce)))
                     .frame(width: 300, height: 300)
-                
+                    .accessibilityLabel("Celebration animation")
+                    .accessibilityHidden(false) // Ensure Lottie animation is accessible if it conveys meaning
+
                     .onAppear {
                         triggerEffects()
                         
@@ -55,24 +56,22 @@ struct HomeView: View {
                             }
                             checkInManager.addRecord(for: Date(), didGamble: false)
                         }
-                        
-                        
-                        
                     }
-                
                 
             } else {
                 if !isExpanded {
-
+                   
                 }
                 
                 VStack {
                     if !isExpanded {
                         CounterView(viewModel: sharedViewModel, showLottieScreen: $showLottieScreen)
                             .padding(.top, 60)
+                            .accessibilityLabel("Main sobriety counter")
                     } else {
                         PlainCounterView(viewModel: sharedViewModel)
                             .padding(.top, 50)
+                            .accessibilityLabel("Compact sobriety counter")
                     }
                     Spacer()
                 }
@@ -96,11 +95,15 @@ struct HomeView: View {
                         }
                 )
                 .animation(.easeInOut, value: sheetOffset)
+                .accessibilityLabel("Information and tools panel")
+                .accessibilityHint(isExpanded ? "Swipe down to collapse." : "Swipe up to expand.")
             }
         }
         .onAppear {
             prepareHaptics()
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Home screen")
     }
     
     func triggerEffects() {
@@ -144,8 +147,8 @@ struct HomeView: View {
             let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: sharpnessValue)
             
             let event = CHHapticEvent(eventType: .hapticTransient,
-                                      parameters: [intensity, sharpness],
-                                      relativeTime: relativeTime)
+                                       parameters: [intensity, sharpness],
+                                       relativeTime: relativeTime)
             events.append(event)
         }
         
